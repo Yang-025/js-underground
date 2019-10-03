@@ -1,10 +1,9 @@
 import React from 'react';
+import MultiplicationChart from './MultiplicationChart';
 
 const APP1F: React.FC = () => {
   return (
-    <div>
-      <h4>1F-9x9乘法表LLL</h4>
-    </div>
+    <MultiplicationChart />
   );
 }
 

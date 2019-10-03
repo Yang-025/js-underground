@@ -1,0 +1,31 @@
+$color1: #F0F0F0;
+$color2: #FFFFFF;
+$color3: #D8D8D8;
+$color4: #2EB738;
+
+
+
+
+.multiplication-chart-container {
+    width: 1280px;
+    // 置中
+    margin: 0 auto;
+}
+.wrapper {
+    background-color: $color1;
+}
+
+footer {
+    height: 34px;
+    line-height: 34px;
+
+    background-color: $color4;
+
+    text-align: right;
+    // 右邊留白
+    padding-right: 85px;
+    
+    font-family: 'Helvetica Neue';
+    font-size: 1rem;
+    color: $color1;
+}
