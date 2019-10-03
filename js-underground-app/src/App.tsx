@@ -1,24 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+import APP1F from './APP1F';
+import './App.scss';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>JS 地下城</h2>
+
+      <Router>
+        <div>
+          <nav>
+            <ul className="menu-items grid">
+              <li>
+                <Link to="/1f">1F-9x9乘法表</Link>
+              </li>
+              <li>
+                <Link to="/2f">2F-時鐘</Link>
+              </li>
+            </ul>
+          </nav>
+          {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+          <Switch>
+            <Route path="/1f">
+              <APP1F />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
 }
