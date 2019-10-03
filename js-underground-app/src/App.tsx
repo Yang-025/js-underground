@@ -11,7 +11,7 @@ const App: React.FC = () => {
 
       <Router>
         <div>
-          <nav>
+          <nav className="navbar">
             <ul className="menu-items grid">
               <li>
                 <Link to="/1f">1F-9x9乘法表</Link>
@@ -21,13 +21,16 @@ const App: React.FC = () => {
               </li>
             </ul>
           </nav>
-          {/* A <Switch> looks through its children <Route>s and
+          <div className="main">
+            {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/1f">
-              <APP1F />
-            </Route>
-          </Switch>
+            <Switch>
+              <Route path="/1f">
+                <APP1F />
+              </Route>
+            </Switch>
+          </div>
+
         </div>
       </Router>
     </div>

@@ -1,8 +1,6 @@
 
 .App {
   text-align: center;
-  background-color: #282c34;
-  color: #09d3ac;
   min-height: 100vh;
 
   // reset 預設的css
@@ -28,6 +26,13 @@
       color: lighten(#09d3ac, 40%);
     }
   }
+
+  .navbar {
+    background-color: #282c34;
+    color: #09d3ac;
+    height: 40px;
+  }
+
 }
 
 
