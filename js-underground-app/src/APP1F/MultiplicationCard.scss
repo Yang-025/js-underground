@@ -18,7 +18,6 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  justify-content: space-around;
 
   &__title {
     font-size: 128px;
@@ -26,16 +25,16 @@
 
     text-shadow: 4px 3px 0px $color1;
 
-    // 文字要對齊上方 方法一
+    /* 文字要對齊上方 方法一 */
     // display: flex;
     // align-items: flex-end;
     // justify-content: center;
 
-    // 文字要對齊上方 方法二
+    /* 文字要對齊上方 方法二 */
     line-height: 90px;
     
     // 輔助線
-    outline: 1px solid red;
+    // outline: 1px solid red;
   }
   &__formula {
     font-size: 24px;
@@ -44,6 +43,6 @@
     height: calc(100% / 6);
 
     // 輔助線
-    outline: 1px solid red;
+    // outline: 1px solid red;
   }
 }

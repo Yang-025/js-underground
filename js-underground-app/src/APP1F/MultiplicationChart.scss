@@ -1,29 +1,55 @@
-@import 'APP1F/_colors.scss';
+@import "APP1F/_colors.scss";
 
-
-
-.multiplication-chart-container {
+.multiplication-chart {
+  &__container {
     width: 1280px;
     // 置中
     margin: 0 auto;
+    background-color: $color1;
+  }
 
+  &__items {
+    padding: 80px;
+    box-sizing: border-box;
     background-color: $color1;
-}
-.wrapper {
-    background-color: $color1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    /* 方法一 第七個以前都加上margin-bottom */
+    // 第七個以前都加上margin-bottom
+    // &__item:not(:nth-of-type(n+7)) {
+    //   margin-bottom: 40px;
+    //   outline: 1px solid blue;
+    // }
+    /* 方法一 第七個以前都加上margin-bottom */
+    
+    /* 方法二 自動算出最後一行不要加margin */
+    // 選到最後一欄
+    &__item {
+      margin-bottom: 40px;
+    }
+    &__item:nth-of-type(3n+1):nth-last-of-type(-n+3),
+    &__item:nth-of-type(3n+1):nth-last-of-type(-n+3) ~ .multiplication-chart__items__item {
+      margin-bottom: 0px;
+      // 輔助線
+      // outline: 1px solid blueviolet;
+    }
+    /* 方法二 自動算出最後一行不要加margin */
+  }
 }
 
 footer {
-    height: 34px;
-    line-height: 34px;
+  height: 34px;
+  line-height: 34px;
 
-    background-color: $color4;
+  background-color: $color4;
 
-    text-align: right;
-    // 右邊留白
-    padding-right: 85px;
-    
-    font-family: 'Helvetica Neue';
-    font-size: 1rem;
-    color: $color1;
+  text-align: right;
+  // 右邊留白
+  padding-right: 85px;
+
+  font-family: "Helvetica Neue";
+  font-size: 1rem;
+  color: $color1;
 }

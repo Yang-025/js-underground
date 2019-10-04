@@ -6,10 +6,11 @@
   box-sizing: border-box;
 
   color: $color4;
-  outline: 1px solid red;
+  // 輔助線
+  // outline: 1px solid red;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   
   &__deco-line {
     > span {
