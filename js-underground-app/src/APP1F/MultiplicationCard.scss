@@ -1,0 +1,49 @@
+@import "APP1F/_colors.scss";
+
+.multiplication-card {
+  // 卡片外型
+  width: 350px;
+  height: 366px;
+  box-sizing: border-box;
+  background: $color2 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 10px $color3;
+  border-radius: 100px 0px 30px 0px;
+
+  // 卡片留白
+  padding: 64px 40px;
+
+  color: $color4;
+  font-family: "Helvetica Neue";
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  &__title {
+    font-size: 128px;
+    height: 50%;
+
+    text-shadow: 4px 3px 0px $color1;
+
+    // 文字要對齊上方 方法一
+    // display: flex;
+    // align-items: flex-end;
+    // justify-content: center;
+
+    // 文字要對齊上方 方法二
+    line-height: 90px;
+    
+    // 輔助線
+    outline: 1px solid red;
+  }
+  &__formula {
+    font-size: 24px;
+    line-height: 1;
+    text-align: left;
+    height: calc(100% / 6);
+
+    // 輔助線
+    outline: 1px solid red;
+  }
+}
