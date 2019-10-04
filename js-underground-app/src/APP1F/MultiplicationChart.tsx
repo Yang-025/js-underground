@@ -1,5 +1,6 @@
 import React from 'react';
 import './MultiplicationChart.scss';
+import MultiplicationTitle from './MultiplicationTitle';
 import MultiplicationCard from './MultiplicationCard';
 
 
@@ -10,7 +11,7 @@ const MultiplicationChart: React.FC = () => {
     return (
         <div className="multiplication-chart-container">
             <div className="multiplication-chart-wrapper">
-                title
+                <MultiplicationTitle />
                 {cardsArray}
             </div>
 

@@ -1,0 +1,54 @@
+@import "APP1F/_colors.scss";
+
+.multiplication-title {
+  width: 350px;
+  height: 366px;
+  box-sizing: border-box;
+
+  color: $color4;
+  outline: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  
+  &__deco-line {
+    > span {
+      display: inline-block;
+      font-family: "Helvetica Neue";
+      width: 280px;
+      border: 1px solid $color4;
+      position: relative;
+      &::before {
+        content: "×";
+        text-align: center;
+        position: absolute;
+        font-size: 24px;
+        top: -17px;
+        left: -36px;
+      }
+      &::after {
+        content: "×";
+        text-align: center;
+        position: absolute;
+        font-size: 24px;
+        top: -17px;
+        right: -36px;
+      }
+    }   
+  }
+
+  .p1 {
+    font-family: "PingFang TC";
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 84px;
+    // font: Medium 56px/84px PingFang TC;
+  }
+
+  .p2 {
+    font-family: "Helvetica Neue";
+    font-size: 24px;
+    line-height: 36px;
+    // font: Regular 24px/36px Helvetica Neue;
+  }
+}
