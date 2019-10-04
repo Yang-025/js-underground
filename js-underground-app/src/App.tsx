@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
+import GoHome from './components/GoHome';
 import LandingPage from './LandingPage';
 import APP1F from './APP1F';
 import APP15F from './APP15F';
@@ -11,6 +12,7 @@ const App: React.FC = () => {
     <div className="App">
       <Router>
         <div>
+          <GoHome />
           <div className="main">
             {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
