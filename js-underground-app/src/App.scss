@@ -1,0 +1,38 @@
+
+.App {
+  text-align: center;
+  min-height: 100vh;
+
+  // reset 預設的css
+  ul {
+    padding-left: 0;
+    list-style: none;
+
+    a {
+      text-decoration: none;
+      color: #09d3ac;
+    }
+  }
+
+
+  .menu-items.grid {   
+    text-align: right;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-column-gap: 1rem;
+    // justify-content: end;
+
+    a:hover {
+      color: lighten(#09d3ac, 40%);
+    }
+  }
+
+  .navbar {
+    background-color: #282c34;
+    color: #09d3ac;
+    height: 40px;
+  }
+
+}
+
+
