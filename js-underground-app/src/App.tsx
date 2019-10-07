@@ -12,7 +12,7 @@ const App: React.FC = () => {
     <div className="App">
       <Router>
         <div>
-          <GoHome />
+          {/* <GoHome /> */}
           <div className="main">
             {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
