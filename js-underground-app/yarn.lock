@@ -1150,6 +1150,11 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/chance@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@types/chance/-/chance-1.0.7.tgz#c680a3891a505d8c626ec3a46bb1c0496419dfb6"
+  integrity sha512-LBOkJ7899SSLm08KicLYX3DqWUhfDspMLWNGuV1UPpL3iUENSvI0THGlf05n9yNHTR7zDlV/mCGZ7ZJ0ws8v3Q==
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -1211,6 +1216,13 @@
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
   integrity sha512-ce5d3q03Ex0sy4R14722Rmt6MT07Ua+k4FwDfdcToYJcMKNtRVQvJ6JCAPdAmAnbRb6CsX6aYb9m96NGod9uTw==
+
+"@types/ramda@^0.26.27":
+  version "0.26.27"
+  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.26.27.tgz#548b798b733f306a28257880762c3ef751c8fc60"
+  integrity sha512-9H/s9RI5kPnCiOAif996VdfQZIT192ATISOwQSqAq3N7UvPYNn9Zchuq3zNsyiweN9JPKGJ5aplgllqZotEGMQ==
+  dependencies:
+    ts-toolbelt "^4.7.7"
 
 "@types/react-dom@16.9.1":
   version "16.9.1"
@@ -2382,6 +2394,11 @@ chalk@^1.1.1, chalk@^1.1.3:
     has-ansi "^2.0.0"
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
+
+chance@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/chance/-/chance-1.1.0.tgz#4206b8ae8679275afd7db6379abc23f103ab8488"
+  integrity sha512-DwT4HVvl1VwZ73lqEyWYtrI59iSERBDfioMhw0gMMNySLMcx7/pzy+JAam3+3WcEH4ITNzwRtuQH4Geyko70gw==
 
 chardet@^0.7.0:
   version "0.7.0"
@@ -8183,6 +8200,11 @@ raf@3.4.1:
   dependencies:
     performance-now "^2.1.0"
 
+ramda@^0.26.1:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.26.1.tgz#8d41351eb8111c55353617fc3bbffad8e4d35d06"
+  integrity sha512-hLWjpy7EnsDBb0p+Z3B7rPi3GDeRG5ZtiI33kJhTt+ORCd38AbAIjB/9zRIUoeTbE/AVX5ZkU7m6bznsvrf8eQ==
+
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
@@ -9807,6 +9829,11 @@ ts-pnp@1.1.4, ts-pnp@^1.1.2:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.1.4.tgz#ae27126960ebaefb874c6d7fa4729729ab200d90"
   integrity sha512-1J/vefLC+BWSo+qe8OnJQfWTYRS6ingxjwqmHMqaMxXMj7kFtKLgAaYW3JeX3mktjgUL+etlU8/B4VUAUI9QGw==
+
+ts-toolbelt@^4.7.7:
+  version "4.8.6"
+  resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-4.8.6.tgz#2686cdc79672d36f02496cacef017273ae4be88e"
+  integrity sha512-KS7qU5BMhWOWkNpnNfPIkP1DLlZAwCMZU5rcMnH/2Y8qMQLEwpxje8kL1A43Z0MtnmuIBEeevBXAKbFxZ9VvCA==
 
 tslib@^1.8.1, tslib@^1.9.0:
   version "1.10.0"

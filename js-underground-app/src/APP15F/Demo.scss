@@ -41,17 +41,20 @@
   // 前面的z-index要最大
   .main {
     z-index: 4;
+    transform: translate3d(0,0,0);
   }
   .left {
     z-index: 3;
     // 左邊的效果
-    transform: translate(-50%, 0) scale(.75);
+    // transform: translate(-50%, 0) scale(.75);
+    transform: translate3d(-50%,0,-50px);
     box-shadow: 0px 4px 40px #FFFFFF80;
   }
   .right {
     z-index: 3;
     // 右邊的效果
-    transform: translate(50%, 0) scale(.75);
+    // transform: translate(50%, 0) scale(.75);
+    transform: translate3d(50%,0,-50px);
     box-shadow: 0px 4px 40px #FFFFFF80;
   }
 
