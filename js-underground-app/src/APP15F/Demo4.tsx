@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 
 
-import './Demo3.scss';
+import './Demo4.scss';
 import FruitImg from './assets/davies-designs-studio-MDZOGRtfuAg-unsplash.jpg';
 
 import * as Utils from './utils';
@@ -36,7 +36,7 @@ const Demo3: React.FC = () => {
     canvas.width = imgWidth;
     canvas.height = imgHeight;
     // 要分幾層。每層分配不同的像素來達到粒子化的效果
-    const layerCount = 4;
+    const layerCount = 30;
 
     // 1.把圖片畫到canvas上
     ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
