@@ -2,25 +2,13 @@ import React, { useState, Fragment } from 'react';
 
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import StyledSlider from './SliderStyle';
-import ImgApathetic from './assets/apathetic.jpg';
-import ImgDepression from './assets/depression.jpg';
-import ImgGuilty from './assets/guilty.jpg';
-import ImgHelpless from './assets/helpless.jpg';
-import ImgInsecure from './assets/insecure.jpg';
 
+interface Props {
+  photoList: Array<{ src: string, name: string }>
+}
 
-const Slider: React.FC = () => {
+const Slider: React.FC<Props> = ({ photoList }) => {
   const [mainPhotoIndex, setmainPhotoIndex] = useState(0);
-  // let photoList = ['aa', 'bb', 'cc', 'dd', 'ee'];
-  // let photoList = [ImgApathetic, ImgDepression, ImgGuilty, ImgHelpless, ImgInsecure];
-  let photoList = [
-    { src: ImgApathetic, name: 'Apathetic' },
-    { src: ImgDepression, name: 'Depression' },
-    { src: ImgGuilty, name: 'Guilty' },
-    { src: ImgHelpless, name: 'Helpless' },
-    { src: ImgInsecure, name: 'Insecure' }
-  ];
-
   const getPosition = (photoIndex: number) => {
     // 第一張在中間的話
     if (mainPhotoIndex === 0) {
@@ -74,17 +62,13 @@ const Slider: React.FC = () => {
               <div className="slider__photo">
                 <img src={photoItem.src} alt="" />
               </div>
-              {getPosition(index) === "main" &&
-                <Fragment>
-                  <span>{photoItem.name}</span>
-                  <button className="slider__arrow">
-                    <FaAngleLeft size={48} onClick={handlePrev} />
-                  </button>
-                  <button className="slider__arrow">
-                    <FaAngleRight size={48} onClick={handleNext} />
-                  </button>
-                </Fragment>
-              }
+              <span style={{ display: getPosition(index) === 'main' ? 'block' : 'none' }}>{photoItem.name}</span>
+              <button className="slider__arrow" style={{ opacity: getPosition(index) === 'main' ? 1 : 0 }}>
+                <FaAngleLeft size={48} onClick={handlePrev} />
+              </button>
+              <button className="slider__arrow" style={{ opacity: getPosition(index) === 'main' ? 1 : 0 }}>
+                <FaAngleRight size={48} onClick={handleNext} />
+              </button>
             </div>
           )
         })}
