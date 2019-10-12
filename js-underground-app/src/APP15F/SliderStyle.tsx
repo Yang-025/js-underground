@@ -37,6 +37,7 @@ const StyledSlider = styled.div`
       background-color: #fff;
 
       > span {
+        text-transform: capitalize;
         display: inline-block;
         height: 50px;
         font-family: "Homemade Apple";

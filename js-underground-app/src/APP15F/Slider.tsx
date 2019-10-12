@@ -4,12 +4,18 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import StyledSlider from './SliderStyle';
 
 interface Props {
-  photoList: Array<{ src: string, name: string }>
+  photoList: Array<{ src: string, name: string }>,
+  handlePrev: () => void,
+  handleNext: () => void,
+  mainPhotoIndex: number
 }
 
-const Slider: React.FC<Props> = ({ photoList }) => {
-  const [mainPhotoIndex, setmainPhotoIndex] = useState(0);
+const Slider: React.FC<Props> = ({ photoList, mainPhotoIndex, handlePrev, handleNext }) => {
   const getPosition = (photoIndex: number) => {
+    // 剩最後一張，就放中間
+    if (photoList.length === 1) {
+      return 'main'
+    }
     // 第一張在中間的話
     if (mainPhotoIndex === 0) {
       // 它的左邊是陣列的最後一張
@@ -35,22 +41,6 @@ const Slider: React.FC<Props> = ({ photoList }) => {
       return 'main';
     }
     return 'bak'
-  }
-  const handlePrev = () => {
-    // 已經是第一個了，就回到最後一個
-    if (mainPhotoIndex === 0) {
-      setmainPhotoIndex(photoList.length - 1);
-    } else {
-      setmainPhotoIndex(mainPhotoIndex - 1);
-    }
-  }
-  const handleNext = () => {
-    // 已經是最後一個了，就回到第一個
-    if (mainPhotoIndex === photoList.length - 1) {
-      setmainPhotoIndex(0);
-    } else {
-      setmainPhotoIndex(mainPhotoIndex + 1);
-    }
   }
 
   return (
