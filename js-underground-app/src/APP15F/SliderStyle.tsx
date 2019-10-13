@@ -16,7 +16,7 @@ const StyledSlider = styled.div`
     > img {
       width: inherit;
       height: inherit;
-      object-fit: cover;
+      /* object-fit: cover; */
     }
   }
 
@@ -36,13 +36,13 @@ const StyledSlider = styled.div`
       border: 10px solid #FFFFFF;
       background-color: #fff;
 
-      > span {
+      span {
         text-transform: capitalize;
-        display: inline-block;
-        height: 50px;
+        /* display: inline-block; */
+        /* height: 50px; */
         font-family: "Homemade Apple";
         font-size: 24px;
-        line-height: 65px;
+        line-height: 60px;
       }
     }
 
@@ -90,6 +90,11 @@ const StyledSlider = styled.div`
       right: -70px;
       top: 50%;
     }
+  }
+
+
+  canvas {
+    position: absolute;
   }
 `;
 

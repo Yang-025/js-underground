@@ -1,16 +1,18 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useRef, RefObject } from 'react';
 
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import StyledSlider from './SliderStyle';
+import SliderItem from './SliderItem';
 
 interface Props {
   photoList: Array<{ src: string, name: string }>,
   handlePrev: () => void,
   handleNext: () => void,
-  mainPhotoIndex: number
+  mainPhotoIndex: number,
+  disappearName: string | null
 }
 
-const Slider: React.FC<Props> = ({ photoList, mainPhotoIndex, handlePrev, handleNext }) => {
+const Slider: React.FC<Props> = ({ photoList, mainPhotoIndex, handlePrev, handleNext, disappearName }) => {
+  const sliderBoxEl: RefObject<HTMLDivElement> = useRef(null);
   const getPosition = (photoIndex: number) => {
     // 剩最後一張，就放中間
     if (photoList.length === 1) {
@@ -45,21 +47,18 @@ const Slider: React.FC<Props> = ({ photoList, mainPhotoIndex, handlePrev, handle
 
   return (
     <StyledSlider className="slider">
-      <div className="slider__box">
+      <div className="slider__box" ref={sliderBoxEl}>
         {photoList.map((photoItem, index) => {
           return (
-            <div className={`slider__item__${getPosition(index)}`}>
-              <div className="slider__photo">
-                <img src={photoItem.src} alt="" />
-              </div>
-              <span style={{ display: getPosition(index) === 'main' ? 'block' : 'none' }}>{photoItem.name}</span>
-              <button className="slider__arrow" style={{ opacity: getPosition(index) === 'main' ? 1 : 0 }}>
-                <FaAngleLeft size={48} onClick={handlePrev} />
-              </button>
-              <button className="slider__arrow" style={{ opacity: getPosition(index) === 'main' ? 1 : 0 }}>
-                <FaAngleRight size={48} onClick={handleNext} />
-              </button>
-            </div>
+            <SliderItem
+              photoItem={photoItem}
+              index={index}
+              handlePrev={handlePrev}
+              handleNext={handleNext}
+              getPosition={getPosition}
+              disappearName={disappearName}
+              parentRef={sliderBoxEl}
+            />
           )
         })}
       </div>

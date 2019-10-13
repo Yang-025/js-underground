@@ -8,9 +8,11 @@ import ImgDepression from './assets/depression.jpg';
 import ImgGuilty from './assets/guilty.jpg';
 import ImgHelpless from './assets/helpless.jpg';
 import ImgInsecure from './assets/insecure.jpg';
+import * as Utils from './utils';
 
 const APP15F: React.FC = () => {
   const inputEl = useRef(null);
+  const [disappearName, setDisappearName] = useState<string | null>(null);
   const [mainPhotoIndex, setMainPhotoIndex] = useState(0);
   const [photoList, setPhotoList] = useState([
     { src: ImgApathetic, name: 'apathetic' },
@@ -19,13 +21,11 @@ const APP15F: React.FC = () => {
     { src: ImgHelpless, name: 'helpless' },
     { src: ImgInsecure, name: 'insecure' }
   ]);
+  
   function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     let element = event.target as HTMLInputElement;
     let value = element.value;
     if (event.key === 'Enter') {
-      // alert(value);
-      // 做完一些效果
-      // 把相片刪除
       const lowercaseInput = value.toLowerCase();
       // 有輸入照片的名字就要處理
       let regex = new RegExp(`${photoList.map(x => x.name).join('|')}`, 'g');
@@ -34,28 +34,30 @@ const APP15F: React.FC = () => {
       let matchList = lowercaseInput.match(regex);
 
       if (matchList) {
-        matchList.forEach((name, index) => {
+        matchList.forEach(async (name, index) => {
           // 找到這個item在輪播牆的index
           const photoIndex = photoList.map(x => x.name).indexOf(name);
           console.log(name, photoIndex);
           // 慢慢地移過去
           let dd = photoIndex - mainPhotoIndex;
-          if (dd > 0) {
-            for (let i = 0; i < dd; i++) {
-              setTimeout(() => { handleNext() }, i * 1000)
+
+          for (let i = 0; i < Math.abs(dd); i++) {
+            await Utils.delay(500);
+            if (dd > 0) {
+              handleNext();
+            } else {
+              handlePrev();
             }
-            setTimeout(() => { console.log('Thonas') }, dd * 1000 + 300)
-          } else {
-            for (let i = 0; i < Math.abs(dd); i++) {
-              setTimeout(() => { handlePrev() }, i * 1000)
-            }
-            setTimeout(() => { console.log('Thonas') }, dd * 1000 + 300)
           }
-          // // 做canvas效果
-          // // 把圖片從photoList移除
-          // setPhotoList(photoList.filter(x => x.name !== name));
-          // // 把photoIndex歸0
-          // setMainPhotoIndex(0);
+          await Utils.delay(500);
+          setDisappearName(name);
+          console.log('結束')
+          // setTimeout(() => {
+          //   setDisappearName(null);
+          //   // handleNext()
+          //   // 把圖片從photoList移除
+          //   setPhotoList(photoList.filter(x => x.name !== name));
+          // }, 6000)
         })
       }
     }
@@ -94,7 +96,8 @@ const APP15F: React.FC = () => {
           mainPhotoIndex={mainPhotoIndex}
           handlePrev={handlePrev}
           handleNext={handleNext}
-          // handleDisappear={handleDisappear}
+          disappearName={disappearName}
+        // handleDisappear={handleDisappear}
         />
       </div>
       <div className="note__section">

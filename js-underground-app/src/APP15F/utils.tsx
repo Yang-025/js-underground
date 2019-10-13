@@ -22,7 +22,7 @@ sourceImgData: 原本的圖片ImageData
 export function sampler(sourceImgData: ImageData, canvasWidth: number, canvasHeight: number, layerCount: number) {
   // 創造n個空白的ImageData Instance陣列
   const emptyLayersList: Array<ImageData> = initLayersList(layerCount, canvasWidth, canvasHeight);
-  
+
   // 把抽到的index補上像素
   let newImgDatas = R.clone(emptyLayersList);
   for (let x = 0; x < canvasWidth; x++) {
@@ -30,10 +30,10 @@ export function sampler(sourceImgData: ImageData, canvasWidth: number, canvasHei
       for (let l = 0; l < 2; l++) {
         // 把原本的圖片分散到n層
         // x方向的分散到n層
-        // const layerIndex = Math.floor(layerCount * (Math.random() + 2 * x / canvasWidth) / 3);
+        const layerIndex = Math.floor(layerCount * (Math.random() + 2 * x / canvasWidth) / 3);
         // y方向的分散到n層
-        const layerIndex = Math.floor(layerCount * (Math.random() + 2 * y / canvasHeight) / 3);
-        
+        // const layerIndex = Math.floor(layerCount * (Math.random() + 2 * y / canvasHeight) / 3);
+
         // 取得像素R的位子
         const pixelPos = 4 * (x + y * canvasWidth);
         // 找到R就找到R,G,B,A
@@ -56,7 +56,10 @@ export function appendLayersWithParticleEffect(samplerLayersList: ImageData[], c
     const layerCanvasEl = document.createElement('canvas');
     const chuckCtx = layerCanvasEl.getContext('2d')!;
     layerCanvasEl.width = canvasWidth;
-    layerCanvasEl.height = canvasWidth;
+    layerCanvasEl.height = canvasHeight;
+    // 
+    layerCanvasEl.style.zIndex = '5';
+    layerCanvasEl.style.transform = 'translate3d(0, 0, 0)';
     // 動畫效果
     layerCanvasEl.style.transition = `transform 1.2s ease-out, opacity 1.5s ease-out`;
     chuckCtx.putImageData(layerImageData, 0, 0);
@@ -66,3 +69,16 @@ export function appendLayersWithParticleEffect(samplerLayersList: ImageData[], c
   });
   return updatedCanvasList;
 }
+
+
+/* ********** asyncForEach********** */
+// const waitFor = (ms: number) => new Promise(r => setTimeout(r, ms))
+export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+async function asyncForEach(array: any[], callback: (el: any, index: number, arr: any[]) => void): Promise<void> {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
+
+/* ********** asyncForEach ********** */
