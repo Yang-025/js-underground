@@ -82,10 +82,10 @@ const SliderItem: React.FC<Props> = ({ onDisappearComplete, parentRef, disappear
 
   useEffect(() => {
     if (!disappearName) {
-      if (wrapperEl.current) {
-        wrapperEl.current.style.opacity = '1';
-      }
-      return;
+      // if (wrapperEl.current) {
+      //   wrapperEl.current.style.opacity = '1';
+      // }
+      // return;
     }
     prepareScene();
     console.log('處理')

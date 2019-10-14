@@ -42,17 +42,17 @@ const APP15F: React.FC = () => {
 
 
       // 移動陣列
-      let updatePhotoList2 = circularSortArray(updatePhotoList);
-      console.log(`mainPhotoIndex is ${mainPhotoIndex}, pp ${mainPhotoIndex % updatePhotoList2.length}`);
-      console.log('updatePhotoList2', updatePhotoList2);
-      setPhotoList(updatePhotoList2[mainPhotoIndex % updatePhotoList2.length]);
-      setMainPhotoIndex(0);
-      setDisappearName(null);
+      // let updatePhotoList2 = circularSortArray(updatePhotoList);
+      // console.log(`mainPhotoIndex is ${mainPhotoIndex}, pp ${mainPhotoIndex % updatePhotoList2.length}`);
+      // console.log('updatePhotoList2', updatePhotoList2);
+      // setPhotoList(updatePhotoList2[mainPhotoIndex % updatePhotoList2.length]);
+      // setMainPhotoIndex(0);
+      // setDisappearName(null);
 
       // 不移動陣列，設定index
-      // setPhotoList(updatePhotoList);
-      // setMainPhotoIndex(updatePhotoList.length === mainPhotoIndex ? 0 : mainPhotoIndex);
-      // setDisappearName(null);
+      setPhotoList(updatePhotoList);
+      setMainPhotoIndex(updatePhotoList.length === mainPhotoIndex ? 0 : mainPhotoIndex);
+      setDisappearName(null);
       
     }
   }

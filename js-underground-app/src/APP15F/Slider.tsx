@@ -53,6 +53,7 @@ const Slider: React.FC<Props> = ({ onDisappearComplete, photoList, mainPhotoInde
           return (
             <SliderItem
               key={`${photoItem.src}_${index}`}
+              // key={index}
               photoItem={photoItem}
               index={index}
               handlePrev={handlePrev}
