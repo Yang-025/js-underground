@@ -12,12 +12,13 @@ interface Props {
   index: number,
   handlePrev: () => void,
   handleNext: () => void,
+  onDisappearComplete: () => void,
   getPosition: (index: number) => string,
   disappearName: string | null,
   parentRef: RefObject<HTMLDivElement>
 }
 
-const SliderItem: React.FC<Props> = ({ parentRef, disappearName, index, photoItem, getPosition, handlePrev, handleNext }) => {
+const SliderItem: React.FC<Props> = ({ onDisappearComplete, parentRef, disappearName, index, photoItem, getPosition, handlePrev, handleNext }) => {
   const wrapperEl: RefObject<HTMLDivElement> = useRef(null);
 
 
@@ -34,11 +35,14 @@ const SliderItem: React.FC<Props> = ({ parentRef, disappearName, index, photoIte
     // 要分幾層。每層分配不同的像素來達到粒子化的效果
     const layerCount = 30;
 
-    const canvas = await html2canvas(wrapperEl.current);
+    const canvas = await html2canvas(wrapperEl.current, {
+      scale: 1
+    });
     const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
 
     const imgWidth = canvas.width;
     const imgHeight = canvas.height;
+    console.log('canvas', canvas);
     console.log('imgWidth', imgWidth);
     console.log('imgHeight', imgHeight);
 
@@ -53,10 +57,9 @@ const SliderItem: React.FC<Props> = ({ parentRef, disappearName, index, photoIte
     // 原本的div消失，換上n層canvas
     wrapperEl.current.style.opacity = '0';
     // 每一層的canvas加上不同動畫效果，執行下去
-    
+
     updatedCanvasList.forEach((c: HTMLCanvasElement, index: number) => {
       setTimeout(() => {
-        console.log('第幾層', index);
         const rotate1 = 15 * (Math.random() - 0.5);
         const rotate2 = 15 * (Math.random() - 0.5);
         const fac = 2 * Math.PI * (Math.random() - 0.5);
@@ -67,8 +70,10 @@ const SliderItem: React.FC<Props> = ({ parentRef, disappearName, index, photoIte
         c.style.opacity = '0';
         const removeDelay = 1e3 * (1.5 + 1 + Math.random());
         setTimeout(() => c.remove(), removeDelay);
-        if (index === updatedCanvasList.length -1) {
+        if (index === updatedCanvasList.length - 1) {
           console.log('做完了', index);
+          onDisappearComplete();
+
         }
       }, 70 * index);
     });
@@ -77,6 +82,9 @@ const SliderItem: React.FC<Props> = ({ parentRef, disappearName, index, photoIte
 
   useEffect(() => {
     if (!disappearName) {
+      if (wrapperEl.current) {
+        wrapperEl.current.style.opacity = '1';
+      }
       return;
     }
     prepareScene();

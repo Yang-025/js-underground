@@ -7,11 +7,12 @@ interface Props {
   photoList: Array<{ src: string, name: string }>,
   handlePrev: () => void,
   handleNext: () => void,
+  onDisappearComplete: () => void,
   mainPhotoIndex: number,
   disappearName: string | null
 }
 
-const Slider: React.FC<Props> = ({ photoList, mainPhotoIndex, handlePrev, handleNext, disappearName }) => {
+const Slider: React.FC<Props> = ({ onDisappearComplete, photoList, mainPhotoIndex, handlePrev, handleNext, disappearName }) => {
   const sliderBoxEl: RefObject<HTMLDivElement> = useRef(null);
   const getPosition = (photoIndex: number) => {
     // 剩最後一張，就放中間
@@ -19,14 +20,14 @@ const Slider: React.FC<Props> = ({ photoList, mainPhotoIndex, handlePrev, handle
       return 'main'
     }
     // 第一張在中間的話
-    if (mainPhotoIndex === 0) {
+    if (mainPhotoIndex === 0 && photoList.length >= 3) {
       // 它的左邊是陣列的最後一張
       if (photoIndex === photoList.length - 1) {
         return 'left';
       }
     }
     // 最後一張在中間的話
-    if (mainPhotoIndex === photoList.length - 1) {
+    if (mainPhotoIndex === photoList.length - 1 && photoList.length >= 3) {
       // 它的右邊是陣列的第一張
       if (photoIndex === 0) {
         return 'right';
@@ -51,6 +52,7 @@ const Slider: React.FC<Props> = ({ photoList, mainPhotoIndex, handlePrev, handle
         {photoList.map((photoItem, index) => {
           return (
             <SliderItem
+              key={`${photoItem.src}_${index}`}
               photoItem={photoItem}
               index={index}
               handlePrev={handlePrev}
@@ -58,6 +60,7 @@ const Slider: React.FC<Props> = ({ photoList, mainPhotoIndex, handlePrev, handle
               getPosition={getPosition}
               disappearName={disappearName}
               parentRef={sliderBoxEl}
+              onDisappearComplete={onDisappearComplete}
             />
           )
         })}

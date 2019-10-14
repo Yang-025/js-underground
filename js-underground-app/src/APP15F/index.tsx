@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 import Slider from './Slider';
 // import Demo from './Demo4';
@@ -9,6 +9,16 @@ import ImgGuilty from './assets/guilty.jpg';
 import ImgHelpless from './assets/helpless.jpg';
 import ImgInsecure from './assets/insecure.jpg';
 import * as Utils from './utils';
+
+function circularSortArray(arr: any[]): any[] {
+  return arr.map((item, index) => {
+    let dd = arr.map((innerItem, innerIndex) => {
+      return arr[(index + innerIndex) % arr.length]
+    })
+    return dd
+  })
+}
+
 
 const APP15F: React.FC = () => {
   const inputEl = useRef(null);
@@ -21,7 +31,32 @@ const APP15F: React.FC = () => {
     { src: ImgHelpless, name: 'helpless' },
     { src: ImgInsecure, name: 'insecure' }
   ]);
-  
+
+  async function onDisappearComplete() {
+    console.log('我結束了')
+    await Utils.delay(2000);
+    // 把圖片從photoList移除
+    let updatePhotoList = photoList.filter(x => x.name !== disappearName)
+    if (updatePhotoList.length > 0) {
+
+
+
+      // 移動陣列
+      let updatePhotoList2 = circularSortArray(updatePhotoList);
+      console.log(`mainPhotoIndex is ${mainPhotoIndex}, pp ${mainPhotoIndex % updatePhotoList2.length}`);
+      console.log('updatePhotoList2', updatePhotoList2);
+      setPhotoList(updatePhotoList2[mainPhotoIndex % updatePhotoList2.length]);
+      setMainPhotoIndex(0);
+      setDisappearName(null);
+
+      // 不移動陣列，設定index
+      // setPhotoList(updatePhotoList);
+      // setMainPhotoIndex(updatePhotoList.length === mainPhotoIndex ? 0 : mainPhotoIndex);
+      // setDisappearName(null);
+      
+    }
+  }
+
   function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     let element = event.target as HTMLInputElement;
     let value = element.value;
@@ -29,7 +64,7 @@ const APP15F: React.FC = () => {
       const lowercaseInput = value.toLowerCase();
       // 有輸入照片的名字就要處理
       let regex = new RegExp(`${photoList.map(x => x.name).join('|')}`, 'g');
-      // const newPhotoList = photoList.filter(x => x.name !== lowercaseInput);
+
       // 需要處理的照片有
       let matchList = lowercaseInput.match(regex);
 
@@ -51,21 +86,11 @@ const APP15F: React.FC = () => {
           }
           await Utils.delay(500);
           setDisappearName(name);
-          console.log('結束')
-          // setTimeout(() => {
-          //   setDisappearName(null);
-          //   // handleNext()
-          //   // 把圖片從photoList移除
-          //   setPhotoList(photoList.filter(x => x.name !== name));
-          // }, 6000)
         })
       }
     }
   }
 
-  const handleDisappear = () => {
-
-  }
 
   const handlePrev = () => {
     // 已經是第一個了，就回到最後一個
@@ -97,6 +122,7 @@ const APP15F: React.FC = () => {
           handlePrev={handlePrev}
           handleNext={handleNext}
           disappearName={disappearName}
+          onDisappearComplete={onDisappearComplete}
         // handleDisappear={handleDisappear}
         />
       </div>
