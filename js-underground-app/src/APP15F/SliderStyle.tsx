@@ -18,13 +18,13 @@ const StyledSlider = styled.div`
   /* 前面 */
   .slider__item__main {
     /* z-index要最大 */
-    z-index: 4;
+    z-index: 5;
     transform: translate3d(0, 0, 0);
   }
 
   /* 左 */
   .slider__item__left {
-    z-index: 3;
+    z-index: 4;
     box-shadow: 0px 4px 40px #ffffff80;
     transform: translate3d(-50%, 0, -250px) scale(0.8); 
   }
@@ -38,6 +38,7 @@ const StyledSlider = styled.div`
 
   /* 後面 */
   .slider__item__bak {
+    z-index: 1;
     transform: scale(0.5);
     opacity: 0.5;
   }
