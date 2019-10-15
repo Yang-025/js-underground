@@ -30,9 +30,7 @@ const SliderItem: React.FC<Props> = (props) => {
     if (!wrapperEl.current) {
       return;
     }
-    if (disappearName !== photoItem.name) {
-      return;
-    }
+
     // 要分幾層。每層分配不同的像素來達到粒子化的效果
     const layerCount = 30;
 
@@ -85,6 +83,9 @@ const SliderItem: React.FC<Props> = (props) => {
       //   wrapperEl.current.style.opacity = '1';
       // }
       // return;
+    }
+    if (disappearName !== photoItem.name) {
+      return;
     }
     prepareScene();
   }, [disappearName]);

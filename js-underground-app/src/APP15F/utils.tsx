@@ -89,23 +89,33 @@ photoCount: 總共有幾張照片
 mainPhotoIndex：現在在中間的照片是誰
 ********** */
 export const getPosition = (photoIndex: number, mainPhotoIndex: number, photoCount: number) => {
-  // 剩最後一張，就放中間
+  /* ********** 考慮1張的情況 ********** */
   if (photoCount === 1) {
     return 'main'
   }
-  // 第一張在中間的話
-  if (mainPhotoIndex === 0 && photoCount >= 3) {
-    // 它的左邊是陣列的最後一張
-    if (photoIndex === photoCount - 1) {
-      return 'left';
+  /* ********** 考慮1張的情況 END ********** */
+
+
+  /* ********** 考慮2張的情況 ********** */
+  if (photoCount === 2) {
+    if (photoIndex === mainPhotoIndex) {
+      return 'main'
     }
+    return 'right';
   }
-  // 最後一張在中間的話
-  if (mainPhotoIndex === photoCount - 1 && photoCount >= 3) {
+  /* ********** 考慮2張的情況 END ********** */
+
+
+  /* ********** 考慮3張以上的情況 ********** */
+  // 第一張的左邊是陣列的最後一張
+  if (mainPhotoIndex === 0) {
+    if (photoIndex === photoCount - 1) { return 'left'; }
+  }
+
+  // 最後一張的右邊是陣列的第一張
+  if (mainPhotoIndex === photoCount - 1) {
     // 它的右邊是陣列的第一張
-    if (photoIndex === 0) {
-      return 'right';
-    }
+    if (photoIndex === 0) { return 'right'; }
   }
 
   if (photoIndex === mainPhotoIndex - 1) {
@@ -118,5 +128,6 @@ export const getPosition = (photoIndex: number, mainPhotoIndex: number, photoCou
     return 'main';
   }
   return 'bak'
+  /* ********** 考慮3張以上的情況 END ********** */
 }
 /* ********** 計算自己在輪播牆中的位置 END ********** */
