@@ -1,5 +1,4 @@
 import React, { useState, Fragment, useRef, RefObject } from 'react';
-
 import StyledSlider from './SliderStyle';
 import SliderItem from './SliderItem';
 
@@ -51,18 +50,19 @@ const Slider: React.FC<Props> = ({ onDisappearComplete, photoList, mainPhotoInde
       <div className="slider__box" ref={sliderBoxEl}>
         {photoList.map((photoItem, index) => {
           return (
-            <SliderItem
-              key={`${photoItem.src}_${index}`}
-              // key={index}
-              photoItem={photoItem}
-              index={index}
-              handlePrev={handlePrev}
-              handleNext={handleNext}
-              getPosition={getPosition}
-              disappearName={disappearName}
-              parentRef={sliderBoxEl}
-              onDisappearComplete={onDisappearComplete}
-            />
+            <div className={`slider__item__${getPosition(index)}`}>
+              <SliderItem
+                key={`${photoItem.src}_${index}`}
+                // key={index}
+                photoItem={photoItem}
+                handlePrev={handlePrev}
+                handleNext={handleNext}
+                position={getPosition(index)}
+                disappearName={disappearName}
+                parentRef={sliderBoxEl}
+                onDisappearComplete={onDisappearComplete}
+              />
+            </div>
           )
         })}
       </div>

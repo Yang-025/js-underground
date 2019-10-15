@@ -36,10 +36,8 @@ const StyledSlider = styled.div`
       border: 10px solid #FFFFFF;
       background-color: #fff;
 
-      span {
+      .slider__photo_name {
         text-transform: capitalize;
-        /* display: inline-block; */
-        /* height: 50px; */
         font-family: "Homemade Apple";
         font-size: 24px;
         line-height: 60px;

@@ -9,16 +9,17 @@ import * as Utils from './utils';
 
 interface Props {
   photoItem: { src: string, name: string },
-  index: number,
   handlePrev: () => void,
   handleNext: () => void,
   onDisappearComplete: () => void,
-  getPosition: (index: number) => string,
   disappearName: string | null,
-  parentRef: RefObject<HTMLDivElement>
+  parentRef: RefObject<HTMLDivElement>,
+  position: string
 }
 
-const SliderItem: React.FC<Props> = ({ onDisappearComplete, parentRef, disappearName, index, photoItem, getPosition, handlePrev, handleNext }) => {
+const SliderItem: React.FC<Props> = (props) => {
+  const { onDisappearComplete, parentRef, disappearName,
+    photoItem, handlePrev, handleNext, position } = props;
   const wrapperEl: RefObject<HTMLDivElement> = useRef(null);
 
 
@@ -42,9 +43,7 @@ const SliderItem: React.FC<Props> = ({ onDisappearComplete, parentRef, disappear
 
     const imgWidth = canvas.width;
     const imgHeight = canvas.height;
-    console.log('canvas', canvas);
-    console.log('imgWidth', imgWidth);
-    console.log('imgHeight', imgHeight);
+
 
     // 2.再透過getImageData取得ImageData Instance
     const imageData = ctx.getImageData(0, 0, imgWidth, imgHeight);
@@ -88,23 +87,25 @@ const SliderItem: React.FC<Props> = ({ onDisappearComplete, parentRef, disappear
       // return;
     }
     prepareScene();
-    console.log('處理')
   }, [disappearName]);
 
   return (
-    <div ref={wrapperEl} className={`slider__item__${getPosition(index)}`}>
+    <div ref={wrapperEl}>
       <div className="slider__photo">
         <img src={photoItem.src} alt="" />
       </div>
-      <div style={{ display: getPosition(index) === 'main' ? 'block' : 'none' }}>
-        <span>{photoItem.name}</span>
-      </div>
-      <button className="slider__arrow" style={{ opacity: getPosition(index) === 'main' ? 1 : 0 }}>
-        <FaAngleLeft size={48} onClick={handlePrev} />
-      </button>
-      <button className="slider__arrow" style={{ opacity: getPosition(index) === 'main' ? 1 : 0 }}>
-        <FaAngleRight size={48} onClick={handleNext} />
-      </button>
+      {position === 'main' ?
+        <Fragment>
+          <div>
+            <span className="slider__photo_name">{photoItem.name}</span>
+          </div>
+          <button className="slider__arrow">
+            <FaAngleLeft size={48} onClick={handlePrev} />
+          </button>
+          <button className="slider__arrow">
+            <FaAngleRight size={48} onClick={handleNext} />
+          </button>
+        </Fragment> : null}
     </div>
   );
 }

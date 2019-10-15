@@ -123,7 +123,6 @@ const APP15F: React.FC = () => {
           handleNext={handleNext}
           disappearName={disappearName}
           onDisappearComplete={onDisappearComplete}
-        // handleDisappear={handleDisappear}
         />
       </div>
       <div className="note__section">
