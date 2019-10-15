@@ -82,3 +82,41 @@ async function asyncForEach(array: any[], callback: (el: any, index: number, arr
 }
 
 /* ********** asyncForEach ********** */
+
+/* ********** 計算自己在輪播牆中的位置 
+photoIndex: 我的編號
+photoCount: 總共有幾張照片
+mainPhotoIndex：現在在中間的照片是誰
+********** */
+export const getPosition = (photoIndex: number, mainPhotoIndex: number, photoCount: number) => {
+  // 剩最後一張，就放中間
+  if (photoCount === 1) {
+    return 'main'
+  }
+  // 第一張在中間的話
+  if (mainPhotoIndex === 0 && photoCount >= 3) {
+    // 它的左邊是陣列的最後一張
+    if (photoIndex === photoCount - 1) {
+      return 'left';
+    }
+  }
+  // 最後一張在中間的話
+  if (mainPhotoIndex === photoCount - 1 && photoCount >= 3) {
+    // 它的右邊是陣列的第一張
+    if (photoIndex === 0) {
+      return 'right';
+    }
+  }
+
+  if (photoIndex === mainPhotoIndex - 1) {
+    return 'left';
+  }
+  if (photoIndex === mainPhotoIndex + 1) {
+    return 'right';
+  }
+  if (photoIndex === mainPhotoIndex) {
+    return 'main';
+  }
+  return 'bak'
+}
+/* ********** 計算自己在輪播牆中的位置 END ********** */
