@@ -2,7 +2,7 @@ import React, { useState, Fragment, useRef, useEffect, RefObject } from 'react';
 
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import html2canvas from 'html2canvas';
-import StyledSlider, { StyledSliderPhoto, StyledSliderPhotoName } from './SliderStyle';
+import StyledSliderItem, { StyledSliderPhoto, StyledSliderPhotoName } from './SliderItemStyle';
 import * as Utils from './utils';
 
 
@@ -90,7 +90,7 @@ const SliderItem: React.FC<Props> = (props) => {
   }, [disappearName]);
 
   return (
-    <div ref={wrapperEl}>
+    <StyledSliderItem ref={wrapperEl}>
       <StyledSliderPhoto src={photoItem.src} />
       {position === 'main' ?
         <Fragment>
@@ -102,7 +102,7 @@ const SliderItem: React.FC<Props> = (props) => {
             <FaAngleRight size={48} onClick={handleNext} />
           </button>
         </Fragment> : null}
-    </div>
+    </StyledSliderItem>
   );
 }
 
