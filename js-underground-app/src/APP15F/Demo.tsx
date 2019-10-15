@@ -9,16 +9,19 @@ const Demo: React.FC = () => {
   let photoList = ['aa', 'bb', 'cc', 'dd', 'ee'];
 
   const getPosition = (photoIndex: number) => {
-    console.log('====>', mainPhotoIndex, photoIndex);
+    // 剩最後一張，就放中間
+    if (photoList.length === 1) {
+      return 'main'
+    }
     // 第一張在中間的話
-    if (mainPhotoIndex === 0) {
+    if (mainPhotoIndex === 0 && photoList.length >= 3) {
       // 它的左邊是陣列的最後一張
       if (photoIndex === photoList.length - 1) {
         return 'left';
       }
     }
     // 最後一張在中間的話
-    if (mainPhotoIndex === photoList.length - 1) {
+    if (mainPhotoIndex === photoList.length - 1 && photoList.length >= 3) {
       // 它的右邊是陣列的第一張
       if (photoIndex === 0) {
         return 'right';
@@ -36,6 +39,7 @@ const Demo: React.FC = () => {
     }
     return 'bak'
   }
+  
   const handlePrev = () => {
     // 已經是第一個了，就回到最後一個
     if (mainPhotoIndex === 0) {
