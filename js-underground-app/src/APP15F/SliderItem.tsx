@@ -2,7 +2,7 @@ import React, { useState, Fragment, useRef, useEffect, RefObject } from 'react';
 
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import html2canvas from 'html2canvas';
-import StyledSlider from './SliderStyle';
+import StyledSlider, { StyledSliderPhoto, StyledSliderPhotoName } from './SliderStyle';
 import * as Utils from './utils';
 
 
@@ -91,14 +91,10 @@ const SliderItem: React.FC<Props> = (props) => {
 
   return (
     <div ref={wrapperEl}>
-      <div className="slider__photo">
-        <img src={photoItem.src} alt="" />
-      </div>
+      <StyledSliderPhoto src={photoItem.src} />
       {position === 'main' ?
         <Fragment>
-          <div>
-            <span className="slider__photo_name">{photoItem.name}</span>
-          </div>
+          <StyledSliderPhotoName>{photoItem.name}</StyledSliderPhotoName>
           <button className="slider__arrow">
             <FaAngleLeft size={48} onClick={handlePrev} />
           </button>
