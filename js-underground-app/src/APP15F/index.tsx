@@ -34,7 +34,6 @@ const APP15F: React.FC = () => {
 
   async function onDisappearComplete() {
     console.log('我結束了')
-    await Utils.delay(2000);
     // 把圖片從photoList移除
     let updatePhotoList = photoList.filter(x => x.name !== disappearName)
     if (updatePhotoList.length > 0) {
