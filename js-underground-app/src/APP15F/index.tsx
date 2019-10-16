@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, RefObject } from 'react';
 
 import Slider from './Slider';
 // import Demo from './Demo4';
@@ -19,13 +19,18 @@ const APP15F: React.FC = () => {
     { src: ImgHelpless, name: 'helpless' },
     { src: ImgInsecure, name: 'insecure' }
   ];
-  const inputEl = useRef(null);
+  const inputEl: RefObject<HTMLInputElement> = useRef(null);
   const [disappearList, setDisappearList] = useState<any[]>([]);
   const [photoList, setPhotoList] = useState(defaultPhotoList);
 
   async function onDisappearComplete() {
     if (disappearList.length < 0) {
       return;
+    }
+    if (disappearList.length === 1) {
+      if (inputEl.current) {
+        inputEl.current.value = '';
+      }
     }
     setDisappearList(disappearList.slice(1));
   }
