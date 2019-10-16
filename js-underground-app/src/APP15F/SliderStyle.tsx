@@ -20,6 +20,7 @@ const StyledSlider = styled.div`
     /* z-index要最大 */
     z-index: 5;
     transform: translate3d(0, 0, 0);
+    border: 10px solid #FFFFFF;
   }
 
   /* 左 */

@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 
 const StyledSliderItem = styled.div`
-  border: 10px solid #FFFFFF;
   background-color: #fff;
   
   .slider__arrow {
