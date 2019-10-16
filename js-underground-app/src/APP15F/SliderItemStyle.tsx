@@ -38,7 +38,8 @@ const StyledSliderPhotoName = styled.span`
   text-transform: capitalize;
   font-family: "Homemade Apple";
   font-size: 24px;
-  line-height: 60px;
+  line-height: 60px; 
+  font-variant: normal;
 `;
 
 
