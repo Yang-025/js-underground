@@ -131,3 +131,14 @@ export const getPosition = (photoIndex: number, mainPhotoIndex: number, photoCou
   /* ********** 考慮3張以上的情況 END ********** */
 }
 /* ********** 計算自己在輪播牆中的位置 END ********** */
+
+
+
+export function circularSortArray(arr: any[]): any[] {
+  return arr.map((item, index) => {
+    let dd = arr.map((innerItem, innerIndex) => {
+      return arr[(index + innerIndex) % arr.length]
+    })
+    return dd
+  })
+}

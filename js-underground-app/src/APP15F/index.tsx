@@ -10,20 +10,10 @@ import ImgHelpless from './assets/helpless.jpg';
 import ImgInsecure from './assets/insecure.jpg';
 
 
-function circularSortArray(arr: any[]): any[] {
-  return arr.map((item, index) => {
-    let dd = arr.map((innerItem, innerIndex) => {
-      return arr[(index + innerIndex) % arr.length]
-    })
-    return dd
-  })
-}
-
 
 const APP15F: React.FC = () => {
   const inputEl = useRef(null);
   const [disappearList, setDisappearList] = useState<any[]>([]);
-  const [mainPhotoIndex, setMainPhotoIndex] = useState(0);
   const [photoList, setPhotoList] = useState([
     { src: ImgApathetic, name: 'apathetic' },
     { src: ImgDepression, name: 'depression' },
@@ -36,21 +26,7 @@ const APP15F: React.FC = () => {
     if (disappearList.length < 0) {
       return;
     }
-    console.log('我結束了')
-    // 把圖片從photoList移除
-    let updatePhotoList = photoList.filter(x => x.name !== disappearList[0])
-    if (updatePhotoList.length > 0) {
-      // 方法一： 移動陣列
-      let updatePhotoList2 = circularSortArray(updatePhotoList);
-      setPhotoList(updatePhotoList2[mainPhotoIndex % updatePhotoList2.length]);
-      setMainPhotoIndex(0);
-      setDisappearList(disappearList.slice(1));
-
-      // 方法二： 不移動陣列，設定index
-      // setPhotoList(updatePhotoList);
-      // setMainPhotoIndex(updatePhotoList.length === mainPhotoIndex ? 0 : mainPhotoIndex);
-      // setDisappearList(disappearList.slice(1));
-    }
+    setDisappearList(disappearList.slice(1));
   }
 
   function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
@@ -68,26 +44,6 @@ const APP15F: React.FC = () => {
     }
   }
 
-
-  const handlePrev = () => {
-    // 已經是第一個了，就回到最後一個
-    if (mainPhotoIndex === 0) {
-      setMainPhotoIndex(photoList.length - 1);
-    } else {
-      setMainPhotoIndex(prevState => prevState - 1);
-    }
-  }
-
-  
-  const handleNext = () => {
-    // 已經是最後一個了，就回到第一個
-    if (mainPhotoIndex === photoList.length - 1) {
-      setMainPhotoIndex(0);
-    } else {
-      setMainPhotoIndex(prevState => prevState + 1);
-    }
-  }
-
   return (
     <div className="wrapper">
       {/* <Demo /> */}
@@ -97,9 +53,7 @@ const APP15F: React.FC = () => {
       <div className="slider__section">
         <Slider
           photoList={photoList}
-          mainPhotoIndex={mainPhotoIndex}
-          handlePrev={handlePrev}
-          handleNext={handleNext}
+          setPhotoList={setPhotoList}
           onDisappearComplete={onDisappearComplete}
           disappearList={disappearList}
         />
@@ -118,7 +72,6 @@ const APP15F: React.FC = () => {
         </div>
       </div>
     </div>
-
   );
 }
 

@@ -4,22 +4,20 @@ import StyledSlider from './SliderStyle';
 import SliderItem from './SliderItem';
 import * as Utils from './utils';
 
-
 interface Props {
   photoList: Array<{ src: string, name: string }>,
   disappearList: string[],
-  handlePrev: () => void,
-  handleNext: () => void,
+  setPhotoList: (photoList: []) => void,
   onDisappearComplete: () => void,
-  mainPhotoIndex: number,
 }
 
+
 const Slider: React.FC<Props> = (props) => {
-  const { disappearList, photoList, mainPhotoIndex, 
-    onDisappearComplete, handlePrev, handleNext } = props;
+  const { disappearList, photoList, setPhotoList, onDisappearComplete } = props;
+  const [mainPhotoIndex, setMainPhotoIndex] = useState(0);
   const sliderBoxEl: RefObject<HTMLDivElement> = useRef(null);
 
-
+  // 移動到要消失的item
   async function moveTo() {
     // 找到這個item在輪播牆的index
     const photoIndex = photoList.map(x => x.name).indexOf(disappearList[0]);
@@ -37,11 +35,10 @@ const Slider: React.FC<Props> = (props) => {
     await Utils.delay(500);
   }
 
-
   async function prepareScene() {
     // 移動到要消失的item
     await moveTo();
-    
+
     // 要分幾層。每層分配不同的像素來達到粒子化的效果
     const layerCount = 30;
     if (!sliderBoxEl.current) {
@@ -87,6 +84,18 @@ const Slider: React.FC<Props> = (props) => {
           c.remove();
           if (index === updatedCanvasList.length - 1) {
             console.log('做完了', index);
+            // 把圖片從photoList移除
+            let updatePhotoList = photoList.filter(x => x.name !== disappearList[0])
+            if (updatePhotoList.length > 0) {
+              // 方法一： 移動陣列
+              let updatePhotoList2 = Utils.circularSortArray(updatePhotoList);
+              setPhotoList(updatePhotoList2[mainPhotoIndex % updatePhotoList2.length]);
+              setMainPhotoIndex(0);
+
+              // 方法二： 不移動陣列，設定index
+              // setPhotoList(updatePhotoList);
+              // setMainPhotoIndex(updatePhotoList.length === mainPhotoIndex ? 0 : mainPhotoIndex);
+            }
             onDisappearComplete();
           }
         }, removeDelay);
@@ -100,6 +109,27 @@ const Slider: React.FC<Props> = (props) => {
       prepareScene();
     }
   }, [JSON.stringify(disappearList)]);
+
+
+  const handlePrev = () => {
+    // 已經是第一個了，就回到最後一個
+    if (mainPhotoIndex === 0) {
+      setMainPhotoIndex(photoList.length - 1);
+    } else {
+      setMainPhotoIndex(prevState => prevState - 1);
+    }
+  }
+
+
+  const handleNext = () => {
+    // 已經是最後一個了，就回到第一個
+    if (mainPhotoIndex === photoList.length - 1) {
+      setMainPhotoIndex(0);
+    } else {
+      setMainPhotoIndex(prevState => prevState + 1);
+    }
+  }
+
 
   return (
     <StyledSlider className="slider">
