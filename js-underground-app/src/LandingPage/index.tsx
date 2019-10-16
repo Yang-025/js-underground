@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import '../App.scss';
 
-const App: React.FC = () => {
+const LandingPage: React.FC = () => {
   return (
     <div className="App">
       <h2>JS 地下城</h2>
@@ -26,4 +26,4 @@ const App: React.FC = () => {
   );
 }
 
-export default App;
+export default LandingPage;
