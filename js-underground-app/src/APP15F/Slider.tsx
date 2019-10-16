@@ -7,35 +7,52 @@ import * as Utils from './utils';
 
 interface Props {
   photoList: Array<{ src: string, name: string }>,
+  disappearList: string[],
   handlePrev: () => void,
   handleNext: () => void,
   onDisappearComplete: () => void,
   mainPhotoIndex: number,
-  disappearName: string | null
 }
 
-const Slider: React.FC<Props> = ({ onDisappearComplete, photoList, mainPhotoIndex, handlePrev, handleNext, disappearName }) => {
+const Slider: React.FC<Props> = (props) => {
+  const { disappearList, photoList, mainPhotoIndex, 
+    onDisappearComplete, handlePrev, handleNext } = props;
   const sliderBoxEl: RefObject<HTMLDivElement> = useRef(null);
 
+
+  async function moveTo() {
+    // 找到這個item在輪播牆的index
+    const photoIndex = photoList.map(x => x.name).indexOf(disappearList[0]);
+    // 慢慢地移過去
+    let dd = photoIndex - mainPhotoIndex;
+    for (let i = 0; i < Math.abs(dd); i++) {
+      await Utils.delay(500);
+      if (dd > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+    // FIXME handleNext會有時間差，如果delay沒有控制好，可能會消失到別張圖
+    await Utils.delay(500);
+  }
+
+
   async function prepareScene() {
+    // 移動到要消失的item
+    await moveTo();
+    
+    // 要分幾層。每層分配不同的像素來達到粒子化的效果
+    const layerCount = 30;
     if (!sliderBoxEl.current) {
       return;
     }
-
     let wrapperEl: HTMLDivElement | null = document.querySelector('.slider__item__main');
     if (!wrapperEl) {
       return;
     }
-
-
     console.log('wrapperEl', wrapperEl);
-
-    // 要分幾層。每層分配不同的像素來達到粒子化的效果
-    const layerCount = 30;
-
-    const canvas = await html2canvas(wrapperEl, {
-      scale: 1
-    });
+    const canvas = await html2canvas(wrapperEl, { scale: 1 });
     const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
 
     const imgWidth = canvas.width;
@@ -52,8 +69,9 @@ const Slider: React.FC<Props> = ({ onDisappearComplete, photoList, mainPhotoInde
     const updatedCanvasList = Utils.appendLayersWithParticleEffect(samplerLayersList, imgWidth, imgHeight, sliderBoxEl.current);
     // 原本的div消失，換上n層canvas
     wrapperEl.style.opacity = '0';
-    // 每一層的canvas加上不同動畫效果，執行下去
 
+
+    // 5. 消失。每一層的canvas加上不同動畫效果，執行下去
     updatedCanvasList.forEach((c: HTMLCanvasElement, index: number) => {
       setTimeout(() => {
         const rotate1 = 15 * (Math.random() - 0.5);
@@ -70,10 +88,6 @@ const Slider: React.FC<Props> = ({ onDisappearComplete, photoList, mainPhotoInde
           if (index === updatedCanvasList.length - 1) {
             console.log('做完了', index);
             onDisappearComplete();
-            // FIXME: 可能會有時間差，看要不要把wrapperEl傳給onDisappearComplete讓onDisappearComplete來處理
-            if (wrapperEl) {
-              wrapperEl.style.opacity = '1';
-            }
           }
         }, removeDelay);
       }, 70 * index);
@@ -81,10 +95,11 @@ const Slider: React.FC<Props> = ({ onDisappearComplete, photoList, mainPhotoInde
   }
 
   useEffect(() => {
-    if (disappearName) {
+    // 如果disappearList有item，就做出消失的效果
+    if (disappearList.length > 0) {
       prepareScene();
     }
-  }, [disappearName]);
+  }, [JSON.stringify(disappearList)]);
 
   return (
     <StyledSlider className="slider">
@@ -92,10 +107,8 @@ const Slider: React.FC<Props> = ({ onDisappearComplete, photoList, mainPhotoInde
         {photoList.map((photoItem, index) => {
           const position = Utils.getPosition(index, mainPhotoIndex, photoList.length);
           return (
-            <div className={`slider__item__${position}`}>
+            <div className={`slider__item__${position}`} key={`${photoItem.src}_${index}`}>
               <SliderItem
-                key={`${photoItem.src}_${index}`}
-                // key={index}
                 photoItem={photoItem}
                 handlePrev={handlePrev}
                 handleNext={handleNext}

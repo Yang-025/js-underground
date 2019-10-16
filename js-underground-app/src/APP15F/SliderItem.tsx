@@ -1,9 +1,8 @@
-import React, { useState, Fragment, useRef, useEffect, RefObject } from 'react';
+import React, { Fragment } from 'react';
 
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-import html2canvas from 'html2canvas';
 import StyledSliderItem, { StyledSliderPhoto, StyledSliderPhotoName } from './SliderItemStyle';
-import * as Utils from './utils';
+
 
 
 
@@ -16,10 +15,9 @@ interface Props {
 
 const SliderItem: React.FC<Props> = (props) => {
   const { photoItem, handlePrev, handleNext, position } = props;
-  const wrapperEl: RefObject<HTMLDivElement> = useRef(null);
 
   return (
-    <StyledSliderItem ref={wrapperEl}>
+    <StyledSliderItem>
       <StyledSliderPhoto src={photoItem.src} />
       {position === 'main' ?
         <Fragment>

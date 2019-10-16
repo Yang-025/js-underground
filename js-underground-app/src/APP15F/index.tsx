@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 
 import Slider from './Slider';
 // import Demo from './Demo4';
@@ -8,7 +8,7 @@ import ImgDepression from './assets/depression.jpg';
 import ImgGuilty from './assets/guilty.jpg';
 import ImgHelpless from './assets/helpless.jpg';
 import ImgInsecure from './assets/insecure.jpg';
-import * as Utils from './utils';
+
 
 function circularSortArray(arr: any[]): any[] {
   return arr.map((item, index) => {
@@ -22,7 +22,7 @@ function circularSortArray(arr: any[]): any[] {
 
 const APP15F: React.FC = () => {
   const inputEl = useRef(null);
-  const [disappearName, setDisappearName] = useState<string | null>(null);
+  const [disappearList, setDisappearList] = useState<any[]>([]);
   const [mainPhotoIndex, setMainPhotoIndex] = useState(0);
   const [photoList, setPhotoList] = useState([
     { src: ImgApathetic, name: 'apathetic' },
@@ -33,26 +33,23 @@ const APP15F: React.FC = () => {
   ]);
 
   async function onDisappearComplete() {
+    if (disappearList.length < 0) {
+      return;
+    }
     console.log('我結束了')
     // 把圖片從photoList移除
-    let updatePhotoList = photoList.filter(x => x.name !== disappearName)
+    let updatePhotoList = photoList.filter(x => x.name !== disappearList[0])
     if (updatePhotoList.length > 0) {
+      // 方法一： 移動陣列
+      let updatePhotoList2 = circularSortArray(updatePhotoList);
+      setPhotoList(updatePhotoList2[mainPhotoIndex % updatePhotoList2.length]);
+      setMainPhotoIndex(0);
+      setDisappearList(disappearList.slice(1));
 
-
-
-      // 移動陣列
-      // let updatePhotoList2 = circularSortArray(updatePhotoList);
-      // console.log(`mainPhotoIndex is ${mainPhotoIndex}, pp ${mainPhotoIndex % updatePhotoList2.length}`);
-      // console.log('updatePhotoList2', updatePhotoList2);
-      // setPhotoList(updatePhotoList2[mainPhotoIndex % updatePhotoList2.length]);
-      // setMainPhotoIndex(0);
-      // setDisappearName(null);
-
-      // 不移動陣列，設定index
-      setPhotoList(updatePhotoList);
-      setMainPhotoIndex(updatePhotoList.length === mainPhotoIndex ? 0 : mainPhotoIndex);
-      setDisappearName(null);
-      
+      // 方法二： 不移動陣列，設定index
+      // setPhotoList(updatePhotoList);
+      // setMainPhotoIndex(updatePhotoList.length === mainPhotoIndex ? 0 : mainPhotoIndex);
+      // setDisappearList(disappearList.slice(1));
     }
   }
 
@@ -63,29 +60,10 @@ const APP15F: React.FC = () => {
       const lowercaseInput = value.toLowerCase();
       // 有輸入照片的名字就要處理
       let regex = new RegExp(`${photoList.map(x => x.name).join('|')}`, 'g');
-
-      // 需要處理的照片有
-      let matchList = lowercaseInput.match(regex);
-
+      // 可以處理多張照片
+      let matchList: string[] | null = lowercaseInput.match(regex);
       if (matchList) {
-        matchList.forEach(async (name, index) => {
-          // 找到這個item在輪播牆的index
-          const photoIndex = photoList.map(x => x.name).indexOf(name);
-          console.log(name, photoIndex);
-          // 慢慢地移過去
-          let dd = photoIndex - mainPhotoIndex;
-
-          for (let i = 0; i < Math.abs(dd); i++) {
-            await Utils.delay(500);
-            if (dd > 0) {
-              handleNext();
-            } else {
-              handlePrev();
-            }
-          }
-          await Utils.delay(500);
-          setDisappearName(name);
-        })
+        setDisappearList(matchList);
       }
     }
   }
@@ -99,6 +77,8 @@ const APP15F: React.FC = () => {
       setMainPhotoIndex(prevState => prevState - 1);
     }
   }
+
+  
   const handleNext = () => {
     // 已經是最後一個了，就回到第一個
     if (mainPhotoIndex === photoList.length - 1) {
@@ -120,8 +100,8 @@ const APP15F: React.FC = () => {
           mainPhotoIndex={mainPhotoIndex}
           handlePrev={handlePrev}
           handleNext={handleNext}
-          disappearName={disappearName}
           onDisappearComplete={onDisappearComplete}
+          disappearList={disappearList}
         />
       </div>
       <div className="note__section">
