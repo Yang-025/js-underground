@@ -48,6 +48,15 @@ const StyledSlider = styled.div`
     position: absolute;
   }
   /* ********** 畫布 ********** */
+
+
+  .slider__restore {
+    font-family: "Caesar Dressing";
+    font-size: 72px;
+    line-height: 88px;
+    color: orange;
+    border: 1px solid orange;
+  }
 `;
 
 export default StyledSlider;

@@ -3,17 +3,19 @@ import html2canvas from 'html2canvas';
 import StyledSlider from './SliderStyle';
 import SliderItem from './SliderItem';
 import * as Utils from './utils';
+import { Photo } from './types';
 
 interface Props {
-  photoList: Array<{ src: string, name: string }>,
+  defaultPhotoList: Photo[],
+  photoList: Photo[],
   disappearList: string[],
-  setPhotoList: (photoList: []) => void,
+  setPhotoList: (photoList: Photo[]) => void,
   onDisappearComplete: () => void,
 }
 
 
 const Slider: React.FC<Props> = (props) => {
-  const { disappearList, photoList, setPhotoList, onDisappearComplete } = props;
+  const { disappearList, photoList, defaultPhotoList, setPhotoList, onDisappearComplete } = props;
   const [mainPhotoIndex, setMainPhotoIndex] = useState(0);
   const sliderBoxEl: RefObject<HTMLDivElement> = useRef(null);
 
@@ -71,17 +73,21 @@ const Slider: React.FC<Props> = (props) => {
     // 5. 消失。每一層的canvas加上不同動畫效果，執行下去
     Utils.startParticleEffect(updatedCanvasList, () => {
       // 把圖片從photoList移除
-      let updatePhotoList = photoList.filter(x => x.name !== disappearList[0])
-      if (updatePhotoList.length > 0) {
-        // 方法一： 移動陣列
-        let updatePhotoList2 = Utils.circularSortArray(updatePhotoList);
-        setPhotoList(updatePhotoList2[mainPhotoIndex % updatePhotoList2.length]);
-        setMainPhotoIndex(0);
+      let updatePhotoList = photoList.filter(x => x.name !== disappearList[0]);
 
-        // 方法二： 不移動陣列，設定index
+      /* ********** 方法一： 移動陣列 ********** */
+      let updatePhotoList2 = Utils.circularSortArray(updatePhotoList);
+      const newList = updatePhotoList2.length === 0 ? [] : updatePhotoList2[mainPhotoIndex % updatePhotoList2.length]
+      setPhotoList(newList);
+      setMainPhotoIndex(0);
+      /* ********** 方法一： 移動陣列 END ********** */
+
+
+      /* ********** 方法二： 不移動陣列，設定index ********** */
         // setPhotoList(updatePhotoList);
         // setMainPhotoIndex(updatePhotoList.length === mainPhotoIndex ? 0 : mainPhotoIndex);
-      }
+      /* ********** 方法二： 不移動陣列，設定index END ********** */
+
       onDisappearComplete();
     })
   }
@@ -113,6 +119,19 @@ const Slider: React.FC<Props> = (props) => {
     }
   }
 
+  if (photoList.length === 0) {
+    return (
+      <StyledSlider className="slider">
+        <div className="slider__box">
+          <button className="slider__restore" onClick={() => {
+            setPhotoList(defaultPhotoList);
+          }}>
+            RESTORE
+        </button>
+        </div>
+      </StyledSlider>
+    );
+  }
 
   return (
     <StyledSlider className="slider">

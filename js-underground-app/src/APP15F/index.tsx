@@ -12,15 +12,16 @@ import ImgInsecure from './assets/insecure.jpg';
 
 
 const APP15F: React.FC = () => {
-  const inputEl = useRef(null);
-  const [disappearList, setDisappearList] = useState<any[]>([]);
-  const [photoList, setPhotoList] = useState([
+  const defaultPhotoList = [
     { src: ImgApathetic, name: 'apathetic' },
     { src: ImgDepression, name: 'depression' },
     { src: ImgGuilty, name: 'guilty' },
     { src: ImgHelpless, name: 'helpless' },
     { src: ImgInsecure, name: 'insecure' }
-  ]);
+  ];
+  const inputEl = useRef(null);
+  const [disappearList, setDisappearList] = useState<any[]>([]);
+  const [photoList, setPhotoList] = useState(defaultPhotoList);
 
   async function onDisappearComplete() {
     if (disappearList.length < 0) {
@@ -52,6 +53,7 @@ const APP15F: React.FC = () => {
       </div>
       <div className="slider__section">
         <Slider
+          defaultPhotoList={defaultPhotoList}
           photoList={photoList}
           setPhotoList={setPhotoList}
           onDisappearComplete={onDisappearComplete}

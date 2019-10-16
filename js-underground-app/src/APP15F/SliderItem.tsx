@@ -2,12 +2,12 @@ import React, { Fragment } from 'react';
 
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import StyledSliderItem, { StyledSliderPhoto, StyledSliderPhotoName } from './SliderItemStyle';
-
+import { Photo } from './types';
 
 
 
 interface Props {
-  photoItem: { src: string, name: string },
+  photoItem: Photo,
   handlePrev: () => void,
   handleNext: () => void,
   position: string
