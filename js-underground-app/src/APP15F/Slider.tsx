@@ -69,38 +69,21 @@ const Slider: React.FC<Props> = (props) => {
 
 
     // 5. 消失。每一層的canvas加上不同動畫效果，執行下去
-    updatedCanvasList.forEach((c: HTMLCanvasElement, index: number) => {
-      setTimeout(() => {
-        const rotate1 = 15 * (Math.random() - 0.5);
-        const rotate2 = 15 * (Math.random() - 0.5);
-        const fac = 2 * Math.PI * (Math.random() - 0.5);
-        const translateX = 60 * Math.cos(fac);
-        const translateY = 30 * Math.sin(fac);
+    Utils.startParticleEffect(updatedCanvasList, () => {
+      // 把圖片從photoList移除
+      let updatePhotoList = photoList.filter(x => x.name !== disappearList[0])
+      if (updatePhotoList.length > 0) {
+        // 方法一： 移動陣列
+        let updatePhotoList2 = Utils.circularSortArray(updatePhotoList);
+        setPhotoList(updatePhotoList2[mainPhotoIndex % updatePhotoList2.length]);
+        setMainPhotoIndex(0);
 
-        c.style.transform = `rotate(${rotate1}deg) translate(${translateX}px, ${translateY}px) rotate(${rotate2}deg)`;
-        c.style.opacity = '0';
-        const removeDelay = 1e3 * (1.5 + 1 + Math.random());
-        setTimeout(() => {
-          c.remove();
-          if (index === updatedCanvasList.length - 1) {
-            console.log('做完了', index);
-            // 把圖片從photoList移除
-            let updatePhotoList = photoList.filter(x => x.name !== disappearList[0])
-            if (updatePhotoList.length > 0) {
-              // 方法一： 移動陣列
-              let updatePhotoList2 = Utils.circularSortArray(updatePhotoList);
-              setPhotoList(updatePhotoList2[mainPhotoIndex % updatePhotoList2.length]);
-              setMainPhotoIndex(0);
-
-              // 方法二： 不移動陣列，設定index
-              // setPhotoList(updatePhotoList);
-              // setMainPhotoIndex(updatePhotoList.length === mainPhotoIndex ? 0 : mainPhotoIndex);
-            }
-            onDisappearComplete();
-          }
-        }, removeDelay);
-      }, 70 * index);
-    });
+        // 方法二： 不移動陣列，設定index
+        // setPhotoList(updatePhotoList);
+        // setMainPhotoIndex(updatePhotoList.length === mainPhotoIndex ? 0 : mainPhotoIndex);
+      }
+      onDisappearComplete();
+    })
   }
 
   useEffect(() => {

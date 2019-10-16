@@ -71,6 +71,30 @@ export function appendLayersWithParticleEffect(samplerLayersList: ImageData[], c
 }
 
 
+export function startParticleEffect(canvasLayersList: HTMLCanvasElement[], onCompletedCallback: Function) {
+  canvasLayersList.forEach((c: HTMLCanvasElement, index: number) => {
+    setTimeout(() => {
+      const rotate1 = 15 * (Math.random() - 0.5);
+      const rotate2 = 15 * (Math.random() - 0.5);
+      const fac = 2 * Math.PI * (Math.random() - 0.5);
+      const translateX = 60 * Math.cos(fac);
+      const translateY = 30 * Math.sin(fac);
+
+      c.style.transform = `rotate(${rotate1}deg) translate(${translateX}px, ${translateY}px) rotate(${rotate2}deg)`;
+      c.style.opacity = '0';
+      const removeDelay = 1e3 * (1.5 + 1 + Math.random());
+      setTimeout(() => {
+        c.remove();
+        if (index === canvasLayersList.length - 1) {
+          onCompletedCallback();
+        }
+      }, removeDelay);
+    }, 70 * index);
+  });
+}
+
+
+
 /* ********** asyncForEach********** */
 // const waitFor = (ms: number) => new Promise(r => setTimeout(r, ms))
 export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
