@@ -14,11 +14,29 @@ enum TimeType {
 const Clock: React.FC = () => {
   const [date, setDate] = useState(new Date());
 
+  // 讓時間動起來 方法一
   useEffect(() => {
     const tick = () => setDate(new Date());
     const clock$ = interval(1000).subscribe(tick);
     return () => clock$.unsubscribe();
   }, []);
+
+  // 讓時間動起來 方法二
+  // useEffect(() => {
+  //   const interval = setInterval(() => setDate(new Date()), 1000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
+
+  // 讓時間動起來 方法三
+  // function loop(){
+  //   setDate(new Date());
+  //   requestAnimationFrame(loop);
+  // }
+
+  // useEffect(() => {
+  //   requestAnimationFrame(loop)
+  // }, []);
 
   /* 
   時鐘共360度
