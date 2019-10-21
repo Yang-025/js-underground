@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="13.251" height="126" viewBox="0 0 13.251 126">
+  <defs>
+    <style>.second-hand-a{fill:#293b29;}.second-hand-a,.second-hand-b,.second-hand-c{stroke:#b1ff00;}.second-hand-b{fill:#b1ff00;}.second-hand-c,.second-hand-e{fill:none;}.second-hand-d{stroke:none;}</style>
+  </defs>
+  <g transform="translate(646.618 400) rotate(180)">
+    <g class="second-hand-a" transform="translate(636 274)">
+      <circle class="second-hand-d" cx="4" cy="4" r="4"/>
+      <circle class="second-hand-e" cx="4" cy="4" r="3.5"/>
+    </g>
+    <g class="second-hand-b" transform="translate(638 276)">
+      <circle class="second-hand-d" cx="2" cy="2" r="2"/>
+      <circle class="second-hand-e" cx="2" cy="2" r="1.5"/>
+    </g>
+    <path class="second-hand-c" d="M0,3.61V50l6,8L-6,75l6,7v40" transform="translate(640 278)"/>
+  </g>
+</svg>
