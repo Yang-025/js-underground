@@ -2,8 +2,9 @@ import styled from 'styled-components';
 
 
 const StyledDemo = styled.div`
+background-color: #ccc;
 * {
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   /* vertical-align: top; */
 }
 margin: 1rem;
@@ -16,19 +17,6 @@ margin: 1rem;
   cursor: pointer;
   :hover {
     outline: 2px solid yellow;
-  }
-}
-
-.piece {
-  position: relative;
-  background-color: red;
-  width: 180px;
-  height: 180px;
-  /* 不加的話，父層的div下方會有空白 */
-  > img {
-    width: fit-content;
-    height: fit-content;
-    position: absolute;
   }
 }
 `;
