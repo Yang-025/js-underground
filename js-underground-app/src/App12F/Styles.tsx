@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import { ELineDirection } from './interface';
 
 const StyledPuzzlePiece = styled.div`
   /* left: ${(props: { top?: number, left?: number, highlight: boolean }) => `${props.left}px` || '0px'}; */
@@ -18,12 +18,20 @@ const StyledPuzzlePiece = styled.div`
 `;
 
 
+
+interface IStyledLine {
+  top?: number
+  left?: number
+  way: ELineDirection
+}
+
+
 const StyledLine = styled.div`
   position: absolute;
-  left: ${(props: { top?: number, left?: number }) => `${props.left}px` || '0px'};
-  top: ${(props: { top?: number, left?: number }) => `${props.top}px` || '0px'};
-  height: 100%;
-  width: 1px;
+  left: ${(props: IStyledLine) => `${props.left}px` || '0px'};
+  top: ${(props: IStyledLine) => `${props.top}px` || '0px'};
+  height: ${(props: IStyledLine) => props.way === 'horizontal' ? '1px' : '100%'};
+  width: ${(props: IStyledLine) => props.way === 'horizontal' ? '100%' : '1px'};
   background: red;
 `;
 

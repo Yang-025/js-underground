@@ -22,6 +22,8 @@ const defaultPuzzleList = [
     type: ItemTypes.PIECE,
     left: 40,
     top: 40,
+    width: 180,
+    height: 180,
   },
   {
     id: 2,
@@ -32,6 +34,8 @@ const defaultPuzzleList = [
     type: ItemTypes.PIECE,
     left: 100,
     top: 100,
+    width: 180,
+    height: 180,
   },
   // {
   //   id: 3,

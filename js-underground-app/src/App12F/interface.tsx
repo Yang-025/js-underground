@@ -7,6 +7,8 @@ export interface PuzzleItem {
   canMerge: number[]
   imgPosition: { left: string, top: string }
   type: string
+  width: number
+  height: number
 }
 
 
@@ -15,4 +17,12 @@ export interface PuzzleItem {
 export interface ReferenceLine {
   x: number
   y: number
+  width: number
+  height: number
+}
+
+
+export enum ELineDirection {
+  vertical="vertical",
+  horizontal="horizontal"
 }
