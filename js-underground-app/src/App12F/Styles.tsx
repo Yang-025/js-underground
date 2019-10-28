@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 import { ELineDirection } from './interface';
 
+interface IStyledPuzzlePiece {
+  top?: number
+  left?: number
+  highlight: boolean
+  // isActive: boolean
+}
+
 const StyledPuzzlePiece = styled.div`
-  /* left: ${(props: { top?: number, left?: number, highlight: boolean }) => `${props.left}px` || '0px'}; */
-  /* top: ${(props: { top?: number, left?: number, highlight: boolean }) => `${props.top}px` || '0px'}; */
   position: relative;
-  background-color: red;
+  /* background-color: red; */
   width: 180px;
   height: 180px;
   /* 不加的話，父層的div下方會有空白 */
@@ -14,7 +19,7 @@ const StyledPuzzlePiece = styled.div`
     height: fit-content;
     position: absolute;
   }
-  box-shadow: ${(props: { top?: number, left?: number, highlight: boolean }) => props.highlight ? '0px 0px 30px #FFFFFF' : 'none'};
+  box-shadow: ${(props: IStyledPuzzlePiece) => props.highlight ? '0px 0px 30px #FFFFFF' : 'none'};
 `;
 
 

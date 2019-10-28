@@ -11,7 +11,7 @@ import defaultPuzzleList from './puzzleSetting';
 const Demo: React.FC = () => {
   const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(defaultPuzzleList);
   const [highlightList, setHighlightList] = useState<number[]>([]);
-  const dragWrapperEl: RefObject<HTMLDivElement> = useRef(null);
+  const [activePuzzleId, setActivePuzzleId] = useState<number>(-1);
 
 
   // x: item左上角的x座標
@@ -23,17 +23,22 @@ const Demo: React.FC = () => {
       return;
     }
     console.log('現在是誰在移動', id);
+    setActivePuzzleId(id);
     const closerItemList = Utils.checkCloser(id, puzzleList);
     setHighlightList(closerItemList);
   }
 
   function handleDragStop() {
     setHighlightList([]);
+    setActivePuzzleId(-1);
+    // 找到接近的item
+    // const closerItemList = Utils.checkCloser(activePuzzleId, puzzleList);
+
   }
 
 
   return (
-    <StyledDemo id="dd01" ref={dragWrapperEl} style={{ position: 'relative', width: '100%', height: '100vh' }}>
+    <StyledDemo style={{ position: 'relative', width: '100%', height: '100vh' }}>
       {puzzleList.map(item => {
         return (
           <PuzzlePiece
@@ -42,6 +47,7 @@ const Demo: React.FC = () => {
             data={item}
             key={item.id}
             highlight={highlightList.includes(item.id)}
+            isActive={item.id === activePuzzleId}
           />
         )
       })}

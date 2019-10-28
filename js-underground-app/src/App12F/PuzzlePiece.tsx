@@ -12,10 +12,11 @@ interface IProps {
   handleDrag: (id: number, left: number, top: number, deltaX: number, deltaY: number) => void
   handleDragStop: () => void
   highlight: boolean
-  // parentRef: HTMLDivElement | null
+  isActive: boolean
 }
 
-const PuzzlePiece: React.FC<IProps> = ({ handleDragStop, highlight, data: puzzleData, handleDrag }) => {
+const PuzzlePiece: React.FC<IProps> = (props) => {
+  const { isActive, highlight, data: puzzleData, handleDrag, handleDragStop } = props;
   const [referenceLine, setReferenceLine] = useState<ReferenceLine>({ x: puzzleData.left, y: puzzleData.top, width: puzzleData.width, height: puzzleData.height });
 
   return (
@@ -34,20 +35,27 @@ const PuzzlePiece: React.FC<IProps> = ({ handleDragStop, highlight, data: puzzle
         onStop={handleDragStop}
         defaultPosition={{ x: puzzleData.left, y: puzzleData.top }}
       >
-        <div style={{ position: 'absolute' }}>
+        <div style={{ position: 'absolute', zIndex: isActive ? 2 : 1 }}>
           <StyledPuzzlePiece highlight={highlight}>
             <img style={{ ...puzzleData.imgPosition }} src={puzzleData.imgSrc} alt="" />
           </StyledPuzzlePiece>
         </div>
       </Draggable>
-      {/* 左垂直線 */}
-      <StyledLine way={ELineDirection.vertical} left={referenceLine.x} top={0} />
-      {/* 右垂直線 */}
-      <StyledLine way={ELineDirection.vertical} left={referenceLine.x + referenceLine.width} top={0} />
-      {/* 上水平線 */}
-      <StyledLine way={ELineDirection.horizontal} left={0} top={referenceLine.y} />
-      {/* 下水平線 */}
-      <StyledLine way={ELineDirection.horizontal} left={0} top={referenceLine.y + referenceLine.height} />
+      {
+        isActive && (
+          <Fragment>
+            {/* 左垂直線 */}
+            <StyledLine way={ELineDirection.vertical} left={referenceLine.x} top={0} />
+            {/* 右垂直線 */}
+            <StyledLine way={ELineDirection.vertical} left={referenceLine.x + referenceLine.width} top={0} />
+            {/* 上水平線 */}
+            <StyledLine way={ELineDirection.horizontal} left={0} top={referenceLine.y} />
+            {/* 下水平線 */}
+            <StyledLine way={ELineDirection.horizontal} left={0} top={referenceLine.y + referenceLine.height} />
+          </Fragment>
+        )
+      }
+
     </Fragment>
   );
 }

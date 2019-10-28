@@ -13,7 +13,7 @@ export interface PuzzleItem {
 
 
 
-
+/* *********************** 參考線 *********************** */
 export interface ReferenceLine {
   x: number
   y: number
@@ -26,3 +26,5 @@ export enum ELineDirection {
   vertical="vertical",
   horizontal="horizontal"
 }
+
+/* *********************** 參考線 END *********************** */
