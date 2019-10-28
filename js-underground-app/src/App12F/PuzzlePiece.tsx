@@ -21,6 +21,7 @@ const PuzzlePiece: React.FC<IProps> = ({ handleDragStop, highlight, data: puzzle
   return (
     <Fragment>
       <Draggable
+        bounds="parent"
         onDrag={(event, data) => {
           // 不要在bubble去拖拉事件了
           event.preventDefault();
@@ -33,9 +34,11 @@ const PuzzlePiece: React.FC<IProps> = ({ handleDragStop, highlight, data: puzzle
         onStop={handleDragStop}
         positionOffset={{ x: puzzleData.left, y: puzzleData.top }}
       >
-        <StyledPuzzlePiece highlight={highlight}>
-          <img style={{ ...puzzleData.imgPosition }} src={puzzleData.imgSrc} alt="" />
-        </StyledPuzzlePiece>
+        <div style={{ position: 'absolute' }}>
+          <StyledPuzzlePiece highlight={highlight}>
+            <img style={{ ...puzzleData.imgPosition }} src={puzzleData.imgSrc} alt="" />
+          </StyledPuzzlePiece>
+        </div>
       </Draggable>
       {/* 左垂直線 */}
       {/* <StyledLine left={referenceLine.x} top={referenceLine.y} /> */}

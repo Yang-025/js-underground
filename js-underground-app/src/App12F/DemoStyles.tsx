@@ -7,9 +7,9 @@ background-color: #ccc;
   /* border: 1px solid blue; */
   /* vertical-align: top; */
 }
-margin: 1rem;
+/* margin: 1rem; */
 
-.box {
+/* .box {
   width: 200px;
   height: 200px;
   position: absolute;
@@ -18,7 +18,7 @@ margin: 1rem;
   :hover {
     outline: 2px solid yellow;
   }
-}
+} */
 `;
 
 

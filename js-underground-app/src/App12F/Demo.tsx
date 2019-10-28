@@ -1,6 +1,8 @@
 import React, { useRef, RefObject, useEffect, useState } from 'react';
 import { fromEvent } from 'rxjs';
 import { switchMap, map, takeUntil } from 'rxjs/operators';
+import Draggable, { DraggableCore } from "react-draggable";
+
 
 import Puzzle1 from './assets/Puzzle-1.png';
 import Puzzle2 from './assets/Puzzle-2.png';
@@ -17,79 +19,8 @@ import ItemTypes from './ItemTypes';
 import { PuzzleItem, ReferenceLine } from './interface';
 import * as Utils from './utils';
 import { StyledPuzzlePiece, StyledLine } from './Styles';
+import defaultPuzzleList from './puzzleSetting';
 
-
-const defaultPuzzleList = [
-  {
-    id: 1,
-    name: 'puzzle1',
-    imgSrc: Puzzle1,
-    canMerge: [2, 4],
-    imgPosition: { left: '0px', top: '0px' },
-    type: ItemTypes.PIECE,
-    left: 40,
-    top: 40,
-  },
-  {
-    id: 2,
-    name: 'puzzle2',
-    imgSrc: Puzzle2,
-    canMerge: [1, 3, 5],
-    imgPosition: { left: '-28px', top: '0px' },
-    type: ItemTypes.PIECE,
-    left: 100,
-    top: 100,
-  },
-  // {
-  //   id: 3,
-  //   name: 'puzzle3',
-  //   imgSrc: Puzzle3,
-  //   canMerge: [2, 6],
-  //   imgPosition: { right: '0px', top: '0px' }
-  // },
-  // {
-  //   id: 4,
-  //   name: 'puzzle4',
-  //   imgSrc: Puzzle4,
-  //   canMerge: [1, 5],
-  //   imgPosition: { left: '0px', top: '0px' }
-  // },
-  // {
-  //   id: 5,
-  //   name: 'puzzle5',
-  //   imgSrc: Puzzle5,
-  //   canMerge: [2, 4, 6, 8],
-  //   imgPosition: { left: '0px', top: '-28px' }
-  // },
-  // {
-  //   id: 6,
-  //   name: 'puzzle6',
-  //   imgSrc: Puzzle6,
-  //   canMerge: [3, 5, 9],
-  //   imgPosition: { right: '0px', top: '0px' }
-  // },
-  // {
-  //   id: 7,
-  //   name: 'puzzle7',
-  //   imgSrc: Puzzle7,
-  //   canMerge: [4, 8],
-  //   imgPosition: { left: '0px', top: '-28px' }
-  // },
-  // {
-  //   id: 8,
-  //   name: 'puzzle8',
-  //   imgSrc: Puzzle8,
-  //   canMerge: [5, 7, 9],
-  //   imgPosition: { left: '-28px', bottom: '0px' }
-  // },
-  // {
-  //   id: 9,
-  //   name: 'puzzle9',
-  //   imgSrc: Puzzle9,
-  //   canMerge: [6, 8],
-  //   imgPosition: { right: '0px', bottom: '0px' }
-  // },
-]
 
 const Demo: React.FC = () => {
   const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(defaultPuzzleList);
@@ -116,8 +47,8 @@ const Demo: React.FC = () => {
 
 
   return (
-    <StyledDemo style={{ position: 'relative' }} ref={dragWrapperEl}>
-      {puzzleList.map(item => {
+    <StyledDemo id="dd01" ref={dragWrapperEl} style={{ position: 'relative', width: '100%', height: '100vh' }}>
+      {/* {puzzleList.map(item => {
         return (
           <PuzzlePiece
             handleDrag={handleDrag}
@@ -127,7 +58,21 @@ const Demo: React.FC = () => {
             highlight={highlightList.includes(item.id)}
           />
         )
-      })}
+      })} */}
+      <PuzzlePiece
+        handleDrag={handleDrag}
+        handleDragStop={handleDragStop}
+        data={puzzleList[0]}
+        key={puzzleList[0].id}
+        highlight={highlightList.includes(puzzleList[0].id)}
+      />
+      <PuzzlePiece
+        handleDrag={handleDrag}
+        handleDragStop={handleDragStop}
+        data={puzzleList[1]}
+        key={puzzleList[1].id}
+        highlight={highlightList.includes(puzzleList[1].id)}
+      />
     </StyledDemo>
   );
 }
