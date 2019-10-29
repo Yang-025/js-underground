@@ -24,6 +24,13 @@ const defaultPuzzleList = [
     top: 40,
     width: 180,
     height: 180,
+    coordinate: [0, 0],
+    canMergeCoordinate: [
+      { direction: 'top', coordinate: [0, -1] },
+      { direction: 'right', coordinate: [1, 0] },
+      { direction: 'down', coordinate: [0, 1] },
+      { direction: 'left', coordinate: [-1, 0] },
+    ]
   },
   {
     id: 2,
@@ -36,6 +43,13 @@ const defaultPuzzleList = [
     top: 300,
     width: 180,
     height: 180,
+    coordinate: [1, 0],
+    canMergeCoordinate: [
+      { direction: 'top', coordinate: [1, -1] },
+      { direction: 'right', coordinate: [2, 0] },
+      { direction: 'down', coordinate: [1, 1] },
+      { direction: 'left', coordinate: [0, 0] },
+    ]
   },
   // {
   //   id: 3,

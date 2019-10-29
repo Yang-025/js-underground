@@ -4,12 +4,12 @@ import Draggable, { DraggableCore } from "react-draggable";
 
 
 import ItemTypes from './ItemTypes';
-import { PuzzleItem, ReferenceLine, ELineDirection } from './interface';
+import { PuzzleItem, ELineDirection } from './interface';
 import { StyledPuzzlePiece, StyledLine } from './Styles';
 
 interface IProps {
   data: PuzzleItem
-  handleDrag: (id: number, left: number, top: number, deltaX: number, deltaY: number) => void
+  handleDrag: (id: number, left: number, top: number) => void
   handleDragStop: () => void
   highlight: boolean
   isActive: boolean
@@ -17,7 +17,6 @@ interface IProps {
 
 const PuzzlePiece: React.FC<IProps> = (props) => {
   const { isActive, highlight, data: puzzleData, handleDrag, handleDragStop } = props;
-  const [referenceLine, setReferenceLine] = useState<ReferenceLine>({ x: puzzleData.left, y: puzzleData.top, width: puzzleData.width, height: puzzleData.height });
 
   return (
     <Fragment>
@@ -26,14 +25,11 @@ const PuzzlePiece: React.FC<IProps> = (props) => {
         onDrag={(event, data) => {
           // 不要在bubble去拖拉事件了
           event.preventDefault();
-          setReferenceLine((preState) => {
-            return { x: preState.x + data.deltaX, y: preState.y + data.deltaY, width: puzzleData.width, height: puzzleData.height }
-          });
-          handleDrag(puzzleData.id, data.x, data.y, data.deltaX, data.deltaX);
-          console.log('hi', data, event);
+          handleDrag(puzzleData.id, data.x, data.y);
         }}
         onStop={handleDragStop}
-        defaultPosition={{ x: puzzleData.left, y: puzzleData.top }}
+        // defaultPosition={{ x: puzzleData.left, y: puzzleData.top }}
+        position={{ x: puzzleData.left, y: puzzleData.top }}
       >
         <div style={{ position: 'absolute', zIndex: isActive ? 2 : 1 }}>
           <StyledPuzzlePiece highlight={highlight}>
@@ -45,13 +41,13 @@ const PuzzlePiece: React.FC<IProps> = (props) => {
         isActive && (
           <Fragment>
             {/* 左垂直線 */}
-            <StyledLine way={ELineDirection.vertical} left={referenceLine.x} top={0} />
+            <StyledLine way={ELineDirection.vertical} left={puzzleData.left} top={0} />
             {/* 右垂直線 */}
-            <StyledLine way={ELineDirection.vertical} left={referenceLine.x + referenceLine.width} top={0} />
+            <StyledLine way={ELineDirection.vertical} left={puzzleData.left + puzzleData.width} top={0} />
             {/* 上水平線 */}
-            <StyledLine way={ELineDirection.horizontal} left={0} top={referenceLine.y} />
+            <StyledLine way={ELineDirection.horizontal} left={0} top={puzzleData.top} />
             {/* 下水平線 */}
-            <StyledLine way={ELineDirection.horizontal} left={0} top={referenceLine.y + referenceLine.height} />
+            <StyledLine way={ELineDirection.horizontal} left={0} top={puzzleData.top + puzzleData.height} />
           </Fragment>
         )
       }
