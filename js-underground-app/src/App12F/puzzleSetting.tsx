@@ -45,20 +45,36 @@ const defaultPuzzleList = [
       { direction: 'left', coordinate: [0, 0] },
     ]
   },
-  // {
-  //   id: 3,
-  //   name: 'puzzle3',
-  //   imgSrc: Puzzle3,
-  //   canMerge: [2, 6],
-  //   imgPosition: { right: '0px', top: '0px' }
-  // },
-  // {
-  //   id: 4,
-  //   name: 'puzzle4',
-  //   imgSrc: Puzzle4,
-  //   canMerge: [1, 5],
-  //   imgPosition: { left: '0px', top: '0px' }
-  // },
+  {
+    id: 3,
+    name: 'puzzle3',
+    imgSrc: Puzzle3,
+    imgPosition: { right: '0px', top: '0px' },
+    left: 700,
+    top: 500,
+    coordinate: [2, 0],
+    canMergeCoordinate: [
+      { direction: 'top', coordinate: [2, -1] },
+      { direction: 'right', coordinate: [3, 0] },
+      { direction: 'down', coordinate: [2, 1] },
+      { direction: 'left', coordinate: [1, 0] },
+    ]
+  },
+  {
+    id: 4,
+    name: 'puzzle4',
+    imgSrc: Puzzle4,
+    imgPosition: { left: '0px', top: '0px' },
+    left: 200,
+    top: 500,
+    coordinate: [0, 1],
+    canMergeCoordinate: [
+      { direction: 'top', coordinate: [0, 0] },
+      { direction: 'right', coordinate: [1, 1] },
+      { direction: 'down', coordinate: [0, 2] },
+      { direction: 'left', coordinate: [-1, 1] },
+    ]
+  },
   // {
   //   id: 5,
   //   name: 'puzzle5',

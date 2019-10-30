@@ -10,7 +10,7 @@ export interface PuzzleItem {
   name: string
   imgSrc: string
   // canMerge: number[]
-  imgPosition: { left: string, top: string }
+  imgPosition: { left?: string, top?: string, right?: string }
   // type: string
   // width: number
   // height: number
