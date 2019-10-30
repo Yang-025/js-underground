@@ -67,6 +67,9 @@ const Demo: React.FC = () => {
     if (isMoving) {
       setIsMoving(false);
     }
+    console.log('highlightList', highlightList);
+    // TODO
+    // 如果有靠近的拼圖，就把他們拼再一起，並合成同一組，之後可以一起拖拉
     // 假設可以和的item是[1,0]
     // const someRes = [1, 0];
     const someRes = [1, 0];

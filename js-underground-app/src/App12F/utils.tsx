@@ -65,9 +65,12 @@ function checkCloser(id: number, puzzleList: PuzzleItem[]): number[] {
         }
       };
     })
-
-  // 根據id找出有沒有接近的puzzleList的item
   return res;
 }
+
+
+// function dealSnapping(params:type) {
+  
+// }
 
 export { updateDataById, checkCloser };
