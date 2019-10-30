@@ -8,8 +8,10 @@ import Puzzle7 from './assets/Puzzle-7.png';
 import Puzzle8 from './assets/Puzzle-8.png';
 import Puzzle9 from './assets/Puzzle-9.png';
 
-import ItemTypes from './ItemTypes';
 
+export const SnapThresholdInPx = 4;
+export const PuzzleWidthInPx = 180;
+export const PuzzleHeightInPx = 180;
 
 
 const defaultPuzzleList = [
@@ -17,13 +19,9 @@ const defaultPuzzleList = [
     id: 1,
     name: 'puzzle1',
     imgSrc: Puzzle1,
-    canMerge: [2, 4],
     imgPosition: { left: '0px', top: '0px' },
-    type: ItemTypes.PIECE,
     left: 40,
     top: 40,
-    width: 180,
-    height: 180,
     coordinate: [0, 0],
     canMergeCoordinate: [
       { direction: 'top', coordinate: [0, -1] },
@@ -36,13 +34,9 @@ const defaultPuzzleList = [
     id: 2,
     name: 'puzzle2',
     imgSrc: Puzzle2,
-    canMerge: [1, 3, 5],
     imgPosition: { left: '-28px', top: '0px' },
-    type: ItemTypes.PIECE,
     left: 500,
     top: 300,
-    width: 180,
-    height: 180,
     coordinate: [1, 0],
     canMergeCoordinate: [
       { direction: 'top', coordinate: [1, -1] },

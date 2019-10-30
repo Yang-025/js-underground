@@ -1,4 +1,4 @@
-interface MergeCoordinateItem {
+export interface MergeCoordinateItem {
   direction: string
   coordinate: number[] 
 }
@@ -9,11 +9,11 @@ export interface PuzzleItem {
   id: number
   name: string
   imgSrc: string
-  canMerge: number[]
+  // canMerge: number[]
   imgPosition: { left: string, top: string }
-  type: string
-  width: number
-  height: number
+  // type: string
+  // width: number
+  // height: number
   coordinate: number[]
   canMergeCoordinate: MergeCoordinateItem[]
 }

@@ -5,7 +5,7 @@ import PuzzlePiece from './PuzzlePiece';
 import ItemTypes from './ItemTypes';
 import { PuzzleItem } from './interface';
 import * as Utils from './utils';
-import defaultPuzzleList from './puzzleSetting';
+import defaultPuzzleList, { PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSetting';
 
 
 const Demo: React.FC = () => {
@@ -21,25 +21,26 @@ const Demo: React.FC = () => {
     if (!isMoving) {
       setIsMoving(true);
     }
-    // 找到data
+    // 找到目前在drag的item
     const selectedItem = puzzleList.find(item => item.id === id);
     if (!selectedItem) {
       return;
     }
 
-    // 更新座標
+    // 更新目前在drag的item的座標
     const updatedData = Utils.updateDataById(
       selectedItem.id,
       {
         ...selectedItem,
-        left: x, 
+        left: x,
         top: y
       },
       puzzleList);
     setPuzzleList(updatedData);
 
-    console.log('現在是誰在移動', id);
+    // set目前在drag的item
     setActivePuzzleId(id);
+    // 找出有沒有可以snap的拼圖
     const closerItemList = Utils.checkCloser(id, puzzleList);
     setHighlightList(closerItemList);
   }
@@ -52,7 +53,7 @@ const Demo: React.FC = () => {
       if (canMergeCoordinateInfo.direction === 'right') {
         newInfo = {
           ...draggedItem,
-          left: comparedItem.left - draggedItem.width,
+          left: comparedItem.left - PuzzleWidthInPx,
           top: comparedItem.top,
         }
       } else {

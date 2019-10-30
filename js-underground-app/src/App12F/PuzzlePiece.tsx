@@ -3,9 +3,10 @@ import React, { Fragment, useRef, RefObject, useEffect, useState } from 'react';
 import Draggable, { DraggableCore } from "react-draggable";
 
 
-import ItemTypes from './ItemTypes';
 import { PuzzleItem, ELineDirection } from './interface';
 import { StyledPuzzlePiece, StyledLine } from './Styles';
+import { PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSetting';
+
 
 interface IProps {
   data: PuzzleItem
@@ -43,11 +44,11 @@ const PuzzlePiece: React.FC<IProps> = (props) => {
             {/* 左垂直線 */}
             <StyledLine way={ELineDirection.vertical} left={puzzleData.left} top={0} />
             {/* 右垂直線 */}
-            <StyledLine way={ELineDirection.vertical} left={puzzleData.left + puzzleData.width} top={0} />
+            <StyledLine way={ELineDirection.vertical} left={puzzleData.left + PuzzleWidthInPx} top={0} />
             {/* 上水平線 */}
             <StyledLine way={ELineDirection.horizontal} left={0} top={puzzleData.top} />
             {/* 下水平線 */}
-            <StyledLine way={ELineDirection.horizontal} left={0} top={puzzleData.top + puzzleData.height} />
+            <StyledLine way={ELineDirection.horizontal} left={0} top={puzzleData.top + PuzzleHeightInPx} />
           </Fragment>
         )
       }
