@@ -3,10 +3,13 @@ import * as R from 'ramda';
 import StyledDemo from './DemoStyles';
 import PuzzlePiece from './PuzzlePiece';
 import PuzzlePieceSvg from './PuzzlePieceSvg';
+import CombinedPuzzlePieceSvg from './CombinedPuzzlePieceSvg';
 import ItemTypes from './ItemTypes';
 import { PuzzleItem } from './interface';
 import * as Utils from './utils';
 import defaultPuzzleList, { PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSetting';
+import Draggable, { DraggableCore } from "react-draggable";
+import { func } from 'prop-types';
 
 
 const Demo: React.FC = () => {
@@ -14,7 +17,9 @@ const Demo: React.FC = () => {
   const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(defaultPuzzleList);
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number>(-1);
-  const [combinedList, setCombinedList] = useState<number[][][]>([[[0, 0], [1, 0], [0, 1]]]);
+  const [combinedList, setCombinedList] = useState<number[][][]>([
+    [[0, 0], [1, 0], [0, 1]]
+  ]);
 
 
   // x: item左上角的x座標
@@ -84,14 +89,49 @@ const Demo: React.FC = () => {
     }
     setHighlightList([]);
     setActivePuzzleId(-1);
+  }
 
+
+
+  function handleCombinedDragStop() {
+    // TODO isMoving要吃list
   }
 
 
   return (
     <StyledDemo style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <svg width="100%" height="100%" style={{ backgroundColor: "lightyellow" }}>
-        {puzzleList.map(item => {
+        {
+          combinedList.map((items) => {
+            return (
+              <CombinedPuzzlePieceSvg
+                combinedPointList={items}
+                data={puzzleList.filter(x => {
+                  return items.find(y => R.equals(x.coordinate, y));
+                })}
+                handleDrag={() => {
+                  console.log('handleDrag', handleDrag);
+                }}
+                handleDragStop={() => {
+                  console.log('[combinedList]handleDragStop');
+                  handleCombinedDragStop();
+                }}
+              />
+            )
+          })
+        }
+        {/* <CombinedPuzzlePieceSvg
+          // TODO 1,2,4從何而來
+          // combinedList={puzzleList.filter(x => [1,2,4].includes(x.id))} 
+          combinedList={puzzleList.filter(x => [1, 2, 4].includes(x.id))}
+          handleDrag={() => {
+            console.log('handleDrag', handleDrag);
+          }}
+          handleDragStop={() => {
+            console.log('handleDragStop', handleDragStop);
+          }}
+        /> */}
+        {/* {puzzleList.map(item => {
           return (
             <PuzzlePieceSvg
               handleDrag={handleDrag}
@@ -102,7 +142,7 @@ const Demo: React.FC = () => {
               isActive={item.id === activePuzzleId}
             />
           )
-        })}
+        })} */}
       </svg>
       {/* {puzzleList.map(item => {
         return (
