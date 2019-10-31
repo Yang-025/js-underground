@@ -50,6 +50,10 @@ const CombinedPuzzlePieceSvg: React.FC<IProps> = (props) => {
   const { id, data: combinedData, combinedPointList, handleDrag, handleDragStop } = props;
   // 找到最左上角的項目，以此項目作為參考點計算座標
   const baseLeftItem = findLeftTopBaseItem(combinedPointList);
+  if (!baseLeftItem) {
+    console.log('error');
+    return <div />;
+  }
   const position = combinedData.find(item => R.equals(item.coordinate, baseLeftItem));
   if (!position) {
     console.log('error');
@@ -90,12 +94,25 @@ const CombinedPuzzlePieceSvg: React.FC<IProps> = (props) => {
       >
         <g>
           {combinedData.map((piece) => {
+            if (R.equals(piece.coordinate, baseLeftItem)) {
+              return (
+                <image 
+                  xlinkHref={piece.imgSrc} 
+                  x={piece.imgPosition.left} 
+                  y={piece.imgPosition.top} 
+                  transform={`translate(${0}, ${0})`} 
+                />
+              );
+            }
+            // 跟左上角比，算出相對位置
+            const offsetX = (piece.coordinate[0] - baseLeftItem[0]) * PuzzleWidthInPx;
+            const offsetY = (piece.coordinate[1] - baseLeftItem[1]) * PuzzleWidthInPx;
             return (
               <image 
                 xlinkHref={piece.imgSrc} 
                 x={piece.imgPosition.left} 
                 y={piece.imgPosition.top} 
-                transform={`translate(${piece.left}, ${piece.top})`} 
+                transform={`translate(${offsetX}, ${offsetY})`} 
               />
             );
           })}
