@@ -15,7 +15,8 @@ export interface PuzzleItem {
   // width: number
   // height: number
   coordinate: number[]
-  canMergeCoordinate: MergeCoordinateItem[]
+  canMergeCoordinate: MergeCoordinateItem[],
+  status: string
 }
 
 

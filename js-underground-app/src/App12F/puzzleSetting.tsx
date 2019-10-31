@@ -20,96 +20,145 @@ const defaultPuzzleList = [
     name: 'puzzle1',
     imgSrc: Puzzle1,
     imgPosition: { left: '0px', top: '0px' },
-    left: 40,
-    top: 40,
+    left: 0,
+    top: 0,
     coordinate: [0, 0],
     canMergeCoordinate: [
       { direction: 'top', coordinate: [0, -1] },
       { direction: 'right', coordinate: [1, 0] },
       { direction: 'down', coordinate: [0, 1] },
       { direction: 'left', coordinate: [-1, 0] },
-    ]
+    ],
+    status: 'combined'
   },
   {
     id: 2,
     name: 'puzzle2',
     imgSrc: Puzzle2,
-    imgPosition: { left: '-28px', top: '0px' },
-    left: 500,
-    top: 300,
+    imgPosition: { left: '-27px', top: '0px' },
+    left: 180,
+    top: 0,
     coordinate: [1, 0],
     canMergeCoordinate: [
       { direction: 'top', coordinate: [1, -1] },
       { direction: 'right', coordinate: [2, 0] },
       { direction: 'down', coordinate: [1, 1] },
       { direction: 'left', coordinate: [0, 0] },
-    ]
+    ],
+    status: 'combined'
   },
   {
     id: 3,
     name: 'puzzle3',
     imgSrc: Puzzle3,
-    imgPosition: { right: '0px', top: '0px' },
-    left: 700,
-    top: 500,
+    imgPosition: { left: '0px', top: '0px' },
+    left: 360,
+    top: 0,
     coordinate: [2, 0],
     canMergeCoordinate: [
       { direction: 'top', coordinate: [2, -1] },
       { direction: 'right', coordinate: [3, 0] },
       { direction: 'down', coordinate: [2, 1] },
       { direction: 'left', coordinate: [1, 0] },
-    ]
+    ],
+    status: 'combined'
   },
   {
     id: 4,
     name: 'puzzle4',
     imgSrc: Puzzle4,
     imgPosition: { left: '0px', top: '0px' },
-    left: 200,
-    top: 500,
+    left: 0,
+    top: 180,
     coordinate: [0, 1],
     canMergeCoordinate: [
       { direction: 'top', coordinate: [0, 0] },
       { direction: 'right', coordinate: [1, 1] },
       { direction: 'down', coordinate: [0, 2] },
       { direction: 'left', coordinate: [-1, 1] },
-    ]
+    ],
+    status: 'combined'
   },
-  // {
-  //   id: 5,
-  //   name: 'puzzle5',
-  //   imgSrc: Puzzle5,
-  //   canMerge: [2, 4, 6, 8],
-  //   imgPosition: { left: '0px', top: '-28px' }
-  // },
-  // {
-  //   id: 6,
-  //   name: 'puzzle6',
-  //   imgSrc: Puzzle6,
-  //   canMerge: [3, 5, 9],
-  //   imgPosition: { right: '0px', top: '0px' }
-  // },
-  // {
-  //   id: 7,
-  //   name: 'puzzle7',
-  //   imgSrc: Puzzle7,
-  //   canMerge: [4, 8],
-  //   imgPosition: { left: '0px', top: '-28px' }
-  // },
-  // {
-  //   id: 8,
-  //   name: 'puzzle8',
-  //   imgSrc: Puzzle8,
-  //   canMerge: [5, 7, 9],
-  //   imgPosition: { left: '-28px', bottom: '0px' }
-  // },
-  // {
-  //   id: 9,
-  //   name: 'puzzle9',
-  //   imgSrc: Puzzle9,
-  //   canMerge: [6, 8],
-  //   imgPosition: { right: '0px', bottom: '0px' }
-  // },
+  {
+    id: 5,
+    name: 'puzzle5',
+    imgSrc: Puzzle5,
+    imgPosition: { left: '0px', top: '-27px' },
+    left: 180,
+    top: 180,
+    coordinate: [1, 1],
+    canMergeCoordinate: [
+      { direction: 'top', coordinate: [1, 0] },
+      { direction: 'right', coordinate: [2, 1] },
+      { direction: 'down', coordinate: [1, 2] },
+      { direction: 'left', coordinate: [0, 1] },
+    ],
+    status: 'combined'
+  },
+  {
+    id: 6,
+    name: 'puzzle6',
+    imgSrc: Puzzle6,
+    imgPosition: { left: '-27px', top: '0px' },
+    left: 360,
+    top: 180,
+    coordinate: [2, 1],
+    canMergeCoordinate: [
+      { direction: 'top', coordinate: [2, 0] },
+      { direction: 'right', coordinate: [3, 1] },
+      { direction: 'down', coordinate: [2, 2] },
+      { direction: 'left', coordinate: [1, 1] },
+    ],
+    status: 'combined'
+  },
+  {
+    id: 7,
+    name: 'puzzle7',
+    imgSrc: Puzzle7,
+    imgPosition: { left: '0px', top: '-27px' },
+    left: 0,
+    top: 360,
+    coordinate: [0, 2],
+    canMergeCoordinate: [
+      { direction: 'top', coordinate: [0, 1] },
+      { direction: 'right', coordinate: [1, 2] },
+      { direction: 'down', coordinate: [0, 3] },
+      { direction: 'left', coordinate: [-1, 2] },
+    ],
+    status: 'combined'
+  },
+  {
+    id: 8,
+    name: 'puzzle8',
+    imgSrc: Puzzle8,
+    imgPosition: { left: '-27px', top: '0px' },
+    left: 180,
+    top: 360,
+    coordinate: [1, 2],
+    canMergeCoordinate: [
+      { direction: 'top', coordinate: [1, 1] },
+      { direction: 'right', coordinate: [2, 2] },
+      { direction: 'down', coordinate: [1, 3] },
+      { direction: 'left', coordinate: [0, 2] },
+    ],
+    status: 'combined'
+  },
+  {
+    id: 9,
+    name: 'puzzle9',
+    imgSrc: Puzzle9,
+    imgPosition: { left: '0px', top: '-27px' },
+    left: 360,
+    top: 360,
+    coordinate: [2, 2],
+    canMergeCoordinate: [
+      { direction: 'top', coordinate: [2, 1] },
+      { direction: 'right', coordinate: [3, 2] },
+      { direction: 'down', coordinate: [2, 3] },
+      { direction: 'left', coordinate: [1, 2] },
+    ],
+    status: 'combined'
+  },
 ]
 
 

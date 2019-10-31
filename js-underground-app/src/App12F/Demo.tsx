@@ -2,6 +2,7 @@ import React, { useRef, RefObject, useEffect, useState } from 'react';
 import * as R from 'ramda';
 import StyledDemo from './DemoStyles';
 import PuzzlePiece from './PuzzlePiece';
+import PuzzlePieceSvg from './PuzzlePieceSvg';
 import ItemTypes from './ItemTypes';
 import { PuzzleItem } from './interface';
 import * as Utils from './utils';
@@ -13,6 +14,7 @@ const Demo: React.FC = () => {
   const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(defaultPuzzleList);
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number>(-1);
+  const [combinedList, setCombinedList] = useState<number[][][]>([[[0, 0], [1, 0], [0, 1]]]);
 
 
   // x: item左上角的x座標
@@ -88,7 +90,21 @@ const Demo: React.FC = () => {
 
   return (
     <StyledDemo style={{ position: 'relative', width: '100%', height: '100vh' }}>
-      {puzzleList.map(item => {
+      <svg width="100%" height="100%" style={{ backgroundColor: "lightyellow" }}>
+        {puzzleList.map(item => {
+          return (
+            <PuzzlePieceSvg
+              handleDrag={handleDrag}
+              handleDragStop={handleDragStop}
+              data={item}
+              key={item.id}
+              highlight={highlightList.includes(item.id)}
+              isActive={item.id === activePuzzleId}
+            />
+          )
+        })}
+      </svg>
+      {/* {puzzleList.map(item => {
         return (
           <PuzzlePiece
             handleDrag={handleDrag}
@@ -99,7 +115,7 @@ const Demo: React.FC = () => {
             isActive={item.id === activePuzzleId}
           />
         )
-      })}
+      })} */}
     </StyledDemo>
   );
 }

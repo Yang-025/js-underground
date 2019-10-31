@@ -9,6 +9,7 @@ interface IStyledPuzzlePiece {
 }
 
 const StyledPuzzlePiece = styled.div`
+  /* border: 1px solid red; */
   position: relative;
   /* background-color: red; */
   width: 180px;
