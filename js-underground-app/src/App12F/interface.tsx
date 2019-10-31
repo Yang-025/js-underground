@@ -1,6 +1,6 @@
 export interface MergeCoordinateItem {
   direction: string
-  coordinate: number[] 
+  coordinate: number[]
 }
 
 export interface PuzzleItem {
@@ -31,8 +31,8 @@ export interface ReferenceLine {
 
 
 export enum ELineDirection {
-  vertical="vertical",
-  horizontal="horizontal"
+  vertical = "vertical",
+  horizontal = "horizontal"
 }
 
 /* *********************** 參考線 END *********************** */
