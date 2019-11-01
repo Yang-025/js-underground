@@ -17,7 +17,7 @@ const Demo: React.FC = () => {
   const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(defaultPuzzleList);
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number>(-1);
-  const [combinedList, setCombinedList] = useState<{id: string, pieces: number[][]}[]>([
+  const [combinedList, setCombinedList] = useState<{ id: string, pieces: number[][] }[]>([
     {
       id: 'c1',
       pieces: [[0, 0], [1, 0], [0, 1]]
@@ -56,40 +56,33 @@ const Demo: React.FC = () => {
     setHighlightList(closerPuzzleList);
   }
 
-
-  function calcPosition(draggedItem: PuzzleItem, comparedItem: PuzzleItem) {
-    let newInfo = { ...draggedItem }
-    const canMergeCoordinateInfo = draggedItem.canMergeCoordinate.find(x => R.equals(x.coordinate, comparedItem.coordinate));
-    if (canMergeCoordinateInfo) {
-      if (canMergeCoordinateInfo.direction === 'right') {
-        newInfo = {
-          ...draggedItem,
-          left: comparedItem.left - PuzzleWidthInPx,
-          top: comparedItem.top,
-        }
-      } else {
-        console.log('TODO')
-      }
-    }
-    return newInfo;
-  }
-
   function handleDragStop() {
     if (isMoving) {
       setIsMoving(false);
     }
-    // TODO
-    // 如果有靠近的拼圖，就把他們拼再一起，並合成同一組，之後可以一起拖拉
-    // 假設可以和的item是[1,0]
-    // const someRes = [1, 0];
-    const someRes = [1, 0];
-    const puzzleItem = puzzleList.find((item: PuzzleItem) => item.id === activePuzzleId);
-    const someResPuzzleItem = puzzleList.find((item: PuzzleItem) => R.equals(item.coordinate, someRes));
-    if (puzzleItem && someResPuzzleItem) {
-      let calcRes = calcPosition(puzzleItem, someResPuzzleItem);
-      const updatedData = Utils.updateDataById(puzzleItem.id, calcRes, puzzleList);
+
+    const dragedItem = puzzleList.find((item: PuzzleItem) => item.id === activePuzzleId);
+    if (!dragedItem) {
+      return;
+    }
+    const closerItems = puzzleList.filter((item => highlightList.includes(item.id)));
+    if (closerItems.length === 1) {
+      let calcRes = Utils.calcPuzzlesPosition(dragedItem, closerItems[0]);
+      const updatedData = Utils.updateDataById(dragedItem.id, calcRes, puzzleList);
       setPuzzleList(updatedData);
     }
+
+
+    // closerItems.forEach()
+
+    // if (dragedItem && closerItems) {
+    //   let calcRes = calcPosition(dragedItem, closerItems);
+    //   const updatedData = Utils.updateDataById(dragedItem.id, calcRes, puzzleList);
+    //   setPuzzleList(updatedData);
+    // }
+
+
+
     setHighlightList([]);
     setActivePuzzleId(-1);
   }
@@ -102,7 +95,7 @@ const Demo: React.FC = () => {
       const target = puzzleItems.find(y => y.id === x.id)
       if (target) {
         return target
-      } 
+      }
       return x
     })
     setPuzzleList(updated);

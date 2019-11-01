@@ -98,10 +98,25 @@ function checkCloserPuzzle(id: number, puzzleList: PuzzleItem[]): number[] {
 
 // }
 
+/*
+draggedItem: 正在拖移的拼圖
+canSnapItem: 可以拼起來的拼圖
+*/
+function calcPuzzlesPosition(draggedItem: PuzzleItem, canSnapItem: PuzzleItem) {
+  let draggedItemCoordinate = draggedItem.coordinate;
+  let canSnapItemCoordinate = canSnapItem.coordinate;
+
+  return {
+    ...draggedItem,
+    left: canSnapItem.left - (canSnapItemCoordinate[0] - draggedItemCoordinate[0]) * PuzzleWidthInPx,
+    top: canSnapItem.top - (canSnapItemCoordinate[1] - draggedItemCoordinate[1]) * PuzzleHeightInPx
+  }
+}
+
 
 // 隨機產生某範圍內的數字
 function randomNumberInRange(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export { updateDataById, checkCloserPuzzle, randomNumberInRange };
+export { updateDataById, checkCloserPuzzle, randomNumberInRange, calcPuzzlesPosition };
