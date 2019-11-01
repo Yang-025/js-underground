@@ -7,7 +7,7 @@ import Puzzle6 from './assets/Puzzle-6.png';
 import Puzzle7 from './assets/Puzzle-7.png';
 import Puzzle8 from './assets/Puzzle-8.png';
 import Puzzle9 from './assets/Puzzle-9.png';
-
+import * as Utils from './utils';
 
 export const SnapThresholdInPx = 4;
 export const PuzzleWidthInPx = 180;
@@ -54,7 +54,15 @@ function genFefaultPuzzleList() {
   return res;
 }
 
-const defaultPuzzleList = genFefaultPuzzleList();
+
+const defaultPuzzleList = genFefaultPuzzleList().map(item => {
+  return {
+    ...item,
+    // TODO 可以拖拉的範圍要怎麼決定？ 
+    left: Utils.randomNumberInRange(0,1000),
+    top: Utils.randomNumberInRange(0,400),
+  }
+});
 
 
 export default defaultPuzzleList;

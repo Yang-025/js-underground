@@ -149,18 +149,6 @@ const Demo: React.FC = () => {
           )
         })}
       </svg>
-      {/* {puzzleList.map(item => {
-        return (
-          <PuzzlePiece
-            handleDrag={handleDrag}
-            handleDragStop={handleDragStop}
-            data={item}
-            key={item.id}
-            highlight={highlightList.includes(item.id)}
-            isActive={item.id === activePuzzleId}
-          />
-        )
-      })} */}
     </StyledDemo>
   );
 }

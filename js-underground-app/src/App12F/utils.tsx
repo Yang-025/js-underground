@@ -70,7 +70,13 @@ function checkCloser(id: number, puzzleList: PuzzleItem[]): number[] {
 
 
 // function dealSnapping(params:type) {
-  
+
 // }
 
-export { updateDataById, checkCloser };
+
+// 隨機產生某範圍內的數字
+function randomNumberInRange(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export { updateDataById, checkCloser, randomNumberInRange };
