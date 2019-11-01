@@ -11,7 +11,7 @@ function updateDataById<T>(id: number, newObj: T, currentData: T[]): Array<T> {
 
 
 // 如果有很靠近的item可以拼起來就回傳id
-function checkCloser(id: number, puzzleList: PuzzleItem[]): number[] {
+function checkCloserPuzzle(id: number, puzzleList: PuzzleItem[]): number[] {
   let res: number[] = [];
   // 每塊拼圖最多可以有四個鄰居。檢查四個鄰居有沒有接近的項目，有就放到list裡面
   const dragedItem = puzzleList.find(x => x.id === id);
@@ -79,4 +79,4 @@ function randomNumberInRange(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export { updateDataById, checkCloser, randomNumberInRange };
+export { updateDataById, checkCloserPuzzle, randomNumberInRange };

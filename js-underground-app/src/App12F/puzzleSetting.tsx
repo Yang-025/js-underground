@@ -29,7 +29,8 @@ function genFefaultPuzzleList() {
   }
 
   for (let x = 0; x < 3; x++) {
-    for (let y = 0; y < 3; y++) {
+    // TODO y先改成1做測試，記得改回3
+    for (let y = 0; y < 1; y++) {
       console.log(`id: ${x + y + 2 * y}, 座標: (${x}, ${y})`);
       const id = x + y + 2 * y;
       const info = {

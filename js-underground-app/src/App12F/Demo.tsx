@@ -31,13 +31,13 @@ const Demo: React.FC = () => {
     if (!isMoving) {
       setIsMoving(true);
     }
-    // 找到目前在drag的item
+    // 找到目前在drag的拼圖
     const selectedItem = puzzleList.find(item => item.id === id);
     if (!selectedItem) {
       return;
     }
 
-    // 更新目前在drag的item的座標
+    // 更新目前在drag的拼圖的座標
     const updatedData = Utils.updateDataById(
       selectedItem.id,
       {
@@ -48,10 +48,11 @@ const Demo: React.FC = () => {
       puzzleList);
     setPuzzleList(updatedData);
 
-    // set目前在drag的item
+    // 更新目前在drag的拼圖id
     setActivePuzzleId(id);
-    // 找出有沒有可以snap的拼圖
-    const closerItemList = Utils.checkCloser(id, puzzleList);
+
+    // 找出有沒有可以拼在一起的拼圖
+    const closerItemList = Utils.checkCloserPuzzle(id, puzzleList);
     setHighlightList(closerItemList);
   }
 
