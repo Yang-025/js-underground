@@ -8,14 +8,14 @@ import Puzzle7 from './assets/Puzzle-7.png';
 import Puzzle8 from './assets/Puzzle-8.png';
 import Puzzle9 from './assets/Puzzle-9.png';
 import * as Utils from './utils';
-
+import { PuzzleItem } from './interface';
 export const SnapThresholdInPx = 4;
 export const PuzzleWidthInPx = 180;
 export const PuzzleHeightInPx = 180;
 
 
 function genFefaultPuzzleList() {
-  let res = [];
+  let res: PuzzleItem[] = [];
   const imgMapping: { [key: number]: { imgSrc: string, imgPosition: { left: string, top: string } } } = {
     0: { imgSrc: Puzzle1, imgPosition: { left: '0px', top: '0px' } },
     1: { imgSrc: Puzzle2, imgPosition: { left: '-27px', top: '0px' } },
@@ -33,7 +33,7 @@ function genFefaultPuzzleList() {
     for (let y = 0; y < 1; y++) {
       console.log(`id: ${x + y + 2 * y}, 座標: (${x}, ${y})`);
       const id = x + y + 2 * y;
-      const info = {
+      const info: PuzzleItem = {
         id,
         name: `puzzle${id}`,
         imgSrc: imgMapping[id]['imgSrc'],

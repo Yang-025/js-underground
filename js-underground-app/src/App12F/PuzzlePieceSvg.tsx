@@ -32,7 +32,7 @@ const PuzzlePieceSvg: React.FC<IProps> = (props) => {
         position={{ x: puzzleData.left, y: puzzleData.top }}
       >
         <g>
-          <rect x={0} y={0} width={PuzzleWidthInPx} height={PuzzleHeightInPx} fill="transparent" stroke={isActive ? 'red' : 'transparent'} strokeWidth="2" />
+          <rect x={0} y={0} width={PuzzleWidthInPx} height={PuzzleHeightInPx} fill="transparent" stroke={highlight ? 'red' : 'transparent'} strokeWidth="3" />
           <image xlinkHref={puzzleData.imgSrc} x={puzzleData.imgPosition.left} y={puzzleData.imgPosition.top} />
         </g>
       </Draggable>

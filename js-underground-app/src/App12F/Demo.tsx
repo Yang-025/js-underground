@@ -52,8 +52,8 @@ const Demo: React.FC = () => {
     setActivePuzzleId(id);
 
     // 找出有沒有可以拼在一起的拼圖
-    const closerItemList = Utils.checkCloserPuzzle(id, puzzleList);
-    setHighlightList(closerItemList);
+    const closerPuzzleList = Utils.checkCloserPuzzle(id, puzzleList);
+    setHighlightList(closerPuzzleList);
   }
 
 
@@ -78,7 +78,6 @@ const Demo: React.FC = () => {
     if (isMoving) {
       setIsMoving(false);
     }
-    console.log('highlightList', highlightList);
     // TODO
     // 如果有靠近的拼圖，就把他們拼再一起，並合成同一組，之後可以一起拖拉
     // 假設可以和的item是[1,0]
