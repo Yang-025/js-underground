@@ -2,7 +2,7 @@ import React, { Fragment, useRef, RefObject, useEffect, useState } from 'react';
 // import Draggable from './Draggable';
 import Draggable, { DraggableCore } from "react-draggable";
 import * as R from "ramda";
-
+import * as Utils from './utils';
 
 import { PuzzleItem } from './interface';
 import { StyledPuzzlePiece, StyledLine } from './Styles';
@@ -13,43 +13,15 @@ interface IProps {
   id: string,
   data: PuzzleItem[],
   combinedPointList: number[][],
-  // handleDrag: ICombinedItemsHandleDrag
   handleDrag: (puzzleItems: PuzzleItem[]) => void
   handleDragStop: () => void
-}
-
-
-function findLeftTopBaseItem(combinedPointList: number[][]) {
-  // 找到最左上角的項目
-  const baseLeftItem = combinedPointList.reduce((prev: number[] | null, curr: number[]) => {
-    if (prev === null) {
-      return curr;
-    }
-    const [prevX, prevY] = prev;
-    const [currX, currY] = curr;
-    // TODO 這裡應該有更好的判斷
-    // 如果x,y都小，那就是最小
-    if (prevX < currX && prevY < currY) {
-      return prev;
-    }
-    // 如果x軸一樣，y小的為最小
-    if (prevX === currX && prevY < currY) {
-      return prev;
-    }
-    // 如果y軸一樣，x小的為最小
-    if (prevY === currY && prevX < currX) {
-      return prev;
-    }
-    return curr;
-  }, null);
-  return baseLeftItem;
 }
 
 
 const CombinedPuzzlePieceSvg: React.FC<IProps> = (props) => {
   const { id, data: combinedData, combinedPointList, handleDrag, handleDragStop } = props;
   // 找到最左上角的項目，以此項目作為參考點計算座標
-  const baseLeftItem = findLeftTopBaseItem(combinedPointList);
+  const baseLeftItem = Utils.findLeftTopBaseItem(combinedPointList);
   if (!baseLeftItem) {
     console.log('error');
     return <div />;
@@ -66,7 +38,7 @@ const CombinedPuzzlePieceSvg: React.FC<IProps> = (props) => {
         onDrag={(event, data) => {
           // 不要在bubble去拖拉事件了
           event.preventDefault();
-          const baseLeftItem = findLeftTopBaseItem(combinedPointList);
+          const baseLeftItem = Utils.findLeftTopBaseItem(combinedPointList);
           if (!baseLeftItem) {
             return;
           }

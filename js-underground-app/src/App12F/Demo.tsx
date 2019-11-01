@@ -72,16 +72,14 @@ const Demo: React.FC = () => {
       setPuzzleList(updatedData);
     }
 
-
-    // closerItems.forEach()
-
-    // if (dragedItem && closerItems) {
-    //   let calcRes = calcPosition(dragedItem, closerItems);
-    //   const updatedData = Utils.updateDataById(dragedItem.id, calcRes, puzzleList);
-    //   setPuzzleList(updatedData);
-    // }
-
-
+    // TODO 以最左邊的item為基準點，去調整其他的拼圖位置
+    console.log('closerItems', closerItems);
+    if (closerItems.length >= 1) {
+      let calcRes = Utils.calcPuzzlesPosition(dragedItem, closerItems[0]);
+      const updatedData = Utils.updateDataById(dragedItem.id, calcRes, puzzleList);
+      setPuzzleList(updatedData);
+      // TODO setCombinedList
+    }
 
     setHighlightList([]);
     setActivePuzzleId(-1);
@@ -109,7 +107,7 @@ const Demo: React.FC = () => {
   return (
     <StyledDemo style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <svg width="100%" height="100%" style={{ backgroundColor: "lightyellow" }}>
-        {/* {
+        {
           combinedList.map((items) => {
             return (
               <CombinedPuzzlePieceSvg
@@ -119,17 +117,15 @@ const Demo: React.FC = () => {
                 data={puzzleList.filter(x => {
                   return items.pieces.find(y => R.equals(x.coordinate, y));
                 })}
-                // TODO 怎麼套成ICombinedItemsHandleDrag
                 handleDrag={handleCombinedDrag}
                 handleDragStop={() => {
-                  console.log('[combinedList]handleDragStop');
                   handleCombinedDragStop();
                 }}
               />
             )
           })
-        } */}
-        {puzzleList.map(item => {
+        }
+        {/* {puzzleList.map(item => {
           return (
             <PuzzlePieceSvg
               handleDrag={handleDrag}
@@ -140,7 +136,7 @@ const Demo: React.FC = () => {
               isActive={item.id === activePuzzleId}
             />
           )
-        })}
+        })} */}
       </svg>
     </StyledDemo>
   );

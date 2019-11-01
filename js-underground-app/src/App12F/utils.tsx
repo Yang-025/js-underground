@@ -1,7 +1,6 @@
 import * as R from 'ramda';
 import { PuzzleItem } from './interface';
 import { SnapThresholdInPx, PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSetting';
-import { func, number } from 'prop-types';
 
 
 function updateDataById<T>(id: number, newObj: T, currentData: T[]): Array<T> {
@@ -94,9 +93,6 @@ function checkCloserPuzzle(id: number, puzzleList: PuzzleItem[]): number[] {
 }
 
 
-// function dealSnapping(params:type) {
-
-// }
 
 /*
 draggedItem: 正在拖移的拼圖
@@ -119,4 +115,39 @@ function randomNumberInRange(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export { updateDataById, checkCloserPuzzle, randomNumberInRange, calcPuzzlesPosition };
+
+
+function findLeftTopBaseItem(combinedPointList: number[][]) {
+  // 找到最左上角的項目
+  const baseLeftItem = combinedPointList.reduce((prev: number[] | null, curr: number[]) => {
+    if (prev === null) {
+      return curr;
+    }
+    const [prevX, prevY] = prev;
+    const [currX, currY] = curr;
+    // TODO 這裡應該有更好的判斷
+    // 如果x,y都小，那就是最小
+    if (prevX < currX && prevY < currY) {
+      return prev;
+    }
+    // 如果x軸一樣，y小的為最小
+    if (prevX === currX && prevY < currY) {
+      return prev;
+    }
+    // 如果y軸一樣，x小的為最小
+    if (prevY === currY && prevX < currX) {
+      return prev;
+    }
+    return curr;
+  }, null);
+  return baseLeftItem;
+}
+
+
+export { 
+  updateDataById, 
+  checkCloserPuzzle, 
+  randomNumberInRange, 
+  calcPuzzlesPosition,
+  findLeftTopBaseItem 
+};
