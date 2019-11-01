@@ -144,10 +144,42 @@ function findLeftTopBaseItem(combinedPointList: number[][]) {
 }
 
 
+/*
+以左上角的拼圖為基準，重新安排大家的座標
+basePointId: 左上角的拼圖的id,
+puzzleData: 需要重新安排座標的拼圖們
+x: 左上角的拼圖的x位置
+y: 左上角的拼圖的y位置
+*/
+function reArrangePuzzlePosition(basePointId: number, puzzleData: PuzzleItem[], x: number, y: number) {
+  const baseData = puzzleData.find(i => i.id === basePointId);
+  if (!baseData) {
+    return;
+  }
+  const updatedData = puzzleData.map((datum) => {
+    // 如果是基準座標
+    if (R.equals(datum.coordinate, baseData.coordinate)) {
+      return {
+        ...datum,
+        left: x,
+        top: y
+      }
+    } else {
+      return {
+        ...datum,
+        left: x + (datum.coordinate[0] - baseData.coordinate[0]) * PuzzleWidthInPx,
+        top: y + (datum.coordinate[1] - baseData.coordinate[1]) * PuzzleHeightInPx
+      }
+    }
+  });
+  return updatedData;
+}
+
 export { 
   updateDataById, 
   checkCloserPuzzle, 
   randomNumberInRange, 
   calcPuzzlesPosition,
-  findLeftTopBaseItem 
+  findLeftTopBaseItem,
+  reArrangePuzzlePosition 
 };

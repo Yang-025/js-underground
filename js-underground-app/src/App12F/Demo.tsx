@@ -17,10 +17,11 @@ const Demo: React.FC = () => {
   const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(defaultPuzzleList);
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number>(-1);
-  const [combinedList, setCombinedList] = useState<{ id: string, pieces: number[][] }[]>([
+  const [combinedList, setCombinedList] = useState<{ id: string, pieces: number[] }[]>([
     {
       id: 'c1',
-      pieces: [[0, 0], [1, 0], [0, 1]]
+      // pieces: [[0, 0], [1, 0], [0, 1]],
+      pieces: [0, 1, 3],
     }
   ]);
 
@@ -88,7 +89,7 @@ const Demo: React.FC = () => {
 
   function handleCombinedDrag(puzzleItems: PuzzleItem[]) {
     // TODO isMoving要吃list
-    console.log('[combinedList]handleDrag');
+    console.log('[handleCombinedDrag]handleDrag');
     let updated = puzzleList.map(x => {
       const target = puzzleItems.find(y => y.id === x.id)
       if (target) {
@@ -115,7 +116,7 @@ const Demo: React.FC = () => {
                 id={items.id}
                 combinedPointList={items.pieces}
                 data={puzzleList.filter(x => {
-                  return items.pieces.find(y => R.equals(x.coordinate, y));
+                  return items.pieces.includes(x.id);
                 })}
                 handleDrag={handleCombinedDrag}
                 handleDragStop={() => {
