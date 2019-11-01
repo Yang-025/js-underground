@@ -14,152 +14,47 @@ export const PuzzleWidthInPx = 180;
 export const PuzzleHeightInPx = 180;
 
 
-const defaultPuzzleList = [
-  {
-    id: 1,
-    name: 'puzzle1',
-    imgSrc: Puzzle1,
-    imgPosition: { left: '0px', top: '0px' },
-    left: 0,
-    top: 0,
-    coordinate: [0, 0],
-    canMergeCoordinate: [
-      { direction: 'top', coordinate: [0, -1] },
-      { direction: 'right', coordinate: [1, 0] },
-      { direction: 'down', coordinate: [0, 1] },
-      { direction: 'left', coordinate: [-1, 0] },
-    ],
-    status: 'combined'
-  },
-  {
-    id: 2,
-    name: 'puzzle2',
-    imgSrc: Puzzle2,
-    imgPosition: { left: '-27px', top: '0px' },
-    left: 180,
-    top: 0,
-    coordinate: [1, 0],
-    canMergeCoordinate: [
-      { direction: 'top', coordinate: [1, -1] },
-      { direction: 'right', coordinate: [2, 0] },
-      { direction: 'down', coordinate: [1, 1] },
-      { direction: 'left', coordinate: [0, 0] },
-    ],
-    status: 'combined'
-  },
-  {
-    id: 3,
-    name: 'puzzle3',
-    imgSrc: Puzzle3,
-    imgPosition: { left: '0px', top: '0px' },
-    left: 360,
-    top: 0,
-    coordinate: [2, 0],
-    canMergeCoordinate: [
-      { direction: 'top', coordinate: [2, -1] },
-      { direction: 'right', coordinate: [3, 0] },
-      { direction: 'down', coordinate: [2, 1] },
-      { direction: 'left', coordinate: [1, 0] },
-    ],
-    status: 'combined'
-  },
-  {
-    id: 4,
-    name: 'puzzle4',
-    imgSrc: Puzzle4,
-    imgPosition: { left: '0px', top: '0px' },
-    left: 0,
-    top: 180,
-    coordinate: [0, 1],
-    canMergeCoordinate: [
-      { direction: 'top', coordinate: [0, 0] },
-      { direction: 'right', coordinate: [1, 1] },
-      { direction: 'down', coordinate: [0, 2] },
-      { direction: 'left', coordinate: [-1, 1] },
-    ],
-    status: 'combined'
-  },
-  {
-    id: 5,
-    name: 'puzzle5',
-    imgSrc: Puzzle5,
-    imgPosition: { left: '0px', top: '-27px' },
-    left: 180,
-    top: 180,
-    coordinate: [1, 1],
-    canMergeCoordinate: [
-      { direction: 'top', coordinate: [1, 0] },
-      { direction: 'right', coordinate: [2, 1] },
-      { direction: 'down', coordinate: [1, 2] },
-      { direction: 'left', coordinate: [0, 1] },
-    ],
-    status: 'combined'
-  },
-  {
-    id: 6,
-    name: 'puzzle6',
-    imgSrc: Puzzle6,
-    imgPosition: { left: '-27px', top: '0px' },
-    left: 360,
-    top: 180,
-    coordinate: [2, 1],
-    canMergeCoordinate: [
-      { direction: 'top', coordinate: [2, 0] },
-      { direction: 'right', coordinate: [3, 1] },
-      { direction: 'down', coordinate: [2, 2] },
-      { direction: 'left', coordinate: [1, 1] },
-    ],
-    status: 'combined'
-  },
-  {
-    id: 7,
-    name: 'puzzle7',
-    imgSrc: Puzzle7,
-    imgPosition: { left: '0px', top: '-27px' },
-    left: 0,
-    top: 360,
-    coordinate: [0, 2],
-    canMergeCoordinate: [
-      { direction: 'top', coordinate: [0, 1] },
-      { direction: 'right', coordinate: [1, 2] },
-      { direction: 'down', coordinate: [0, 3] },
-      { direction: 'left', coordinate: [-1, 2] },
-    ],
-    status: 'combined'
-  },
-  {
-    id: 8,
-    name: 'puzzle8',
-    imgSrc: Puzzle8,
-    imgPosition: { left: '-27px', top: '0px' },
-    left: 180,
-    top: 360,
-    coordinate: [1, 2],
-    canMergeCoordinate: [
-      { direction: 'top', coordinate: [1, 1] },
-      { direction: 'right', coordinate: [2, 2] },
-      { direction: 'down', coordinate: [1, 3] },
-      { direction: 'left', coordinate: [0, 2] },
-    ],
-    status: 'combined'
-  },
-  {
-    id: 9,
-    name: 'puzzle9',
-    imgSrc: Puzzle9,
-    imgPosition: { left: '0px', top: '-27px' },
-    left: 360,
-    top: 360,
-    coordinate: [2, 2],
-    canMergeCoordinate: [
-      { direction: 'top', coordinate: [2, 1] },
-      { direction: 'right', coordinate: [3, 2] },
-      { direction: 'down', coordinate: [2, 3] },
-      { direction: 'left', coordinate: [1, 2] },
-    ],
-    status: 'combined'
-  },
-]
+function genFefaultPuzzleList() {
+  let res = [];
+  const imgMapping: { [key: number]: { imgSrc: string, imgPosition: { left: string, top: string } } } = {
+    0: { imgSrc: Puzzle1, imgPosition: { left: '0px', top: '0px' } },
+    1: { imgSrc: Puzzle2, imgPosition: { left: '-27px', top: '0px' } },
+    2: { imgSrc: Puzzle3, imgPosition: { left: '0px', top: '0px' } },
+    3: { imgSrc: Puzzle4, imgPosition: { left: '0px', top: '0px' } },
+    4: { imgSrc: Puzzle5, imgPosition: { left: '0px', top: '-27px' } },
+    5: { imgSrc: Puzzle6, imgPosition: { left: '-27px', top: '0px' } },
+    6: { imgSrc: Puzzle7, imgPosition: { left: '0px', top: '-27px' } },
+    7: { imgSrc: Puzzle8, imgPosition: { left: '-27px', top: '0px' } },
+    8: { imgSrc: Puzzle9, imgPosition: { left: '0px', top: '-27px' } },
+  }
+
+  for (let x = 0; x < 3; x++) {
+    for (let y = 0; y < 3; y++) {
+      console.log(`id: ${x + y + 2 * y}, 座標: (${x}, ${y})`);
+      const id = x + y + 2 * y;
+      const info = {
+        id,
+        name: `puzzle${id}`,
+        imgSrc: imgMapping[id]['imgSrc'],
+        imgPosition: imgMapping[id]['imgPosition'],
+        left: 0 + x * PuzzleWidthInPx,
+        top: 0 + y * PuzzleHeightInPx,
+        coordinate: [x, y],
+        canMergeCoordinate: [
+          { direction: 'top', coordinate: [x, y - 1] },
+          { direction: 'right', coordinate: [x + 1, y] },
+          { direction: 'down', coordinate: [x, y + 1] },
+          { direction: 'left', coordinate: [x - 1, y] },
+        ],
+        status: 'combined'
+      }
+      res.push(info);
+    }
+  }
+  return res;
+}
+
+const defaultPuzzleList = genFefaultPuzzleList();
 
 
 export default defaultPuzzleList;

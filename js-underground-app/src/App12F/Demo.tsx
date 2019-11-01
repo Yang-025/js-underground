@@ -116,7 +116,7 @@ const Demo: React.FC = () => {
   return (
     <StyledDemo style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <svg width="100%" height="100%" style={{ backgroundColor: "lightyellow" }}>
-        {
+        {/* {
           combinedList.map((items) => {
             return (
               <CombinedPuzzlePieceSvg
@@ -135,19 +135,8 @@ const Demo: React.FC = () => {
               />
             )
           })
-        }
-        {/* <CombinedPuzzlePieceSvg
-          // TODO 1,2,4從何而來
-          // combinedList={puzzleList.filter(x => [1,2,4].includes(x.id))} 
-          combinedList={puzzleList.filter(x => [1, 2, 4].includes(x.id))}
-          handleDrag={() => {
-            console.log('handleDrag', handleDrag);
-          }}
-          handleDragStop={() => {
-            console.log('handleDragStop', handleDragStop);
-          }}
-        /> */}
-        {/* {puzzleList.map(item => {
+        } */}
+        {puzzleList.map(item => {
           return (
             <PuzzlePieceSvg
               handleDrag={handleDrag}
@@ -158,7 +147,7 @@ const Demo: React.FC = () => {
               isActive={item.id === activePuzzleId}
             />
           )
-        })} */}
+        })}
       </svg>
       {/* {puzzleList.map(item => {
         return (
