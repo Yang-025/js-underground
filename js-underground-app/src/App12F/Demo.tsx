@@ -66,30 +66,12 @@ const Demo: React.FC = () => {
       return;
     }
 
-    // 兩個拼圖相拼
+
     const closerItems = puzzleList.filter((item => highlightList.includes(item.id)));
-    if (closerItems.length === 1) {
-      let calcRes = Utils.calcPuzzlesPosition(dragedItem, closerItems[0]);
-      const updatedData = Utils.updateDataById(dragedItem.id, calcRes, puzzleList);
-      setPuzzleList(updatedData);
-    }
+    let updatedData = Utils.handleSnapPuzzle(closerItems, puzzleList, dragedItem);
+    setPuzzleList(updatedData);
 
-    // 以最左邊的item為基準點，去調整其他的拼圖位置
-    console.log('可以組隊的拼圖', closerItems);
-
-    // 兩個以上的拼圖相拼
-    if (closerItems.length > 1) {
-      // 找出左上角的拼圖id
-      let leftTopPuzzleId = Math.min(...[dragedItem.id, ...closerItems.map(i => i.id)]);
-      let leftTopPuzzle = puzzleList.find(i => i.id === leftTopPuzzleId)!;
-      const updatedData = Utils.reArrangePuzzlePosition(leftTopPuzzleId, puzzleList, leftTopPuzzle.left, leftTopPuzzle.top);
-      if (updatedData) {
-        setPuzzleList(updatedData);
-      }
-
-      // TODO setCombinedList
-    }
-
+    // TODO setCombinedList
     setHighlightList([]);
     setActivePuzzleId(-1);
   }

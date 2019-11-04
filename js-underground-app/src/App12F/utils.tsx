@@ -111,6 +111,35 @@ function calcPuzzlesPosition(draggedItem: PuzzleItem, canSnapItem: PuzzleItem) {
 }
 
 
+/**
+ * handle 拼起來的動作
+ * closerItems: 可以組隊的拼圖
+ * puzzleList: 所有拼圖資訊
+ * dragedItem: 目前被移動的拼圖
+ */
+function handleSnapPuzzle(closerItems: PuzzleItem[], puzzleList: PuzzleItem[], dragedItem: PuzzleItem): PuzzleItem[] {
+  // 兩個拼圖相拼
+  if (closerItems.length === 1) {
+    let calcRes = calcPuzzlesPosition(dragedItem, closerItems[0]);
+    const updatedData = updateDataById(dragedItem.id, calcRes, puzzleList);
+    return updatedData;
+  }
+
+  // 兩個以上的拼圖相拼，以最左邊的item為基準點，去調整其他的拼圖位置
+  if (closerItems.length > 1) {
+    // 找出左上角的拼圖id
+    let leftTopPuzzleId = Math.min(...[dragedItem.id, ...closerItems.map(i => i.id)]);
+    let leftTopPuzzle = puzzleList.find(i => i.id === leftTopPuzzleId)!;
+    const updatedData = reArrangePuzzlePosition(leftTopPuzzleId, puzzleList, leftTopPuzzle.left, leftTopPuzzle.top);
+    if (updatedData) {
+      return updatedData;
+    }
+  }
+
+  return puzzleList;
+}
+
+
 // 隨機產生某範圍內的數字
 function randomNumberInRange(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -176,11 +205,12 @@ function reArrangePuzzlePosition(basePointId: number, puzzleData: PuzzleItem[], 
   return updatedData;
 }
 
-export { 
-  updateDataById, 
-  checkCloserPuzzle, 
-  randomNumberInRange, 
+export {
+  updateDataById,
+  checkCloserPuzzle,
+  randomNumberInRange,
   calcPuzzlesPosition,
   findLeftTopBaseItem,
-  reArrangePuzzlePosition 
+  reArrangePuzzlePosition,
+  handleSnapPuzzle
 };
