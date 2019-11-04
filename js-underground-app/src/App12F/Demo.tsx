@@ -5,7 +5,7 @@ import PuzzlePiece from './PuzzlePiece';
 import PuzzlePieceSvg from './PuzzlePieceSvg';
 import CombinedPuzzlePieceSvg from './CombinedPuzzlePieceSvg';
 import ItemTypes from './ItemTypes';
-import { PuzzleItem } from './interface';
+import { PuzzleItem, CombinedList } from './interface';
 import * as Utils from './utils';
 import defaultPuzzleList, { PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSetting';
 import Draggable, { DraggableCore } from "react-draggable";
@@ -17,12 +17,11 @@ const Demo: React.FC = () => {
   const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(defaultPuzzleList);
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number>(-1);
-  const [combinedList, setCombinedList] = useState<{ id: string, pieces: number[] }[]>([
-    {
-      id: 'c1',
-      // pieces: [[0, 0], [1, 0], [0, 1]],
-      pieces: [0, 1, 3],
-    }
+  const [combinedList, setCombinedList] = useState<CombinedList[]>([
+    // {
+    //   id: 'c1',
+    //   pieces: [0, 1, 3],
+    // }
   ]);
 
 
@@ -68,10 +67,21 @@ const Demo: React.FC = () => {
 
 
     const closerItems = puzzleList.filter((item => highlightList.includes(item.id)));
-    let updatedData = Utils.handleSnapPuzzle(closerItems, puzzleList, dragedItem);
-    setPuzzleList(updatedData);
+    if (closerItems.length > 0) {
+      console.log('closerItems', closerItems);
+      let tmpUpdatedData = Utils.handleSnapPuzzle(closerItems, puzzleList, dragedItem);
+      // setPuzzleList(updatedData);
 
-    // TODO setCombinedList
+      // TODO setCombinedList
+      // TODO 組合完座標可能會改變(一群一群的結合，要再找出新的左上角，從新分配所有座標)
+      let updatedData = Utils.handleCombinedList(combinedList, tmpUpdatedData, [dragedItem.id, ...closerItems.map(x => x.id)]);
+      console.log('newData', updatedData);
+      const { combineList: updatedCombineList, puzzleList: updatedPuzzleList } = updatedData;
+      setCombinedList(updatedCombineList);
+      setPuzzleList(updatedPuzzleList);
+    }
+
+
     setHighlightList([]);
     setActivePuzzleId(-1);
   }
@@ -97,7 +107,7 @@ const Demo: React.FC = () => {
   return (
     <StyledDemo style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <svg width="100%" height="100%" style={{ backgroundColor: "lightyellow" }}>
-        {/* {
+        {
           combinedList.map((items) => {
             return (
               <CombinedPuzzlePieceSvg
@@ -114,8 +124,8 @@ const Demo: React.FC = () => {
               />
             )
           })
-        } */}
-        {puzzleList.map(item => {
+        }
+        {puzzleList.filter(i => !combinedList.find(j => j.pieces.includes(i.id))).map(item => {
           return (
             <PuzzlePieceSvg
               handleDrag={handleDrag}

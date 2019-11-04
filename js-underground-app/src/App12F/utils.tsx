@@ -1,6 +1,8 @@
 import * as R from 'ramda';
-import { PuzzleItem } from './interface';
+import uuid from 'uuid';
+import { PuzzleItem, CombinedList } from './interface';
 import { SnapThresholdInPx, PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSetting';
+import * as Utils2 from './utils2';
 
 
 function updateDataById<T>(id: number, newObj: T, currentData: T[]): Array<T> {
@@ -116,10 +118,12 @@ function calcPuzzlesPosition(draggedItem: PuzzleItem, canSnapItem: PuzzleItem) {
  * closerItems: 可以組隊的拼圖
  * puzzleList: 所有拼圖資訊
  * dragedItem: 目前被移動的拼圖
+ * 回傳更新座標的puzzleList
  */
 function handleSnapPuzzle(closerItems: PuzzleItem[], puzzleList: PuzzleItem[], dragedItem: PuzzleItem): PuzzleItem[] {
   // 兩個拼圖相拼
   if (closerItems.length === 1) {
+    console.log('>>>>>>>>>>')
     let calcRes = calcPuzzlesPosition(dragedItem, closerItems[0]);
     const updatedData = updateDataById(dragedItem.id, calcRes, puzzleList);
     return updatedData;
@@ -127,16 +131,83 @@ function handleSnapPuzzle(closerItems: PuzzleItem[], puzzleList: PuzzleItem[], d
 
   // 兩個以上的拼圖相拼，以最左邊的item為基準點，去調整其他的拼圖位置
   if (closerItems.length > 1) {
+    console.log('>>>>>>>>>><<<<<<<<<<<<')
     // 找出左上角的拼圖id
     let leftTopPuzzleId = Math.min(...[dragedItem.id, ...closerItems.map(i => i.id)]);
     let leftTopPuzzle = puzzleList.find(i => i.id === leftTopPuzzleId)!;
-    const updatedData = reArrangePuzzlePosition(leftTopPuzzleId, puzzleList, leftTopPuzzle.left, leftTopPuzzle.top);
+    let neighborPuzzles = puzzleList.filter(i => [dragedItem.id, ...closerItems.map(i => i.id)].includes(i.id));
+    const updatedData = reArrangePuzzlePosition(leftTopPuzzleId, neighborPuzzles, leftTopPuzzle.left, leftTopPuzzle.top);
     if (updatedData) {
-      return updatedData;
+      console.log('>>>>>>>>>>########<<<<<<<<<<<<', updatedData);
+      // return updatedData;
+      return puzzleList.map(x => {
+        if (updatedData.map(i => i.id).includes(x.id)) {
+          return updatedData.find(j => j.id === x.id)!;
+        }
+        return x;
+      })
     }
   }
 
   return puzzleList;
+}
+
+
+
+function handleCombinedList(currentCombinedList: CombinedList[], puzzleList: PuzzleItem[], combinedIdList: number[]) {
+  // Step1.如果有一樣的id，就結成同一組
+  const hasIntersection = currentCombinedList.find(item => R.intersection(item.pieces, combinedIdList).length > 0);
+  let tmpCombinedList = [];
+  if (hasIntersection) {
+    tmpCombinedList = currentCombinedList.map(item => {
+      if (item.id === hasIntersection.id) {
+        return {
+          ...item,
+          pieces: R.union(hasIntersection.pieces, combinedIdList).sort()
+        }
+      } else {
+        return item;
+      }
+    })
+  } else {
+    // 否則，就增加一組
+    tmpCombinedList = [
+      ...currentCombinedList,
+      {
+        id: uuid.v4(),
+        pieces: combinedIdList.sort()
+      }
+    ]
+  }
+
+
+  // Step2. 如果是上下左右的關係，就結成同一組
+  let finalCombinedList = Utils2.findNeighborInCombinedList(tmpCombinedList, puzzleList);
+  console.log('LLLL', finalCombinedList);
+  // Step3. 重算座標
+  let finalPuzzleList = finalCombinedList.reduce(
+    (prev: PuzzleItem[], curr: CombinedList) => {
+      // 找出左上角的拼圖id
+      let leftTopPuzzleId = Math.min(...curr.pieces);
+      let leftTopPuzzle = prev.find(i => i.id === leftTopPuzzleId)!;
+      let neighborPuzzles = prev.filter(i => curr.pieces.includes(i.id));
+      const updatedData = reArrangePuzzlePosition(leftTopPuzzleId, neighborPuzzles, leftTopPuzzle.left, leftTopPuzzle.top);
+      console.log('updatedData', updatedData);
+      if (updatedData) {
+        // TODO 這邊可以更簡單嗎
+        return prev.map(x => {
+          if (updatedData.map(i => i.id).includes(x.id)) {
+            return updatedData.find(j => j.id === x.id)!;
+          }
+          return x;
+        })
+      }
+      return prev;
+    }, puzzleList);
+  return {
+    combineList: finalCombinedList,
+    puzzleList: finalPuzzleList
+  }
 }
 
 
@@ -212,5 +283,6 @@ export {
   calcPuzzlesPosition,
   findLeftTopBaseItem,
   reArrangePuzzlePosition,
-  handleSnapPuzzle
+  handleSnapPuzzle,
+  handleCombinedList
 };

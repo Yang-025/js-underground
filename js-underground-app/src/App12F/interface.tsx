@@ -19,6 +19,10 @@ export interface PuzzleItem {
   status: string
 }
 
+export interface CombinedList {
+  id: string
+  pieces: number[]
+}
 
 
 /* *********************** 參考線 *********************** */
