@@ -5,7 +5,7 @@ import { SnapThresholdInPx, PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSe
 
 function updateDataById<T>(id: number, newObj: T, currentData: T[]): Array<T> {
   return R.map(
-    R.when(R.propEq('id', id), () => { return newObj; }),
+    R.when(R.propEq('id', id), () => newObj),
     currentData);
 }
 
@@ -98,6 +98,7 @@ function checkCloserPuzzle(id: number, puzzleList: PuzzleItem[]): number[] {
 draggedItem: 正在拖移的拼圖
 canSnapItem: 可以拼起來的拼圖
 */
+// TODO 沒有考慮方向性，上下或左右??
 function calcPuzzlesPosition(draggedItem: PuzzleItem, canSnapItem: PuzzleItem) {
   let draggedItemCoordinate = draggedItem.coordinate;
   let canSnapItemCoordinate = canSnapItem.coordinate;
@@ -105,7 +106,7 @@ function calcPuzzlesPosition(draggedItem: PuzzleItem, canSnapItem: PuzzleItem) {
   return {
     ...draggedItem,
     left: canSnapItem.left - (canSnapItemCoordinate[0] - draggedItemCoordinate[0]) * PuzzleWidthInPx,
-    top: canSnapItem.top - (canSnapItemCoordinate[1] - draggedItemCoordinate[1]) * PuzzleHeightInPx
+    top: canSnapItem.top - (canSnapItemCoordinate[1] - draggedItemCoordinate[1]) * PuzzleHeightInPx,
   }
 }
 

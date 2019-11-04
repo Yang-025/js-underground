@@ -61,11 +61,12 @@ const Demo: React.FC = () => {
     if (isMoving) {
       setIsMoving(false);
     }
-
     const dragedItem = puzzleList.find((item: PuzzleItem) => item.id === activePuzzleId);
     if (!dragedItem) {
       return;
     }
+
+    // 兩個拼圖相拼
     const closerItems = puzzleList.filter((item => highlightList.includes(item.id)));
     if (closerItems.length === 1) {
       let calcRes = Utils.calcPuzzlesPosition(dragedItem, closerItems[0]);
@@ -73,12 +74,19 @@ const Demo: React.FC = () => {
       setPuzzleList(updatedData);
     }
 
-    // TODO 以最左邊的item為基準點，去調整其他的拼圖位置
-    console.log('closerItems', closerItems);
-    if (closerItems.length >= 1) {
-      let calcRes = Utils.calcPuzzlesPosition(dragedItem, closerItems[0]);
-      const updatedData = Utils.updateDataById(dragedItem.id, calcRes, puzzleList);
-      setPuzzleList(updatedData);
+    // 以最左邊的item為基準點，去調整其他的拼圖位置
+    console.log('可以組隊的拼圖', closerItems);
+
+    // 兩個以上的拼圖相拼
+    if (closerItems.length > 1) {
+      // 找出左上角的拼圖id
+      let leftTopPuzzleId = Math.min(...[dragedItem.id, ...closerItems.map(i => i.id)]);
+      let leftTopPuzzle = puzzleList.find(i => i.id === leftTopPuzzleId)!;
+      const updatedData = Utils.reArrangePuzzlePosition(leftTopPuzzleId, puzzleList, leftTopPuzzle.left, leftTopPuzzle.top);
+      if (updatedData) {
+        setPuzzleList(updatedData);
+      }
+
       // TODO setCombinedList
     }
 
@@ -104,11 +112,10 @@ const Demo: React.FC = () => {
     // TODO isMoving要吃list
   }
 
-
   return (
     <StyledDemo style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <svg width="100%" height="100%" style={{ backgroundColor: "lightyellow" }}>
-        {
+        {/* {
           combinedList.map((items) => {
             return (
               <CombinedPuzzlePieceSvg
@@ -125,8 +132,8 @@ const Demo: React.FC = () => {
               />
             )
           })
-        }
-        {/* {puzzleList.map(item => {
+        } */}
+        {puzzleList.map(item => {
           return (
             <PuzzlePieceSvg
               handleDrag={handleDrag}
@@ -137,7 +144,7 @@ const Demo: React.FC = () => {
               isActive={item.id === activePuzzleId}
             />
           )
-        })} */}
+        })}
       </svg>
     </StyledDemo>
   );
