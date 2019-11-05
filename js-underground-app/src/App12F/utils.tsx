@@ -209,6 +209,12 @@ function handleSnapPuzzle(closerItems: PuzzleItem[], puzzleList: PuzzleItem[], d
 
 
 
+/**
+ * 更新組隊資訊和拼圖資訊
+ * @param currentCombinedList 已經組隊的拼圖資訊
+ * @param puzzleList 所有拼圖物件
+ * @param combinedIdList 正要組隊的ld list
+ */
 function handleCombinedList(currentCombinedList: CombinedList[], puzzleList: PuzzleItem[], combinedIdList: number[]) {
   // Step1.如果有一樣的id，就結成同一組
   const hasIntersection = currentCombinedList.find(item => R.intersection(item.pieces, combinedIdList).length > 0);
@@ -239,7 +245,7 @@ function handleCombinedList(currentCombinedList: CombinedList[], puzzleList: Puz
   // Step2. 如果是上下左右的關係，就結成同一組
   let finalCombinedList = Utils2.findNeighborInCombinedList(tmpCombinedList, puzzleList);
 
-  // Step3. 重算座標
+  // Step3. 重算座標。組合完座標可能會改變(一群一群的結合，要再找出新的左上角，從新分配所有座標)
   let finalPuzzleList = finalCombinedList.reduce(
     (prev: PuzzleItem[], curr: CombinedList) => {
       // 找出左上角的拼圖id
@@ -250,6 +256,7 @@ function handleCombinedList(currentCombinedList: CombinedList[], puzzleList: Puz
       const updatedPuzzleList = updateSomeItemInPuzzles(updatedPuzlleAndNeighbor, puzzleList);
       return updatedPuzzleList;
     }, puzzleList);
+
   return {
     combineList: finalCombinedList,
     puzzleList: finalPuzzleList

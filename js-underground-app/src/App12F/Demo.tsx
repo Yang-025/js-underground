@@ -60,7 +60,7 @@ const Demo: React.FC = () => {
     if (isMoving) {
       setIsMoving(false);
     }
-    const dragedItem = puzzleList.find((item: PuzzleItem) => item.id === activePuzzleId);
+    const dragedItem = puzzleList.find(item => item.id === activePuzzleId);
     if (!dragedItem) {
       return;
     }
@@ -68,19 +68,14 @@ const Demo: React.FC = () => {
 
     const closerItems = puzzleList.filter((item => highlightList.includes(item.id)));
     if (closerItems.length > 0) {
-      console.log('closerItems', closerItems);
-      let tmpUpdatedData = Utils.handleSnapPuzzle(closerItems, puzzleList, dragedItem);
-      // setPuzzleList(updatedData);
+      let tmpUpdatedPuzzleList = Utils.handleSnapPuzzle(closerItems, puzzleList, dragedItem);
 
-      // TODO setCombinedList
-      // TODO 組合完座標可能會改變(一群一群的結合，要再找出新的左上角，從新分配所有座標)
-      let updatedData = Utils.handleCombinedList(combinedList, tmpUpdatedData, [dragedItem.id, ...closerItems.map(x => x.id)]);
-      console.log('newData', updatedData);
-      const { combineList: updatedCombineList, puzzleList: updatedPuzzleList } = updatedData;
+      // 更新組隊資訊和拼圖資訊。
+      const { combineList: updatedCombineList, 
+        puzzleList: updatedPuzzleList } = Utils.handleCombinedList(combinedList, tmpUpdatedPuzzleList, [dragedItem.id, ...closerItems.map(x => x.id)]);
       setCombinedList(updatedCombineList);
       setPuzzleList(updatedPuzzleList);
     }
-
 
     setHighlightList([]);
     setActivePuzzleId(-1);
@@ -90,13 +85,6 @@ const Demo: React.FC = () => {
   function handleCombinedDrag(someUpdatedPuzzles: PuzzleItem[]) {
     // TODO isMoving要吃list
     console.log('[handleCombinedDrag]handleDrag');
-    // let updated = puzzleList.map(x => {
-    //   const target = someUpdatedPuzzles.find(y => y.id === x.id)
-    //   if (target) {
-    //     return target
-    //   }
-    //   return x
-    // })
     const updated = Utils.updateSomeItemInPuzzles(someUpdatedPuzzles, puzzleList);
     setPuzzleList(updated);
   }
