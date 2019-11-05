@@ -7,6 +7,7 @@ import CombinedPuzzlePieceSvg from './CombinedPuzzlePieceSvg';
 import ItemTypes from './ItemTypes';
 import { PuzzleItem, CombinedList } from './interface';
 import * as Utils from './utils';
+import * as Utils2 from './utils2';
 import defaultPuzzleList, { PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSetting';
 import Draggable, { DraggableCore } from "react-draggable";
 import { func } from 'prop-types';
@@ -18,14 +19,14 @@ const Demo: React.FC = () => {
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number | string>(-1);
   const [combinedList, setCombinedList] = useState<CombinedList[]>([
-    {
-      id: 'c1',
-      pieces: [0, 1, 3],
-    },
-    {
-      id: 'c2',
-      pieces: [2, 4, 5],
-    }
+    // {
+    //   id: 'c1',
+    //   pieces: [0, 1, 3],
+    // },
+    // {
+    //   id: 'c2',
+    //   pieces: [2, 4, 5],
+    // }
   ]);
 
   // x: item左上角的x座標
@@ -115,7 +116,6 @@ const Demo: React.FC = () => {
   }
 
   function handleCombinedDragStop() {
-    console.log('activePuzzleId', activePuzzleId);
     if (isMoving) {
       setIsMoving(false);
     }
@@ -127,10 +127,9 @@ const Demo: React.FC = () => {
     }
 
     let tmpUpdatedPuzzleList = Utils.handleGroupSnapPuzzle(highlightList, puzzleList, dragedItems.pieces);
-    console.log('000000000', highlightList);
     // 更新組隊資訊和拼圖資訊。
     const { combineList: updatedCombineList,
-      puzzleList: updatedPuzzleList } = Utils.handleCombinedList(combinedList, tmpUpdatedPuzzleList, [...dragedItems.pieces, ...highlightList]);
+      puzzleList: updatedPuzzleList } = Utils2.handleGroupCombinedList(combinedList, tmpUpdatedPuzzleList, activePuzzleId, [...dragedItems.pieces, ...highlightList]);
     console.log('0122222', updatedCombineList);
     setCombinedList(updatedCombineList);
     setPuzzleList(updatedPuzzleList);
