@@ -39,13 +39,13 @@ const PuzzlePieceSvg: React.FC<IProps> = (props) => {
         isActive && (
           <Fragment>
             {/* 左垂直線 */}
-            <line x1={puzzleData.left} x2={puzzleData.left} y1={0} y2={1000} stroke="black" strokeDasharray="10" />
+            <line x1={puzzleData.left} x2={puzzleData.left} y1={0} y2={3000} stroke="black" strokeDasharray="10" />
             {/* 右垂直線 */}
-            <line x1={puzzleData.left + PuzzleWidthInPx} x2={puzzleData.left + PuzzleWidthInPx} y1={0} y2={1000} stroke="black" strokeDasharray="10" />
+            <line x1={puzzleData.left + PuzzleWidthInPx} x2={puzzleData.left + PuzzleWidthInPx} y1={0} y2={3000} stroke="black" strokeDasharray="10" />
             {/* 上水平線 */}
-            <line x1={0} x2={1000} y1={puzzleData.top} y2={puzzleData.top} stroke="black" strokeDasharray="10" />
+            <line x1={0} x2={3000} y1={puzzleData.top} y2={puzzleData.top} stroke="black" strokeDasharray="10" />
             {/* 下水平線 */}
-            <line x1={0} x2={1000} y1={puzzleData.top + PuzzleHeightInPx} y2={puzzleData.top + PuzzleHeightInPx} stroke="black" strokeDasharray="10" />
+            <line x1={0} x2={3000} y1={puzzleData.top + PuzzleHeightInPx} y2={puzzleData.top + PuzzleHeightInPx} stroke="black" strokeDasharray="10" />
           </Fragment>
         )
       }
