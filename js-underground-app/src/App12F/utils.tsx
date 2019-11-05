@@ -4,7 +4,12 @@ import { PuzzleItem, CombinedList } from './interface';
 import { SnapThresholdInPx, PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSetting';
 import * as Utils2 from './utils2';
 
-
+/**
+ * 更新列裡某id的資料
+ * @param id uniq的id
+ * @param newObj 要更新的資料物件
+ * @param currentData 原本的資料陣列
+ */
 function updateDataById<T>(id: number, newObj: T, currentData: T[]): Array<T> {
   return R.map(
     R.when(R.propEq('id', id), () => newObj),
@@ -12,6 +17,10 @@ function updateDataById<T>(id: number, newObj: T, currentData: T[]): Array<T> {
 }
 
 
+/**
+ * 以上右下左為順序，回傳此座標的鄰居
+ * @param coordinate 座標
+ */
 function getCanMergedCoordinateList(coordinate: [number, number]) {
   const x = coordinate[0];
   const y = coordinate[1];
@@ -24,12 +33,18 @@ function getCanMergedCoordinateList(coordinate: [number, number]) {
   ]
 }
 
-// 如果有很靠近的item可以拼起來就回傳id
+
+/**
+ * 如果有很靠近的拼圖可以拼起來，就回傳此鄰居的id
+ * @param id 
+ * @param puzzleList 
+ */
 function checkCloserPuzzle(id: number, puzzleList: PuzzleItem[]): number[] {
   let res: number[] = [];
-  // 每塊拼圖最多可以有四個鄰居。檢查四個鄰居有沒有接近的項目，有就放到list裡面
+
+  // Step. 檢查dragedItem有沒有靠近鄰居，有就放到list裡面
   const dragedItem = puzzleList.find(x => x.id === id);
-  // 把鄰居的資料(座標)調出來
+  // 找出dragedItem的鄰居座標，最多可以有四個鄰居
   let neighborInfoList = dragedItem && puzzleList.filter(item => {
     let target = false;
     getCanMergedCoordinateList(dragedItem.coordinate).forEach(neighbor => {
@@ -53,6 +68,7 @@ function checkCloserPuzzle(id: number, puzzleList: PuzzleItem[]): number[] {
         const candidateTop = candidate.top;
         const candidateBottom = candidate.top + PuzzleHeightInPx;
 
+        // TODO 判斷能不能結合有點右偏也可以
         // 兩者的左邊很靠近
         let leftInBounds: boolean = dragedItemLeft > (candidateLeft - SnapThresholdInPx) && dragedItemLeft < (dragedItemRight + SnapThresholdInPx);
         // 兩者的右邊很靠近
@@ -64,28 +80,29 @@ function checkCloserPuzzle(id: number, puzzleList: PuzzleItem[]): number[] {
 
         // 右邊的拼圖可以結合
         const RightOneCanSnap = !leftInBounds && rightInBounds && bottomInBounds && topInBounds;
-
         // 左邊的拼圖可以結合
         const LeftOneCanSnap = leftInBounds && !rightInBounds && bottomInBounds && topInBounds;
-
         // 上面的拼圖可以結合
         const TopOneCanSnap = leftInBounds && rightInBounds && !bottomInBounds && topInBounds;
-
         // 下面的拼圖可以結合
         const BottomOneCanSnap = leftInBounds && rightInBounds && bottomInBounds && !topInBounds;
 
         // 上: 0, 右: 1, 下: 2, 左: 3
         let targetIndex = R.findIndex(x => R.equals(x, candidate.coordinate))(getCanMergedCoordinateList(dragedItem.coordinate))
 
+        // 如果上面的拼圖可以結合，而此座標的確是在dragedItem上方
         if (TopOneCanSnap && targetIndex === 0) {
           res.push(candidate.id);
         }
+        // 如果上面的拼圖可以結合，而此座標的確是在dragedItem右方
         if (RightOneCanSnap && targetIndex === 1) {
           res.push(candidate.id);
         }
+        // 如果上面的拼圖可以結合，而此座標的確是在dragedItem下方
         if (BottomOneCanSnap && targetIndex === 2) {
           res.push(candidate.id);
         }
+        // 如果上面的拼圖可以結合，而此座標的確是在dragedItem左方
         if (LeftOneCanSnap && targetIndex === 3) {
           res.push(candidate.id);
         }
@@ -96,11 +113,12 @@ function checkCloserPuzzle(id: number, puzzleList: PuzzleItem[]): number[] {
 
 
 
-/*
-draggedItem: 正在拖移的拼圖
-canSnapItem: 可以拼起來的拼圖
-*/
-// TODO 沒有考慮方向性，上下或左右??
+
+/**
+ * 以正在拖移的拼圖的鄰居為準，重新計算正在拖移的拼圖的座標(看起來的感覺就會像是正在拖移的拼圖吸到鄰居隔壁)
+ * @param draggedItem 正在拖移的拼圖
+ * @param canSnapItem 可以拼起來的拼圖
+ */
 function calcPuzzlesPosition(draggedItem: PuzzleItem, canSnapItem: PuzzleItem) {
   let draggedItemCoordinate = draggedItem.coordinate;
   let canSnapItemCoordinate = canSnapItem.coordinate;
@@ -112,6 +130,53 @@ function calcPuzzlesPosition(draggedItem: PuzzleItem, canSnapItem: PuzzleItem) {
   }
 }
 
+/**
+ * 在現有拼圖List中，更新其中幾項物件
+ * @param someUpdatedPuzzles 要更新的物件們
+ * @param currentPuzzleList 所有拼圖的座標
+ */
+function updateSomeItemInPuzzles(someUpdatedPuzzles: PuzzleItem[], currentPuzzleList: PuzzleItem[]) {
+  return currentPuzzleList.map(x => {
+    if (someUpdatedPuzzles.map(i => i.id).includes(x.id)) {
+      return someUpdatedPuzzles.find(j => j.id === x.id)!;
+    }
+    return x;
+  })
+}
+
+
+/**
+ * 
+ * @param basePointId 左上角的拼圖id
+ * @param puzlleAndNeighbor 需要重新安排座標的拼圖們
+ * @param x 左上角最新的x座標
+ * @param y 左上角最新的y座標
+ */
+function reArrangePuzzlePosition(basePointId: number, puzlleAndNeighbor: PuzzleItem[], x: number, y: number) {
+  const baseData = puzlleAndNeighbor.find(i => i.id === basePointId);
+  if (!baseData) {
+    console.error('沒有找到左上角，不能安排位置');
+    return puzlleAndNeighbor;
+  }
+  const updatedData = puzlleAndNeighbor.map((datum) => {
+    // 如果是基準座標
+    if (R.equals(datum.coordinate, baseData.coordinate)) {
+      return {
+        ...datum,
+        left: x,
+        top: y
+      }
+    } else {
+      return {
+        ...datum,
+        left: x + (datum.coordinate[0] - baseData.coordinate[0]) * PuzzleWidthInPx,
+        top: y + (datum.coordinate[1] - baseData.coordinate[1]) * PuzzleHeightInPx
+      }
+    }
+  });
+  return updatedData;
+}
+
 
 /**
  * handle 拼起來的動作
@@ -121,34 +186,24 @@ function calcPuzzlesPosition(draggedItem: PuzzleItem, canSnapItem: PuzzleItem) {
  * 回傳更新座標的puzzleList
  */
 function handleSnapPuzzle(closerItems: PuzzleItem[], puzzleList: PuzzleItem[], dragedItem: PuzzleItem): PuzzleItem[] {
-  // 兩個拼圖相拼
+  // 兩個拼圖相拼。正在拖移的拼圖去吸附在鄰居身上
   if (closerItems.length === 1) {
-    console.log('>>>>>>>>>>')
     let calcRes = calcPuzzlesPosition(dragedItem, closerItems[0]);
     const updatedData = updateDataById(dragedItem.id, calcRes, puzzleList);
     return updatedData;
   }
 
-  // 兩個以上的拼圖相拼，以最左邊的item為基準點，去調整其他的拼圖位置
+  // 兩個以上的拼圖相拼。以最左邊的拼圖為基準點，重新去計算調整其他的拼圖位置
   if (closerItems.length > 1) {
-    console.log('>>>>>>>>>><<<<<<<<<<<<')
     // 找出左上角的拼圖id
-    let leftTopPuzzleId = Math.min(...[dragedItem.id, ...closerItems.map(i => i.id)]);
+    const puzlleAndNeighborIdList = [dragedItem.id, ...closerItems.map(i => i.id)];
+    let leftTopPuzzleId = Math.min(...puzlleAndNeighborIdList);
     let leftTopPuzzle = puzzleList.find(i => i.id === leftTopPuzzleId)!;
-    let neighborPuzzles = puzzleList.filter(i => [dragedItem.id, ...closerItems.map(i => i.id)].includes(i.id));
-    const updatedData = reArrangePuzzlePosition(leftTopPuzzleId, neighborPuzzles, leftTopPuzzle.left, leftTopPuzzle.top);
-    if (updatedData) {
-      console.log('>>>>>>>>>>########<<<<<<<<<<<<', updatedData);
-      // return updatedData;
-      return puzzleList.map(x => {
-        if (updatedData.map(i => i.id).includes(x.id)) {
-          return updatedData.find(j => j.id === x.id)!;
-        }
-        return x;
-      })
-    }
+    let puzlleAndNeighbor = puzzleList.filter(i => puzlleAndNeighborIdList.includes(i.id));
+    const updatedPuzlleAndNeighbor = reArrangePuzzlePosition(leftTopPuzzleId, puzlleAndNeighbor, leftTopPuzzle.left, leftTopPuzzle.top);
+    const updatedPuzzleList = updateSomeItemInPuzzles(updatedPuzlleAndNeighbor, puzzleList);
+    return updatedPuzzleList;
   }
-
   return puzzleList;
 }
 
@@ -183,7 +238,7 @@ function handleCombinedList(currentCombinedList: CombinedList[], puzzleList: Puz
 
   // Step2. 如果是上下左右的關係，就結成同一組
   let finalCombinedList = Utils2.findNeighborInCombinedList(tmpCombinedList, puzzleList);
-  console.log('LLLL', finalCombinedList);
+
   // Step3. 重算座標
   let finalPuzzleList = finalCombinedList.reduce(
     (prev: PuzzleItem[], curr: CombinedList) => {
@@ -191,18 +246,9 @@ function handleCombinedList(currentCombinedList: CombinedList[], puzzleList: Puz
       let leftTopPuzzleId = Math.min(...curr.pieces);
       let leftTopPuzzle = prev.find(i => i.id === leftTopPuzzleId)!;
       let neighborPuzzles = prev.filter(i => curr.pieces.includes(i.id));
-      const updatedData = reArrangePuzzlePosition(leftTopPuzzleId, neighborPuzzles, leftTopPuzzle.left, leftTopPuzzle.top);
-      console.log('updatedData', updatedData);
-      if (updatedData) {
-        // TODO 這邊可以更簡單嗎
-        return prev.map(x => {
-          if (updatedData.map(i => i.id).includes(x.id)) {
-            return updatedData.find(j => j.id === x.id)!;
-          }
-          return x;
-        })
-      }
-      return prev;
+      const updatedPuzlleAndNeighbor = reArrangePuzzlePosition(leftTopPuzzleId, neighborPuzzles, leftTopPuzzle.left, leftTopPuzzle.top);
+      const updatedPuzzleList = updateSomeItemInPuzzles(updatedPuzlleAndNeighbor, puzzleList);
+      return updatedPuzzleList;
     }, puzzleList);
   return {
     combineList: finalCombinedList,
@@ -216,73 +262,12 @@ function randomNumberInRange(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-
-
-function findLeftTopBaseItem(combinedPointList: number[][]) {
-  // 找到最左上角的項目
-  const baseLeftItem = combinedPointList.reduce((prev: number[] | null, curr: number[]) => {
-    if (prev === null) {
-      return curr;
-    }
-    const [prevX, prevY] = prev;
-    const [currX, currY] = curr;
-    // TODO 這裡應該有更好的判斷
-    // 如果x,y都小，那就是最小
-    if (prevX < currX && prevY < currY) {
-      return prev;
-    }
-    // 如果x軸一樣，y小的為最小
-    if (prevX === currX && prevY < currY) {
-      return prev;
-    }
-    // 如果y軸一樣，x小的為最小
-    if (prevY === currY && prevX < currX) {
-      return prev;
-    }
-    return curr;
-  }, null);
-  return baseLeftItem;
-}
-
-
-/*
-以左上角的拼圖為基準，重新安排大家的座標
-basePointId: 左上角的拼圖的id,
-puzzleData: 需要重新安排座標的拼圖們
-x: 左上角的拼圖的x位置
-y: 左上角的拼圖的y位置
-*/
-function reArrangePuzzlePosition(basePointId: number, puzzleData: PuzzleItem[], x: number, y: number) {
-  const baseData = puzzleData.find(i => i.id === basePointId);
-  if (!baseData) {
-    return;
-  }
-  const updatedData = puzzleData.map((datum) => {
-    // 如果是基準座標
-    if (R.equals(datum.coordinate, baseData.coordinate)) {
-      return {
-        ...datum,
-        left: x,
-        top: y
-      }
-    } else {
-      return {
-        ...datum,
-        left: x + (datum.coordinate[0] - baseData.coordinate[0]) * PuzzleWidthInPx,
-        top: y + (datum.coordinate[1] - baseData.coordinate[1]) * PuzzleHeightInPx
-      }
-    }
-  });
-  return updatedData;
-}
-
 export {
   updateDataById,
   checkCloserPuzzle,
   randomNumberInRange,
-  calcPuzzlesPosition,
-  findLeftTopBaseItem,
   reArrangePuzzlePosition,
+  updateSomeItemInPuzzles,
   handleSnapPuzzle,
   handleCombinedList
 };

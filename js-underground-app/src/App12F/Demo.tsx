@@ -87,16 +87,17 @@ const Demo: React.FC = () => {
   }
 
 
-  function handleCombinedDrag(puzzleItems: PuzzleItem[]) {
+  function handleCombinedDrag(someUpdatedPuzzles: PuzzleItem[]) {
     // TODO isMoving要吃list
     console.log('[handleCombinedDrag]handleDrag');
-    let updated = puzzleList.map(x => {
-      const target = puzzleItems.find(y => y.id === x.id)
-      if (target) {
-        return target
-      }
-      return x
-    })
+    // let updated = puzzleList.map(x => {
+    //   const target = someUpdatedPuzzles.find(y => y.id === x.id)
+    //   if (target) {
+    //     return target
+    //   }
+    //   return x
+    // })
+    const updated = Utils.updateSomeItemInPuzzles(someUpdatedPuzzles, puzzleList);
     setPuzzleList(updated);
   }
 
