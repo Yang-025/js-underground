@@ -11,6 +11,7 @@ import { PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSetting';
 interface IProps {
   id: string,
   data: PuzzleItem[],
+  highlight: boolean,
   combinedPointList: number[],
   handleDrag: (puzzleItems: PuzzleItem[]) => void
   handleDragStop: () => void
@@ -18,7 +19,7 @@ interface IProps {
 
 
 const CombinedPuzzlePieceSvg: React.FC<IProps> = (props) => {
-  const { data: combinedData, combinedPointList, 
+  const { data: combinedData, combinedPointList, highlight,
     handleDrag, handleDragStop } = props;
   // 找到最左上角的項目，以此項目作為參考點計算座標
   const baseLeftItemId = Math.min(...combinedPointList);
@@ -50,24 +51,31 @@ const CombinedPuzzlePieceSvg: React.FC<IProps> = (props) => {
           {combinedData.map((piece) => {
             if (piece.id === baseLeftItemId) {
               return (
-                <image
-                  xlinkHref={piece.imgSrc}
-                  x={piece.imgPosition.left}
-                  y={piece.imgPosition.top}
-                  transform={`translate(${0}, ${0})`}
-                />
+                <g>
+                  <rect x={0} y={0} width={PuzzleWidthInPx} height={PuzzleHeightInPx} fill="transparent" stroke={highlight ? 'red' : 'transparent'} strokeWidth="3" />
+                  <image
+                    xlinkHref={piece.imgSrc}
+                    x={piece.imgPosition.left}
+                    y={piece.imgPosition.top}
+                    transform={`translate(${0}, ${0})`}
+                  />
+                </g>
+
               );
             }
             // 跟左上角比，算出相對位置
             const offsetX = (piece.coordinate[0] - baseLeftItemInfo.coordinate[0]) * PuzzleWidthInPx;
             const offsetY = (piece.coordinate[1] - baseLeftItemInfo.coordinate[1]) * PuzzleWidthInPx;
             return (
-              <image
-                xlinkHref={piece.imgSrc}
-                x={piece.imgPosition.left}
-                y={piece.imgPosition.top}
-                transform={`translate(${offsetX}, ${offsetY})`}
-              />
+              <g>
+                <rect x={offsetX} y={offsetY} width={PuzzleWidthInPx} height={PuzzleHeightInPx} fill="transparent" stroke={highlight ? 'red' : 'transparent'} strokeWidth="3" />
+                <image
+                  xlinkHref={piece.imgSrc}
+                  x={piece.imgPosition.left}
+                  y={piece.imgPosition.top}
+                  transform={`translate(${offsetX}, ${offsetY})`}
+                />
+              </g>
             );
           })}
         </g>

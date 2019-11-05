@@ -18,12 +18,13 @@ const Demo: React.FC = () => {
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number>(-1);
   const [combinedList, setCombinedList] = useState<CombinedList[]>([
-    // {
-    //   id: 'c1',
-    //   pieces: [0, 1, 3],
-    // }
+    {
+      id: 'c1',
+      pieces: [0, 1, 3],
+    }
   ]);
 
+  console.log('highlightList', highlightList);
 
   // x: item左上角的x座標
   // y: item左上角的y座標
@@ -106,6 +107,7 @@ const Demo: React.FC = () => {
                 data={puzzleList.filter(x => {
                   return items.pieces.includes(x.id);
                 })}
+                highlight={R.intersection(highlightList, items.pieces).length > 0}
                 handleDrag={handleCombinedDrag}
                 handleDragStop={() => {
                   handleCombinedDragStop();
