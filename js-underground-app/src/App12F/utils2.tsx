@@ -8,9 +8,7 @@ import * as Utils from './utils';
 檢查原本的CombinedList有沒有可以合體的組合
 */
 function findNeighborInCombinedList(tmpCombinedList: CombinedList[], puzzleList: PuzzleItem[]) {
-  console.log('0221', puzzleList);
   let neighbor: CombinedList[] = [];
-  // console.log('01', tmpCombinedList);
   tmpCombinedList.forEach(i => {
     const { pieces, id } = i;
     // 可以組隊，但是沒有分在同一組的拼圖
@@ -19,8 +17,6 @@ function findNeighborInCombinedList(tmpCombinedList: CombinedList[], puzzleList:
       // 找出可以組隊，但是沒有分在同一組的拼圖
       let canMergeList: number[] = Utils.checkCloserPuzzle(piece, puzzleList);
       let difference: number[] = R.difference(canMergeList, pieces);
-      // console.log('0222', canMergeList);
-      // console.log('0223', difference);
       if (difference.length > 0) {
         // 兩組合體
         diffeGroupCanMergeIdList = [
@@ -33,8 +29,6 @@ function findNeighborInCombinedList(tmpCombinedList: CombinedList[], puzzleList:
       id,
       pieces: [...pieces, ...R.uniq(diffeGroupCanMergeIdList)]
     });
-    // console.log('02', diffeGroupCanMergeIdList);
-    // console.log('03', neighbor);
   });
 
   const neighborIdList = neighbor.map(i => i.pieces)

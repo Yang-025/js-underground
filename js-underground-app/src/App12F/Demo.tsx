@@ -16,15 +16,17 @@ const Demo: React.FC = () => {
   const [isMoving, setIsMoving] = useState<boolean>(false);
   const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(defaultPuzzleList);
   const [highlightList, setHighlightList] = useState<number[]>([]);
-  const [activePuzzleId, setActivePuzzleId] = useState<number>(-1);
+  const [activePuzzleId, setActivePuzzleId] = useState<number | string>(-1);
   const [combinedList, setCombinedList] = useState<CombinedList[]>([
     {
       id: 'c1',
       pieces: [0, 1, 3],
+    },
+    {
+      id: 'c2',
+      pieces: [2, 4, 5],
     }
   ]);
-
-  console.log('highlightList', highlightList);
 
   // x: item左上角的x座標
   // y: item左上角的y座標
@@ -32,6 +34,7 @@ const Demo: React.FC = () => {
     if (!isMoving) {
       setIsMoving(true);
     }
+
     // 找到目前在drag的拼圖
     const selectedItem = puzzleList.find(item => item.id === id);
     if (!selectedItem) {
@@ -70,9 +73,8 @@ const Demo: React.FC = () => {
     const closerItems = puzzleList.filter((item => highlightList.includes(item.id)));
     if (closerItems.length > 0) {
       let tmpUpdatedPuzzleList = Utils.handleSnapPuzzle(closerItems, puzzleList, dragedItem);
-
       // 更新組隊資訊和拼圖資訊。
-      const { combineList: updatedCombineList, 
+      const { combineList: updatedCombineList,
         puzzleList: updatedPuzzleList } = Utils.handleCombinedList(combinedList, tmpUpdatedPuzzleList, [dragedItem.id, ...closerItems.map(x => x.id)]);
       setCombinedList(updatedCombineList);
       setPuzzleList(updatedPuzzleList);
@@ -83,17 +85,60 @@ const Demo: React.FC = () => {
   }
 
 
-  function handleCombinedDrag(someUpdatedPuzzles: PuzzleItem[]) {
-    // TODO isMoving要吃list
-    console.log('[handleCombinedDrag]handleDrag');
+  function handleCombinedDrag(someUpdatedPuzzles: PuzzleItem[], id: string) {
+    if (!isMoving) {
+      setIsMoving(true);
+    }
+
+    // 更新目前在drag的拼圖id
+    setActivePuzzleId(id);
+
+    // 更新拼圖座標
     const updated = Utils.updateSomeItemInPuzzles(someUpdatedPuzzles, puzzleList);
     setPuzzleList(updated);
+
+    // 找出有沒有可以拼在一起的拼圖
+    let final: number[] = [];
+    someUpdatedPuzzles.forEach(curr => {
+      // 找出每個拼圖很靠近的鄰居
+      const tmpCloserPuzzleList = Utils.checkCloserPuzzle(curr.id, updated);
+      // 從每個拼圖很靠近的鄰居中，找出新的鄰居(還沒有在同一組的)
+      const newNeighborList = R.difference(tmpCloserPuzzleList, someUpdatedPuzzles.map(i => i.id));
+      if (tmpCloserPuzzleList.length > 0 && newNeighborList.length > 0) {
+        final = [
+          ...final,
+          ...newNeighborList
+        ]
+      }
+    });
+    setHighlightList(R.uniq(final));
   }
 
   function handleCombinedDragStop() {
-    // TODO isMoving要吃list
+    console.log('activePuzzleId', activePuzzleId);
+    if (isMoving) {
+      setIsMoving(false);
+    }
+
+
+    const dragedItems = combinedList.find(item => item.id === activePuzzleId);
+    if (!dragedItems) {
+      return;
+    }
+
+    let tmpUpdatedPuzzleList = Utils.handleGroupSnapPuzzle(highlightList, puzzleList, dragedItems.pieces);
+    console.log('000000000', highlightList);
+    // 更新組隊資訊和拼圖資訊。
+    const { combineList: updatedCombineList,
+      puzzleList: updatedPuzzleList } = Utils.handleCombinedList(combinedList, tmpUpdatedPuzzleList, [...dragedItems.pieces, ...highlightList]);
+    console.log('0122222', updatedCombineList);
+    setCombinedList(updatedCombineList);
+    setPuzzleList(updatedPuzzleList);
+    setHighlightList([]);
+    setActivePuzzleId(-1);
   }
 
+  console.log('combinedListcombinedListcombinedListcombinedList', combinedList);
   return (
     <StyledDemo style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <svg width="100%" height="100%" style={{ backgroundColor: "lightyellow" }}>
@@ -112,6 +157,7 @@ const Demo: React.FC = () => {
                 handleDragStop={() => {
                   handleCombinedDragStop();
                 }}
+                isActive={items.id === activePuzzleId}
               />
             )
           })

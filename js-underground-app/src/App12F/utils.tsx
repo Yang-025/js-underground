@@ -207,6 +207,18 @@ function handleSnapPuzzle(closerItems: PuzzleItem[], puzzleList: PuzzleItem[], d
   return puzzleList;
 }
 
+function handleGroupSnapPuzzle(newNeighborIdList: number[], puzzleList: PuzzleItem[], groupIdList: number[]) {
+  // 找出左上角的拼圖id
+  const puzlleAndNeighborIdList = [...groupIdList, ...newNeighborIdList];
+  let leftTopPuzzleId = Math.min(...puzlleAndNeighborIdList);
+  // 左上角的項目
+  let leftTopPuzzle = puzzleList.find(i => i.id === leftTopPuzzleId)!;
+  let puzlleAndNeighbor = puzzleList.filter(i => puzlleAndNeighborIdList.includes(i.id));
+  const updatedPuzlleAndNeighbor = reArrangePuzzlePosition(leftTopPuzzleId, puzlleAndNeighbor, leftTopPuzzle.left, leftTopPuzzle.top);
+  const updatedPuzzleList = updateSomeItemInPuzzles(updatedPuzlleAndNeighbor, puzzleList);
+  return updatedPuzzleList;
+}
+
 
 
 /**
@@ -276,5 +288,6 @@ export {
   reArrangePuzzlePosition,
   updateSomeItemInPuzzles,
   handleSnapPuzzle,
-  handleCombinedList
+  handleCombinedList,
+  handleGroupSnapPuzzle
 };

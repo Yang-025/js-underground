@@ -12,14 +12,15 @@ interface IProps {
   id: string,
   data: PuzzleItem[],
   highlight: boolean,
+  isActive: boolean,
   combinedPointList: number[],
-  handleDrag: (puzzleItems: PuzzleItem[]) => void
+  handleDrag: (puzzleItems: PuzzleItem[], id: string) => void
   handleDragStop: () => void
 }
 
 
 const CombinedPuzzlePieceSvg: React.FC<IProps> = (props) => {
-  const { data: combinedData, combinedPointList, highlight,
+  const { id, data: combinedData, combinedPointList, highlight, isActive,
     handleDrag, handleDragStop } = props;
   // 找到最左上角的項目，以此項目作為參考點計算座標
   const baseLeftItemId = Math.min(...combinedPointList);
@@ -40,7 +41,7 @@ const CombinedPuzzlePieceSvg: React.FC<IProps> = (props) => {
           event.preventDefault();
           const updatedData = Utils.reArrangePuzzlePosition(baseLeftItemInfo.id, combinedData, data.x, data.y);
           if (updatedData) {
-            handleDrag(updatedData);
+            handleDrag(updatedData, id);
           }
         }}
         onStop={handleDragStop}
@@ -78,6 +79,20 @@ const CombinedPuzzlePieceSvg: React.FC<IProps> = (props) => {
               </g>
             );
           })}
+          {/* {
+            isActive && (
+              <Fragment>
+                左垂直線
+                <line x1={baseLeftItemInfo.left} x2={baseLeftItemInfo.left} y1={0} y2={3000} stroke="black" strokeDasharray="10" />
+                右垂直線
+                <line x1={puzzleData.left + PuzzleWidthInPx} x2={puzzleData.left + PuzzleWidthInPx} y1={0} y2={3000} stroke="black" strokeDasharray="10" />
+                上水平線
+                <line x1={0} x2={3000} y1={baseLeftItemInfo.top} y2={baseLeftItemInfo.top} stroke="black" strokeDasharray="10" />
+                下水平線
+                <line x1={0} x2={3000} y1={puzzleData.top + PuzzleHeightInPx} y2={puzzleData.top + PuzzleHeightInPx} stroke="black" strokeDasharray="10" />
+              </Fragment>
+            )
+          } */}
         </g>
       </Draggable>
     </Fragment>
