@@ -3,8 +3,7 @@ import React, { Fragment, useRef, RefObject, useEffect, useState } from 'react';
 import Draggable, { DraggableCore } from "react-draggable";
 
 
-import { PuzzleItem, ELineDirection } from './interface';
-import { StyledPuzzlePiece, StyledLine } from './Styles';
+import { PuzzleItem } from './interface';
 import { PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSetting';
 
 
