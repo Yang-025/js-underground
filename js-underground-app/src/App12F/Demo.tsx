@@ -19,14 +19,14 @@ const Demo: React.FC = () => {
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number | string>(-1);
   const [combinedList, setCombinedList] = useState<CombinedList[]>([
-    {
-      id: 'c1',
-      pieces: [0, 1, 3],
-    },
-    {
-      id: 'c2',
-      pieces: [2, 4, 5],
-    }
+    // {
+    //   id: 'c1',
+    //   pieces: [0, 1, 3],
+    // },
+    // {
+    //   id: 'c2',
+    //   pieces: [2, 4, 5],
+    // }
   ]);
 
   // x: item左上角的x座標
