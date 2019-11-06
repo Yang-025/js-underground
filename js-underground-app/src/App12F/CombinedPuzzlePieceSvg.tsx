@@ -52,7 +52,7 @@ const CombinedPuzzlePieceSvg: React.FC<IProps> = (props) => {
           {combinedData.map((piece) => {
             if (piece.id === baseLeftItemId) {
               return (
-                <g>
+                <g key={piece.id}>
                   <rect x={0} y={0} width={PuzzleWidthInPx} height={PuzzleHeightInPx} fill="transparent" stroke={highlight ? 'red' : 'transparent'} strokeWidth="3" />
                   <image
                     xlinkHref={piece.imgSrc}
@@ -68,7 +68,7 @@ const CombinedPuzzlePieceSvg: React.FC<IProps> = (props) => {
             const offsetX = (piece.coordinate[0] - baseLeftItemInfo.coordinate[0]) * PuzzleWidthInPx;
             const offsetY = (piece.coordinate[1] - baseLeftItemInfo.coordinate[1]) * PuzzleWidthInPx;
             return (
-              <g>
+              <g key={piece.id}>
                 <rect x={offsetX} y={offsetY} width={PuzzleWidthInPx} height={PuzzleHeightInPx} fill="transparent" stroke={highlight ? 'red' : 'transparent'} strokeWidth="3" />
                 <image
                   xlinkHref={piece.imgSrc}

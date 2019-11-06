@@ -62,8 +62,8 @@ function findNeighborInCombinedList(tmpCombinedList: CombinedList[], puzzleList:
  * @param combinedIdList 正要組隊的ld list
  */
 function handleGroupCombinedList(currentCombinedList: CombinedList[], puzzleList: PuzzleItem[], activeId: string | number, combinedIdList: number[]) {
-
-  let tmpUpdatedCombinedList = currentCombinedList.map(item => {
+  // Step. 把新的鄰居加到現有的隊伍裡
+  let tmpCombinedList = currentCombinedList.map(item => {
     if (item.id === activeId) {
       return {
         ...item,
@@ -72,21 +72,20 @@ function handleGroupCombinedList(currentCombinedList: CombinedList[], puzzleList
     }
     return item;
   });
-  console.log('///>>>>>updatedCombinedList', tmpUpdatedCombinedList);
-  console.log('///>>>>>updatedCombinedList2', currentCombinedList.filter(item => R.intersection(item.pieces, combinedIdList).length > 0));
 
 
-  /* ********* */
+  // Step. 把上一部更新完的CombinedList掃一遍，同樣的id如果出現在不同物件裡，就要合在一起
   let skipIdList: string[] = [];
   let updatedCombinedList: CombinedList[] = [];
 
-  tmpUpdatedCombinedList.forEach(item => {
+  tmpCombinedList.forEach(item => {
     const { pieces, id } = item;
+    // 已經處理過就不處理
     if (skipIdList.includes(id)) {
       return;
     }
-    // 如果曾經跟prev的id有交集的話，就要合體
-    const intersectionList = tmpUpdatedCombinedList.filter(i => R.intersection(i.pieces, pieces).length > 0);
+    // 現在的組合，在tmpCombinedList的其他組合也出現過
+    const intersectionList = tmpCombinedList.filter(i => R.intersection(i.pieces, pieces).length > 0);
     if (intersectionList.length > 0) {
       skipIdList = [...skipIdList, ...intersectionList.map(j => j.id)];
       const piecesList = R.uniq(R.flatten(intersectionList.map(j => j.pieces)));
@@ -103,39 +102,13 @@ function handleGroupCombinedList(currentCombinedList: CombinedList[], puzzleList
         item
       ]
     }
-  })
-  /* ********* */
-
-  // Step1.如果有一樣的id，就結成同一組
-  // const hasIntersection = currentCombinedList.find(item => R.intersection(item.pieces, combinedIdList).length > 0);
-  // let tmpCombinedList = [];
-  // if (hasIntersection) {
-  //   tmpCombinedList = currentCombinedList.map(item => {
-  //     if (item.id === hasIntersection.id) {
-  //       return {
-  //         ...item,
-  //         pieces: R.union(hasIntersection.pieces, combinedIdList).sort()
-  //       }
-  //     } else {
-  //       return item;
-  //     }
-  //   })
-  // } else {
-  //   // 否則，就增加一組
-  //   tmpCombinedList = [
-  //     ...currentCombinedList,
-  //     {
-  //       id: uuid.v4(),
-  //       pieces: combinedIdList.sort()
-  //     }
-  //   ]
-  // }
+  });
 
 
-  // Step2. 如果是上下左右的關係，就結成同一組
+  // Step. 檢查每一個物件的id，如果有上下左右的關係出現在別的物件，就結成同一組
   let finalCombinedList = findNeighborInCombinedList(updatedCombinedList, puzzleList);
 
-  // Step3. 重算座標。組合完座標可能會改變(一群一群的結合，要再找出新的左上角，從新分配所有座標)
+  // Step. 重算座標。組合完座標可能會改變(一群一群的結合，要再找出新的左上角，從新分配所有座標)
   let finalPuzzleList = finalCombinedList.reduce(
     (prev: PuzzleItem[], curr: CombinedList) => {
       // 找出左上角的拼圖id
