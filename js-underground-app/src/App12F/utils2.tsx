@@ -74,7 +74,7 @@ function handleGroupCombinedList(currentCombinedList: CombinedList[], puzzleList
   });
 
 
-  // Step. 把上一部更新完的CombinedList掃一遍，同樣的id如果出現在不同物件裡，就要合在一起
+  // Step. 把上一部更新完的CombinedList掃一遍，同樣的拼圖id如果出現在多個不同物件裡，就要合在一起
   let skipIdList: string[] = [];
   let updatedCombinedList: CombinedList[] = [];
 
