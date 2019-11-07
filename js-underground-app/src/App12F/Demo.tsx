@@ -1,7 +1,5 @@
 import React, { useRef, RefObject, useEffect, useState } from 'react';
 import * as R from 'ramda';
-import StyledDemo from './DemoStyles';
-import PuzzlePiece from './PuzzlePiece';
 import PuzzlePieceSvg from './PuzzlePieceSvg';
 import CombinedPuzzlePieceSvg from './CombinedPuzzlePieceSvg';
 import { PuzzleItem, CombinedList } from './interface';
@@ -134,9 +132,9 @@ const Demo: React.FC = () => {
     setActivePuzzleId(-1);
   }
 
-  console.log('combinedListcombinedListcombinedListcombinedList', combinedList);
+
   return (
-    <StyledDemo style={{ position: 'relative', width: '100%', height: '100vh' }}>
+    <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
       <svg width="100%" height="100%" style={{ backgroundColor: "lightyellow" }}>
         {
           combinedList.map((items) => {
@@ -171,7 +169,7 @@ const Demo: React.FC = () => {
           )
         })}
       </svg>
-    </StyledDemo>
+    </div>
   );
 }
 
