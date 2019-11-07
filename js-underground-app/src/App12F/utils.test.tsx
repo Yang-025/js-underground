@@ -1,4 +1,4 @@
-import * as Utils from './utils2';
+import * as Utils from './utils';
 import { genFefaultPuzzleList } from './puzzleSetting';
 
 

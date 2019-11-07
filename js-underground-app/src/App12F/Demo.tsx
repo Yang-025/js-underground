@@ -4,7 +4,6 @@ import PuzzlePieceSvg from './PuzzlePieceSvg';
 import CombinedPuzzlePieceSvg from './CombinedPuzzlePieceSvg';
 import { PuzzleItem, CombinedList } from './interface';
 import * as Utils from './utils';
-import * as Utils2 from './utils2';
 import defaultPuzzleList from './puzzleSetting';
 
 
@@ -124,7 +123,7 @@ const Demo: React.FC = () => {
     let tmpUpdatedPuzzleList = Utils.handleGroupSnapPuzzle(highlightList, puzzleList, dragedItems.pieces);
     // 更新組隊資訊和拼圖資訊。
     const { combineList: updatedCombineList,
-      puzzleList: updatedPuzzleList } = Utils2.handleGroupCombinedList(combinedList, tmpUpdatedPuzzleList, activePuzzleId, [...dragedItems.pieces, ...highlightList]);
+      puzzleList: updatedPuzzleList } = Utils.handleGroupCombinedList(combinedList, tmpUpdatedPuzzleList, activePuzzleId, [...dragedItems.pieces, ...highlightList]);
 
     setCombinedList(updatedCombineList);
     setPuzzleList(updatedPuzzleList);
