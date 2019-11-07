@@ -2,7 +2,6 @@ import * as R from 'ramda';
 import uuid from 'uuid';
 import { PuzzleItem, CombinedList } from './interface';
 import { SnapThresholdInPx, PuzzleWidthInPx, PuzzleHeightInPx } from './puzzleSetting';
-import * as Utils2 from './utils2';
 
 /**
  * 更新列裡某id的資料

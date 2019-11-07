@@ -13,14 +13,14 @@ const Demo: React.FC = () => {
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number | string>(-1);
   const [combinedList, setCombinedList] = useState<CombinedList[]>([
-    {
-      id: 'c1',
-      pieces: [0, 1],
-    },
-    {
-      id: 'c2',
-      pieces: [4, 5],
-    }
+    // {
+    //   id: 'c1',
+    //   pieces: [0, 1],
+    // },
+    // {
+    //   id: 'c2',
+    //   pieces: [4, 5],
+    // }
   ]);
 
   // x: item左上角的x座標
@@ -133,7 +133,7 @@ const Demo: React.FC = () => {
 
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
+    <div style={{ padding: '30px', position: 'relative', width: '100%', height: '100vh' }}>
       <svg width="100%" height="100%" style={{ backgroundColor: "lightyellow" }}>
         {
           combinedList.map((items) => {
