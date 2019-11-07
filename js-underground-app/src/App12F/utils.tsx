@@ -240,9 +240,7 @@ function handleCombinedList(currentCombinedList: CombinedList[], puzzleList: Puz
   ];
   console.log('tmpCombinedListtmpCombinedListtmpCombinedList', tmpCombinedList);
 
-  // Step. 把上一部更新完的CombinedList掃一遍，同樣的拼圖id如果出現在多個不同物件裡，就要合在一起
-  // let updatedCombinedList = Utils2.mergeDuplicateInCombinedList(tmpCombinedList, puzzleList);
-// 
+
   // Step2. 如果是上下左右的關係，就結成同一組
   let finalCombinedList = Utils2.findNeighborInCombinedList(tmpCombinedList, puzzleList);
 
