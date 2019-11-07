@@ -5,6 +5,25 @@ import CombinedPuzzlePieceSvg from './CombinedPuzzlePieceSvg';
 import { PuzzleItem, CombinedList } from './interface';
 import * as Utils from './utils';
 import defaultPuzzleList from './puzzleSetting';
+import BGImg from './assets/img-bg-Qingming.png';
+
+import styled from 'styled-components';
+
+
+const StyledWrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+
+  .background {
+    background-image: ${props => `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${BGImg})`};
+    filter: blur(5px);
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-size: cover;
+    z-index: -1;
+  }
+`;
 
 
 const Demo: React.FC = () => {
@@ -12,16 +31,7 @@ const Demo: React.FC = () => {
   const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(defaultPuzzleList);
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number | string>(-1);
-  const [combinedList, setCombinedList] = useState<CombinedList[]>([
-    // {
-    //   id: 'c1',
-    //   pieces: [0, 1],
-    // },
-    // {
-    //   id: 'c2',
-    //   pieces: [4, 5],
-    // }
-  ]);
+  const [combinedList, setCombinedList] = useState<CombinedList[]>([]);
 
   // x: item左上角的x座標
   // y: item左上角的y座標
@@ -133,8 +143,9 @@ const Demo: React.FC = () => {
 
 
   return (
-    <div style={{ padding: '30px', position: 'relative', width: '100%', height: '100vh' }}>
-      <svg width="100%" height="100%" style={{ backgroundColor: "lightyellow" }}>
+    <StyledWrapper>
+      <div className="background" />
+      <svg width="100%" height="100%">
         {
           combinedList.map((items) => {
             return (
@@ -168,7 +179,7 @@ const Demo: React.FC = () => {
           )
         })}
       </svg>
-    </div>
+    </StyledWrapper>
   );
 }
 
