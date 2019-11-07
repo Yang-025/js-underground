@@ -228,32 +228,21 @@ function handleGroupSnapPuzzle(newNeighborIdList: number[], puzzleList: PuzzleIt
  * @param combinedIdList 正要組隊的ld list
  */
 function handleCombinedList(currentCombinedList: CombinedList[], puzzleList: PuzzleItem[], combinedIdList: number[]) {
-  // Step1.如果有一樣的id，就結成同一組
-  const hasIntersection = currentCombinedList.find(item => R.intersection(item.pieces, combinedIdList).length > 0);
-  let tmpCombinedList = [];
-  if (hasIntersection) {
-    tmpCombinedList = currentCombinedList.map(item => {
-      if (item.id === hasIntersection.id) {
-        return {
-          ...item,
-          pieces: R.union(hasIntersection.pieces, combinedIdList).sort()
-        }
-      } else {
-        return item;
-      }
-    })
-  } else {
-    // 否則，就增加一組
-    tmpCombinedList = [
-      ...currentCombinedList,
-      {
-        id: uuid.v4(),
-        pieces: combinedIdList.sort()
-      }
-    ]
-  }
+  // console.log('combinedIdListcombinedIdList', combinedIdList);
 
+  // Step. 先加一組新的
+  let tmpCombinedList = [
+    ...currentCombinedList,
+    {
+      id: uuid.v4(),
+      pieces: combinedIdList
+    }
+  ];
+  console.log('tmpCombinedListtmpCombinedListtmpCombinedList', tmpCombinedList);
 
+  // Step. 把上一部更新完的CombinedList掃一遍，同樣的拼圖id如果出現在多個不同物件裡，就要合在一起
+  // let updatedCombinedList = Utils2.mergeDuplicateInCombinedList(tmpCombinedList, puzzleList);
+// 
   // Step2. 如果是上下左右的關係，就結成同一組
   let finalCombinedList = Utils2.findNeighborInCombinedList(tmpCombinedList, puzzleList);
 
