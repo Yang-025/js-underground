@@ -78,11 +78,14 @@ const StyledWrapper = styled.div`
 
 
 const Demo: React.FC = () => {
+  const [isFinish, setIsFinish] = useState<boolean>(false);
   const [isMoving, setIsMoving] = useState<boolean>(false);
   const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(shufflePuzzleList());
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number | string>(-1);
-  const [combinedList, setCombinedList] = useState<CombinedList[]>([]);
+  const [combinedList, setCombinedList] = useState<CombinedList[]>([
+    { id: 'c1', pieces: [0, 1, 2, 3, 4, 5, 6, 7] }
+  ]);
 
   // x: item左上角的x座標
   // y: item左上角的y座標
@@ -134,7 +137,12 @@ const Demo: React.FC = () => {
         puzzleList: updatedPuzzleList } = Utils.handleCombinedList(combinedList, tmpUpdatedPuzzleList, [dragedItem.id, ...closerItems.map(x => x.id)]);
       setCombinedList(updatedCombineList);
       setPuzzleList(updatedPuzzleList);
+
+
+      console.log('>>>>>>>>>', updatedCombineList);
+      checkFinish(updatedCombineList);
     }
+
 
     setHighlightList([]);
     setActivePuzzleId(-1);
@@ -190,8 +198,15 @@ const Demo: React.FC = () => {
     setPuzzleList(updatedPuzzleList);
     setHighlightList([]);
     setActivePuzzleId(-1);
+    checkFinish(updatedCombineList);
   }
 
+  // 檢查是否拼完
+  function checkFinish(combinedList: CombinedList[]) {
+    if (combinedList.length === 1 && R.equals(combinedList[0].pieces, [0, 1, 2, 3, 4, 5, 6, 7, 8])) {
+      console.log('拼完了！！');
+    }
+  }
 
   return (
     <StyledWrapper className="puzzle-app">
