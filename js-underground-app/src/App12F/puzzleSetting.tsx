@@ -56,18 +56,20 @@ function genFefaultPuzzleList() {
 }
 
 
-const defaultPuzzleList = genFefaultPuzzleList().map(item => {
-  return {
-    ...item,
-    // // TODO 可以拖拉的範圍要怎麼決定？ 
-    left: Utils.randomNumberInRange(0,1000),
-    top: Utils.randomNumberInRange(0,400),
-  }
-});
 
+// // TODO 可以拖拉的範圍要怎麼決定？
+function shufflePuzzleList(xRange: number = 1000, yRange: number = 400) {
+  return genFefaultPuzzleList().map(item => {
+    return {
+      ...item,
+      left: Utils.randomNumberInRange(0, xRange),
+      top: Utils.randomNumberInRange(0, yRange),
+    }
+  });
+}
 
-export default defaultPuzzleList;
 
 export {
   genFefaultPuzzleList,
+  shufflePuzzleList
 }

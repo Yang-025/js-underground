@@ -4,31 +4,82 @@ import PuzzlePieceSvg from './PuzzlePieceSvg';
 import CombinedPuzzlePieceSvg from './CombinedPuzzlePieceSvg';
 import { PuzzleItem, CombinedList } from './interface';
 import * as Utils from './utils';
-import defaultPuzzleList from './puzzleSetting';
+import { shufflePuzzleList } from './puzzleSetting';
 import BGImg from './assets/img-bg-Qingming.png';
 
 import styled from 'styled-components';
-
+// import './main.scss';
 
 const StyledWrapper = styled.div`
+  @import url("https://fonts.googleapis.com/css?family=Noto+Serif+TC&display=swap");
   width: 100%;
   height: 100vh;
+  font-family: "Noto Serif TC", serif;
+  color: #fff;
 
-  .background {
+  button {
+    /* reset button style */
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    /* reset button style */
+  }
+
+  .background-img {
     background-image: ${props => `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${BGImg})`};
     filter: blur(5px);
     width: 100%;
     height: 100vh;
     position: absolute;
+    left: 0;
+    top: 0;
     background-size: cover;
     z-index: -1;
   }
+
+  .wrapper {
+    width: 100%;
+    height: 100vh;
+  }
+
+  .h1 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 51px;
+    margin-top: 47px;
+    margin-bottom: 10px;
+  }
+
+  .retry {
+    border: 2px solid #FFFFFF;
+    font-size: 24px;
+    line-height: 35px;
+    width: 350px;
+    height: 67px;
+    margin-top: 10px;
+    margin-bottom: 31px;
+    cursor: pointer;
+  }
+
+  .svg {
+    width: 100%;
+    height: calc(100% - 300px);
+    stroke: red;
+  }
+
 `;
 
 
 const Demo: React.FC = () => {
   const [isMoving, setIsMoving] = useState<boolean>(false);
-  const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(defaultPuzzleList);
+  const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(shufflePuzzleList());
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number | string>(-1);
   const [combinedList, setCombinedList] = useState<CombinedList[]>([]);
@@ -143,42 +194,50 @@ const Demo: React.FC = () => {
 
 
   return (
-    <StyledWrapper>
-      <div className="background" />
-      <svg width="100%" height="100%">
-        {
-          combinedList.map((items) => {
+    <StyledWrapper className="puzzle-app">
+      <div className="background-img" />
+      <div className="wrapper">
+        <h1 className="h1">請完成這幅《清明上河圖》</h1>
+        <svg className="svg">
+          {
+            combinedList.map((items) => {
+              return (
+                <CombinedPuzzlePieceSvg
+                  key={items.id}
+                  id={items.id}
+                  combinedPointList={items.pieces}
+                  data={puzzleList.filter(x => {
+                    return items.pieces.includes(x.id);
+                  })}
+                  highlight={R.intersection(highlightList, items.pieces).length > 0}
+                  handleDrag={handleCombinedDrag}
+                  handleDragStop={() => {
+                    handleCombinedDragStop();
+                  }}
+                  isActive={items.id === activePuzzleId}
+                />
+              )
+            })
+          }
+          {puzzleList.filter(i => !combinedList.find(j => j.pieces.includes(i.id))).map(item => {
             return (
-              <CombinedPuzzlePieceSvg
-                key={items.id}
-                id={items.id}
-                combinedPointList={items.pieces}
-                data={puzzleList.filter(x => {
-                  return items.pieces.includes(x.id);
-                })}
-                highlight={R.intersection(highlightList, items.pieces).length > 0}
-                handleDrag={handleCombinedDrag}
-                handleDragStop={() => {
-                  handleCombinedDragStop();
-                }}
-                isActive={items.id === activePuzzleId}
+              <PuzzlePieceSvg
+                handleDrag={handleDrag}
+                handleDragStop={handleDragStop}
+                data={item}
+                key={item.id}
+                highlight={highlightList.includes(item.id)}
+                isActive={item.id === activePuzzleId}
               />
             )
-          })
-        }
-        {puzzleList.filter(i => !combinedList.find(j => j.pieces.includes(i.id))).map(item => {
-          return (
-            <PuzzlePieceSvg
-              handleDrag={handleDrag}
-              handleDragStop={handleDragStop}
-              data={item}
-              key={item.id}
-              highlight={highlightList.includes(item.id)}
-              isActive={item.id === activePuzzleId}
-            />
-          )
-        })}
-      </svg>
+          })}
+        </svg>
+        <button
+          className="retry"
+          onClick={() => {
+            setPuzzleList(shufflePuzzleList());
+          }}>重新排列</button>
+      </div>
     </StyledWrapper>
   );
 }

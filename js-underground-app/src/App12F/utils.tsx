@@ -370,5 +370,6 @@ export {
   handleSnapPuzzle,
   handleCombinedList,
   handleGroupSnapPuzzle,
-  handleGroupCombinedList
+  handleGroupCombinedList,
+  findNeighborInCombinedList
 };
