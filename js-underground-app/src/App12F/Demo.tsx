@@ -7,9 +7,10 @@ import * as Utils from './utils';
 import { shufflePuzzleList } from './puzzleSetting';
 import BGImg from './assets/img-bg-Qingming.png';
 import Playground from './Playground';
+import Finish from './Finish';
 
 import styled from 'styled-components';
-// import './main.scss';
+
 
 const StyledWrapper = styled.div`
   @import url("https://fonts.googleapis.com/css?family=Noto+Serif+TC&display=swap");
@@ -54,8 +55,8 @@ const StyledWrapper = styled.div`
     font-weight: bold;
     font-size: 36px;
     line-height: 51px;
-    margin-top: 47px;
-    margin-bottom: 10px;
+    padding: 47px 0 10px;
+    height: 100px;
   }
 
   .retry {
@@ -206,15 +207,18 @@ const Demo: React.FC = () => {
   function checkFinish(combinedList: CombinedList[]) {
     if (combinedList.length === 1 && R.equals(combinedList[0].pieces, [0, 1, 2, 3, 4, 5, 6, 7, 8])) {
       console.log('拼完了！！');
+      setIsFinish(true);
     }
   }
 
   return (
     <StyledWrapper className="puzzle-app">
       <div className="background-img" />
+
       <div className="wrapper">
-        <h1 className="h1">請完成這幅《清明上河圖》</h1>
+        <h1 className="h1">{!isFinish && '請完成這幅《清明上河圖》'}</h1>
         <Playground
+          isFinish={isFinish}
           isMoving={isMoving}
           puzzleList={puzzleList}
           combinedList={combinedList}
@@ -225,7 +229,7 @@ const Demo: React.FC = () => {
           handleCombinedDrag={handleCombinedDrag}
           handleCombinedDragStop={handleCombinedDragStop}
         />
-        <button
+        {!isFinish && <button
           className="retry"
           onClick={() => {
             setIsFinish(false);
@@ -234,8 +238,9 @@ const Demo: React.FC = () => {
             setActivePuzzleId(-1);
             setCombinedList([]);
             setPuzzleList(shufflePuzzleList());
-          }}>重新排列</button>
+          }}>重新排列</button>}
       </div>
+      }
     </StyledWrapper>
   );
 }
