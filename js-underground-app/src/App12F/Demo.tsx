@@ -6,6 +6,7 @@ import { PuzzleItem, CombinedList } from './interface';
 import * as Utils from './utils';
 import { shufflePuzzleList } from './puzzleSetting';
 import BGImg from './assets/img-bg-Qingming.png';
+import Playground from './Playground';
 
 import styled from 'styled-components';
 // import './main.scss';
@@ -213,43 +214,25 @@ const Demo: React.FC = () => {
       <div className="background-img" />
       <div className="wrapper">
         <h1 className="h1">請完成這幅《清明上河圖》</h1>
-        <svg className="svg">
-          {
-            combinedList.map((items) => {
-              return (
-                <CombinedPuzzlePieceSvg
-                  key={items.id}
-                  id={items.id}
-                  combinedPointList={items.pieces}
-                  data={puzzleList.filter(x => {
-                    return items.pieces.includes(x.id);
-                  })}
-                  highlight={R.intersection(highlightList, items.pieces).length > 0}
-                  handleDrag={handleCombinedDrag}
-                  handleDragStop={() => {
-                    handleCombinedDragStop();
-                  }}
-                  isActive={items.id === activePuzzleId}
-                />
-              )
-            })
-          }
-          {puzzleList.filter(i => !combinedList.find(j => j.pieces.includes(i.id))).map(item => {
-            return (
-              <PuzzlePieceSvg
-                handleDrag={handleDrag}
-                handleDragStop={handleDragStop}
-                data={item}
-                key={item.id}
-                highlight={highlightList.includes(item.id)}
-                isActive={item.id === activePuzzleId}
-              />
-            )
-          })}
-        </svg>
+        <Playground
+          isMoving={isMoving}
+          puzzleList={puzzleList}
+          combinedList={combinedList}
+          activePuzzleId={activePuzzleId}
+          highlightList={highlightList}
+          handleDrag={handleDrag}
+          handleDragStop={handleDragStop}
+          handleCombinedDrag={handleCombinedDrag}
+          handleCombinedDragStop={handleCombinedDragStop}
+        />
         <button
           className="retry"
           onClick={() => {
+            setIsFinish(false);
+            setIsMoving(false);
+            setHighlightList([]);
+            setActivePuzzleId(-1);
+            setCombinedList([]);
             setPuzzleList(shufflePuzzleList());
           }}>重新排列</button>
       </div>
