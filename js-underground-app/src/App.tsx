@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import GoHome from './components/GoHome';
 import LandingPage from './LandingPage';
 import APP1F from './APP1F';
 import APP2F from './APP2F';
 import APP15F from './APP15F';
+import App12F from './App12F';
 import './App.scss';
 
 const App: React.FC = () => {
@@ -23,6 +24,9 @@ const App: React.FC = () => {
               </Route>
               <Route path="/2f">
                 <APP2F />
+              </Route>
+              <Route path="/12f">
+                <App12F />
               </Route>
               <Route path="/15f">
                 <APP15F />

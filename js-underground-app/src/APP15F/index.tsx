@@ -51,7 +51,7 @@ const APP15F: React.FC = () => {
   }
 
   return (
-    <div className="wrapper">
+    <div className="wrapper-15f">
       {/* <Demo /> */}
       <div className="title__section">
         <span>Disintegration Note</span>
