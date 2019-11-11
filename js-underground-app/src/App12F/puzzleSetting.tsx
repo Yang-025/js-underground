@@ -62,8 +62,8 @@ function shufflePuzzleList(xRange: number = 1000, yRange: number = 400) {
   return genFefaultPuzzleList().map(item => {
     return {
       ...item,
-      // left: Utils.randomNumberInRange(0, xRange),
-      // top: Utils.randomNumberInRange(0, yRange),
+      left: Utils.randomNumberInRange(0, xRange),
+      top: Utils.randomNumberInRange(0, yRange),
     }
   });
 }

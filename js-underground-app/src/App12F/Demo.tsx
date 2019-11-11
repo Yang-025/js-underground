@@ -86,7 +86,7 @@ const Demo: React.FC = () => {
   const [highlightList, setHighlightList] = useState<number[]>([]);
   const [activePuzzleId, setActivePuzzleId] = useState<number | string>(-1);
   const [combinedList, setCombinedList] = useState<CombinedList[]>([
-    { id: 'c1', pieces: [0, 1, 2, 3, 4, 5, 6, 7] }
+    // { id: 'c1', pieces: [0, 1, 2, 3, 4, 5, 6, 7] }
   ]);
 
   // x: item左上角的x座標
@@ -139,9 +139,6 @@ const Demo: React.FC = () => {
         puzzleList: updatedPuzzleList } = Utils.handleCombinedList(combinedList, tmpUpdatedPuzzleList, [dragedItem.id, ...closerItems.map(x => x.id)]);
       setCombinedList(updatedCombineList);
       setPuzzleList(updatedPuzzleList);
-
-
-      console.log('>>>>>>>>>', updatedCombineList);
       checkFinish(updatedCombineList);
     }
 
@@ -205,10 +202,22 @@ const Demo: React.FC = () => {
 
   // 檢查是否拼完
   function checkFinish(combinedList: CombinedList[]) {
-    if (combinedList.length === 1 && R.equals(combinedList[0].pieces, [0, 1, 2, 3, 4, 5, 6, 7, 8])) {
-      console.log('拼完了！！');
+    if (combinedList.length === 1 && R.equals(combinedList[0].pieces.sort(), [0, 1, 2, 3, 4, 5, 6, 7, 8])) {
       setIsFinish(true);
     }
+  }
+
+  function reset() {
+    setIsFinish(false);
+    setIsMoving(false);
+    setHighlightList([]);
+    setActivePuzzleId(-1);
+    setCombinedList([]);
+    setPuzzleList(shufflePuzzleList());
+  }
+
+  function playAgain() {
+    reset();
   }
 
   return (
@@ -228,17 +237,11 @@ const Demo: React.FC = () => {
           handleDragStop={handleDragStop}
           handleCombinedDrag={handleCombinedDrag}
           handleCombinedDragStop={handleCombinedDragStop}
+          playAgain={playAgain}
         />
         {!isFinish && <button
           className="retry"
-          onClick={() => {
-            setIsFinish(false);
-            setIsMoving(false);
-            setHighlightList([]);
-            setActivePuzzleId(-1);
-            setCombinedList([]);
-            setPuzzleList(shufflePuzzleList());
-          }}>重新排列</button>}
+          onClick={reset}>重新排列</button>}
       </div>
       }
     </StyledWrapper>

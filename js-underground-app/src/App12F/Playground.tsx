@@ -1,10 +1,8 @@
-import React, { useState, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import * as R from 'ramda';
 import PuzzlePieceSvg from './PuzzlePieceSvg';
 import CombinedPuzzlePieceSvg from './CombinedPuzzlePieceSvg';
 import { PuzzleItem, CombinedList } from './interface';
-import * as Utils from './utils';
-import { shufflePuzzleList } from './puzzleSetting';
 
 import styled from 'styled-components';
 import Finish from './Finish';
@@ -19,8 +17,6 @@ const StyledDiv = styled.div`
   width: 100%;
   height: calc(100% - 300px);
   position: absolute;
-  z-index: -1;
-  border: 1px solid red;
 `;
 
 
@@ -35,16 +31,17 @@ interface IProps {
   handleDragStop: () => void;
   handleCombinedDrag: (someUpdatedPuzzles: PuzzleItem[], id: string) => void;
   handleCombinedDragStop: () => void;
+  playAgain: () => void;
 }
 
 const Demo: React.FC<IProps> = (props) => {
-  const { isFinish, combinedList, puzzleList, highlightList, activePuzzleId,
+  const { playAgain, isFinish, combinedList, puzzleList, highlightList, activePuzzleId,
     handleCombinedDrag, handleCombinedDragStop, handleDrag, handleDragStop } = props;
 
   if (isFinish) {
     return (
       <StyledDiv>
-        <Finish puzzleList={puzzleList} />
+        <Finish playAgain={playAgain} puzzleList={puzzleList} />
       </StyledDiv>
     );
   }

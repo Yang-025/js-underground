@@ -331,7 +331,6 @@ function handleCombinedList(currentCombinedList: CombinedList[], puzzleList: Puz
       pieces: combinedIdList
     }
   ];
-  console.log('tmpCombinedListtmpCombinedListtmpCombinedList', tmpCombinedList);
 
 
   // Step2. 如果是上下左右的關係，就結成同一組

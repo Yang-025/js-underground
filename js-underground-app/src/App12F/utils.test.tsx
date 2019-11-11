@@ -47,7 +47,7 @@ describe('[findNeighborInCombinedList]如果是上下左右的鄰居，要合成
     let tmpCombinedList = [
       { id: 'c1', pieces: [0, 1] },
       { id: 'c2', pieces: [4, 5] },
-      { id: 'c2', pieces: [2, 1, 5] },
+      { id: 'c3', pieces: [2, 1, 5] },
     ];
     const puzzleList = genFefaultPuzzleList();
     let res = Utils.findNeighborInCombinedList(tmpCombinedList, puzzleList);
@@ -56,4 +56,18 @@ describe('[findNeighborInCombinedList]如果是上下左右的鄰居，要合成
     const expected = [0, 1, 2, 4, 5];
     expect(res[0].pieces).toEqual(expect.arrayContaining(expected));
   });
+
+  // it('測項 5', () => {
+  //   let tmpCombinedList = [
+  //     { id: 'c1', pieces: [1, 2, 4, 0, 3, 7, 8, 6] },
+  //     { id: 'c2', pieces: [3, 0, 1, 2, 4, 7, 8, 6] },
+  //     { id: 'c3', pieces: [5, 2] },
+  //   ];
+  //   const puzzleList = genFefaultPuzzleList();
+  //   let res = Utils.findNeighborInCombinedList(tmpCombinedList, puzzleList);
+  //   console.log('res', res);
+  //   // 把某group的所有pieces的鄰居都檢查一遍，如果鄰居有出現在別的group裡面，就可以合體
+  //   const expected = [0, 1, 2, 4, 5];
+  //   expect(res[0].pieces).toEqual(expect.arrayContaining(expected));
+  // });
 });
