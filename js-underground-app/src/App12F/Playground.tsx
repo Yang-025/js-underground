@@ -34,7 +34,7 @@ interface IProps {
   playAgain: () => void;
 }
 
-const Demo: React.FC<IProps> = (props) => {
+const Playground: React.FC<IProps> = (props) => {
   const { playAgain, isFinish, combinedList, puzzleList, highlightList, activePuzzleId,
     handleCombinedDrag, handleCombinedDragStop, handleDrag, handleDragStop } = props;
 
@@ -85,4 +85,4 @@ const Demo: React.FC<IProps> = (props) => {
   );
 }
 
-export default Demo;
+export default Playground;

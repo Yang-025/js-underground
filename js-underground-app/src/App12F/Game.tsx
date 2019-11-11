@@ -18,6 +18,7 @@ const StyledWrapper = styled.div`
   height: 100vh;
   font-family: "Noto Serif TC", serif;
   color: #fff;
+  overflow: hidden;
 
   button {
     /* reset button style */
@@ -79,7 +80,7 @@ const StyledWrapper = styled.div`
 `;
 
 
-const Demo: React.FC = () => {
+const Game: React.FC = () => {
   const [isFinish, setIsFinish] = useState<boolean>(false);
   const [isMoving, setIsMoving] = useState<boolean>(false);
   const [puzzleList, setPuzzleList] = useState<PuzzleItem[]>(shufflePuzzleList());
@@ -248,4 +249,4 @@ const Demo: React.FC = () => {
   );
 }
 
-export default Demo;
+export default Game;

@@ -1,11 +1,11 @@
 import React from 'react';
-import Demo from './Demo';
+import Game from './Game';
 
 
 const App12F: React.FC = () => {
   return (
     <div className="App">
-      <Demo />
+      <Game />
     </div>
   );
 }
