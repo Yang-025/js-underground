@@ -15,7 +15,7 @@
     "@types/styled-components": "^4.1.19",
     "@types/uuid": "^3.4.6",
     "html2canvas": "^1.0.0-rc.5",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "ramda": "^0.26.1",
     "react": "^16.10.1",
     "react-dnd": "^9.4.0",
